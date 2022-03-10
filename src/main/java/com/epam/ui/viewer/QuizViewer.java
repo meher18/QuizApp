@@ -12,6 +12,7 @@ import com.epam.service.admin.quizservice.QuizService;
 
 @Component
 public class QuizViewer {
+	
     public static final Logger LOGGER = LogManager.getLogger(QuizViewer.class);
 
 

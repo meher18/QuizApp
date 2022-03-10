@@ -7,9 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.epam.config.DataConfig;
-import com.epam.config.EntityConfig;
 import com.epam.config.GlobalConfig;
-import com.epam.config.ServiceConfig;
 import com.epam.config.UiConfig;
 
 @SpringBootApplication
@@ -21,8 +19,6 @@ public class QuizAppApplication implements CommandLineRunner  {
                 new AnnotationConfigApplicationContext(
                         GlobalConfig.class,
                         DataConfig.class,
-                        EntityConfig.class,
-                        ServiceConfig.class,
                         UiConfig.class);
 	}
 

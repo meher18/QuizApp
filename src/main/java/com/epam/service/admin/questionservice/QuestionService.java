@@ -17,7 +17,6 @@ import com.epam.service.exceptions.InValidQuestionId;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionService {
 
-
     @Autowired
     QuestionsLibrary questionsLibrary;
 
@@ -33,12 +32,14 @@ public class QuestionService {
     }
 
     public Question getQuestion(int questionId) {
+    	
         return questionsLibrary.getQuestion(questionId);
     }
 
     public void validateQuestionId(int questionId) throws InValidQuestionId, InValidQuestionDeletion{
 
         if (!getQuestions().containsKey(questionId)) {
+        	
             throw new InValidQuestionId(Constants.INVALID_QUESTION_ID);
         }
         if(questionsLibrary.getNoQuizzesForQuestionId(questionId) > 0)
@@ -50,6 +51,7 @@ public class QuestionService {
     public boolean createQuestion(Question newQuestion) {
 // question Creator
         boolean isQuestionCreated = false;
+        
         if (newQuestion != null) {
             // this id is used when we are implementing collections as db
             int questionId = 0;
@@ -64,6 +66,7 @@ public class QuestionService {
     public boolean update(Question newQuestion, int id) {
 
         boolean isQuestionUpdated = false;
+        
         if (newQuestion != null) {
             isQuestionUpdated = questionsLibrary.editQuestion(id, newQuestion);
         }
@@ -71,6 +74,7 @@ public class QuestionService {
     }
 
     public boolean delete(int questionId) {
+    	
         return questionId > 0 && questionsLibrary.deleteQuestion(questionId);
     }
 }

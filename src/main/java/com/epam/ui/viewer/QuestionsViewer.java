@@ -16,6 +16,7 @@ public class QuestionsViewer {
     public static final Logger LOGGER = LogManager.getLogger(QuestionsViewer.class);
 
     public void viewQuestions() {
+    	
         QuestionService questionService = AppContext.getApplicationContext().getBean(QuestionService.class);
         Map<Integer, Question> questionMap = questionService.getQuestions();
         if (questionMap.isEmpty()) {

@@ -41,8 +41,11 @@ public class QuizService {
     public boolean selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
 
         QuestionsLibrary questionsLibrary = AppContext.getApplicationContext().getBean(QuestionsLibrary.class);
+        
         boolean isQuestionAdded = false;
+        
         Question question = questionsLibrary.getQuestions().get(questionId);
+        
         if (question != null) {
             quiz.addQuestion(questionId, question);
             isQuestionAdded = true;
@@ -65,8 +68,11 @@ public class QuizService {
     public void validateCode(int quizId) throws InValidQuizId {
 
         QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
+        
         if (quizLibrary.getQuiz(quizId) == null || quizId <= 0) {
+        	
             throw new InValidQuizId(Constants.INVALID_QUIZ_ID);
+            
         }
     }
 
@@ -74,7 +80,6 @@ public class QuizService {
 //        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
 //        return quizLibrary.getQuizzes().containsKey(quizId);
 //    }
-
 
     public boolean delete(int quizId) {
 
@@ -88,7 +93,9 @@ public class QuizService {
     }
 
     public boolean hostQuiz(int quizId) {
+    	
         QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
+        
         boolean isHosted = false;
         if (quizId > 0 && quizLibrary.getQuizzes().size() > 0) {
             isHosted = quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);

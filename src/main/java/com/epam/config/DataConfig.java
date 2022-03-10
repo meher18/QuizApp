@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
+import com.epam.entity.Question;
+import com.epam.entity.QuestionAnswer;
+import com.epam.entity.QuestionOption;
 import com.epam.entity.Quiz;
 import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
@@ -36,18 +39,39 @@ public class DataConfig {
         return entityManagerFactory.createEntityManager();
     }
 
-    @Bean
+    @Bean("quizzes")
     public Map<Integer, Quiz> quizMap() {
         return new HashMap<>();
     }
 
-    @Bean
+    @Bean("users")
     public List<User> users() {
         return new ArrayList<>();
     }
 
-    @Bean
+    @Bean("userquizzes")
     public Map<User, UserQuiz> userUserQuizMap() {
+        return new HashMap<>();
+    }
+    
+    @Bean("questionOptions")
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public List<QuestionOption> questionOptions()
+    {
+        return new ArrayList<>();
+    }
+
+    @Bean("questionAnswers")
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public List<QuestionAnswer> questionAnswers()
+    {
+        return new ArrayList<>();
+    }
+
+    @Bean("questions")
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Map<Integer, Question> questionMap()
+    {
         return new HashMap<>();
     }
 

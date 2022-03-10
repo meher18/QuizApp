@@ -17,7 +17,6 @@ import com.epam.ui.user.UserSession;
 @Component
 public class UserQuizViewer {
 
-
     public static final Logger LOGGER = LogManager.getLogger(UserQuizViewer.class);
 
     public void viewAllUserQuizzes() {
@@ -31,13 +30,15 @@ public class UserQuizViewer {
                 .stream()
                 .filter(userUserQuizEntry -> userUserQuizEntry.getValue().getUser().getId() == UserSession.getLoggedUser().getId())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
+        
         if (quizzes.size() > 0) {
+        	
             quizzes.forEach((userQuizId, userQuiz) -> {
                 String quizHeading = userQuiz.getQuiz().getQuizName() +
                         " - marks -> " + userQuiz.getResult();
                 LOGGER.info(quizHeading);
             });
+            
         } else {
             LOGGER.debug(UserSession.getLoggedUser().getId());
             LOGGER.info("No Participation... from your side");
@@ -46,6 +47,7 @@ public class UserQuizViewer {
     }
 
     // view all hosted quizzes by admin
+    
     public boolean viewAllQuizzes() {
 
         QuizService quizService = AppContext.getApplicationContext().getBean(QuizService.class);
