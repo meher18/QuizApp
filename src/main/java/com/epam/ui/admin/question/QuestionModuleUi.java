@@ -13,44 +13,34 @@ import com.epam.global.CorrectInput;
 @Component
 public class QuestionModuleUi {
 
-    public static final Logger LOGGER = LogManager.getLogger(QuestionModuleUi.class);
+	public static final Logger LOGGER = LogManager.getLogger(QuestionModuleUi.class);
+
+	@Autowired
+	@Qualifier("questionServiceUiFunctions")
+	Map<Integer, QuestionOperationUi> questionModuleUiOperations;
 
 
-    static Map<Integer, QuestionOperationUi> questionModuleUiOperations;
+	public void performQuestionOperation() {
+		int choice = takeInputForModuleTask();
+		questionModuleUiOperations.get(choice).questionOperation();
+	}
 
+	public int takeInputForModuleTask() {
+		int choice = 0;
+		String heading = "-".repeat(10) + " Admin Dashboard / Question Module " + "-".repeat(10);
+		LOGGER.info(heading);
+		questionOperations();
+		choice = CorrectInput.getInteger();
+		while (!QuestionModuleTask.operations.containsKey(choice)) {
+			LOGGER.warn("Please enter valid operation");
+			questionOperations();
+			choice = CorrectInput.getInteger();
+		}
+		return choice;
+	}
 
-    private QuestionModuleUi() {
-    }
-
-    @Autowired
-    @Qualifier("questionServiceUiFunctions")
-    public void setQuestionServiceUiFunctions(Map<Integer, QuestionOperationUi> questionModuleUiOperations)
-    {
-        QuestionModuleUi.questionModuleUiOperations = questionModuleUiOperations;
-    }
-
-    public static void performQuestionOperation() {
-        int choice = takeInputForModuleTask();
-        questionModuleUiOperations.get(choice).questionOperation();
-    }
-
-    public static int takeInputForModuleTask() {
-        int choice = 0;
-        String heading = "-".repeat(10) + " Admin Dashboard / Question Module " + "-".repeat(10);
-        LOGGER.info(heading);
-        questionOperations();
-        choice = CorrectInput.getInteger();
-        while (!QuestionModuleTask.operations.containsKey(choice)) {
-            LOGGER.warn("Please enter valid operation");
-            questionOperations();
-            choice = CorrectInput.getInteger();
-        }
-        return choice;
-    }
-
-    private static void questionOperations() {
-        QuestionModuleTask.operations.forEach((operationCode, description) ->
-            LOGGER.info("Press {} > {}",operationCode, description)
-        );
-    }
+	private static void questionOperations() {
+		QuestionModuleTask.operations
+				.forEach((operationCode, description) -> LOGGER.info("Press {} > {}", operationCode, description));
+	}
 }

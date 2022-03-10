@@ -16,6 +16,8 @@ import com.epam.service.admin.questionservice.QuestionService;
 @Component
 public class QuestionUpdateUi {
 
+	public static final Logger LOGGER = LogManager.getLogger(QuestionUpdateUi.class);
+	
     @Autowired
     QuestionService questionService;
 
@@ -23,7 +25,6 @@ public class QuestionUpdateUi {
     @Qualifier("questionUpdateOperations")
     Map<Integer, Consumer<Question>> questionUpdateOperationFunctions;
 
-    public static final Logger LOGGER = LogManager.getLogger(QuestionUpdateUi.class);
 
 
     public void updateMark(Question q) {
@@ -81,16 +82,16 @@ public class QuestionUpdateUi {
         if (questionService.getQuestions().size() <= 0) {
             LOGGER.info("- No Questions added...");
         } else {
-            checkAndUpdate(questionId, questionService);
+            checkAndUpdate(questionId);
         }
         QuestionRedirectUi.redirect();
     }
 
-    private void checkAndUpdate(int questionId, QuestionService questionService) {
+    private void checkAndUpdate(int questionId) {
     	
         if (questionService.getQuestions().containsKey(questionId)) {
         	
-            //  fetch the question from db to update and persist again
+            //  fetch the question from database to update and persist again
             Question question = questionService.getQuestion(questionId);
             
             int choice = getInputForUpdateFunction();

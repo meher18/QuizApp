@@ -22,7 +22,11 @@ public class QuestionBuilderUi {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
     Question question;
+    
+    @Autowired
+    QuestionModuleUi  questionModuleUi;
 
     public void buildQuestion() {
 
@@ -130,7 +134,7 @@ public class QuestionBuilderUi {
         if (choice == 1) {
             buildQuestion();
         } else {
-            AppContext.getApplicationContext().getBean(QuestionModuleUi.class).performQuestionOperation();
+        	AppContext.getApplicationContext().getBean(QuestionModuleUi.class).performQuestionOperation();
         }
     }
 }

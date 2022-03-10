@@ -11,42 +11,43 @@ import com.epam.entity.Quiz;
 
 @Component
 public class QuizLibrary {
-    // the dependency should not be static
-    //  for the mockito
+	
+	// the dependency should not be static
+	// for the mockito
 
-    @Autowired
-    QuizDao quizDao;
+	@Autowired
+	QuizDao quizDao;
 
-    public  Map<Integer, Quiz> getQuizzes() {
-        return quizDao.getAllQuiz();
-    }
+	public Map<Integer, Quiz> getQuizzes() {
+		return quizDao.getAllQuiz();
+	}
 
-    public  boolean addQuiz(int index, Quiz quiz) {
-        quizDao.setQuiz(index, quiz);
-        return true;
-    }
+	public boolean addQuiz(int index, Quiz quiz) {
+		quizDao.setQuiz(index, quiz);
+		return true;
+	}
 
-    public  boolean editQuiz(int index, Quiz quiz) {
-        quizDao.editQuiz(index, quiz);
-        return true;
-    }
+	public boolean editQuiz(int index, Quiz quiz) {
+		quizDao.editQuiz(index, quiz);
+		return true;
+	}
 
-    public  boolean deleteQuiz(int index) {
-        quizDao.deleteQuiz(index);
-        return true;
-    }
+	public boolean deleteQuiz(int index) {
+		quizDao.deleteQuiz(index);
+		return true;
+	}
 
-    public   boolean changeQuizStatus(int quizCode, String status) {
-        quizDao.changeQuizStatus(quizCode, status);
-        return true;
-    }
-    public  Quiz getQuiz(int quizId)
-    {
-        return quizDao.getQuiz(quizId);
-    }
+	public boolean changeQuizStatus(int quizCode, String status) {
+		quizDao.changeQuizStatus(quizCode, status);
+		return true;
+	}
 
-    public  Map<Integer, Question> getQuestionsForQuiz(Quiz quiz) {
+	public Quiz getQuiz(int quizId) {
+		return quizDao.getQuiz(quizId);
+	}
 
-        return quizDao.getQuestionsForQuiz(quiz);
-    }
+	public Map<Integer, Question> getQuestionsForQuiz(Quiz quiz) {
+
+		return quizDao.getQuestionsForQuiz(quiz);
+	}
 }

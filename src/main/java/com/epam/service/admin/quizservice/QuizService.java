@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.config.AppContext;
 import com.epam.data.library.QuestionsLibrary;
 import com.epam.data.library.QuizLibrary;
 import com.epam.entity.Question;
@@ -16,101 +15,89 @@ import com.epam.service.exceptions.InValidQuizId;
 @Component
 public class QuizService {
 
+	@Autowired
+	QuizLibrary quizLibrary;
 
-    static QuizLibrary quizLibrary;
+	@Autowired
+	QuestionsLibrary questionsLibrary;
 
+	public Map<Integer, Quiz> getAllQuizzes() {
 
-    @Autowired
-    public void setQuizLibrary(QuizLibrary quizLibrary) {
-        QuizService.quizLibrary = quizLibrary;
-    }
+		return quizLibrary.getQuizzes();
+	}
 
-    public Map<Integer, Quiz> getAllQuizzes() {
+	public Map<Integer, Question> getQuestionForQuiz(Quiz quiz) {
+		return quizLibrary.getQuestionsForQuiz(quiz);
+	}
 
-        return quizLibrary.getQuizzes();
-    }
+	public Quiz getQuiz(int quizId) {
+		return quizLibrary.getQuiz(quizId);
+	}
 
-    public static Map<Integer, Question> getQuestionForQuiz(Quiz quiz) {
-        return quizLibrary.getQuestionsForQuiz(quiz);
-    }
+	public boolean selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
 
-    public static Quiz getQuiz(int quizId) {
-        return quizLibrary.getQuiz(quizId);
-    }
+		boolean isQuestionAdded = false;
 
-    public boolean selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
+		Question question = questionsLibrary.getQuestions().get(questionId);
 
-        QuestionsLibrary questionsLibrary = AppContext.getApplicationContext().getBean(QuestionsLibrary.class);
-        
-        boolean isQuestionAdded = false;
-        
-        Question question = questionsLibrary.getQuestions().get(questionId);
-        
-        if (question != null) {
-            quiz.addQuestion(questionId, question);
-            isQuestionAdded = true;
-        }
-        return isQuestionAdded;
-    }
+		if (question != null) {
+			quiz.addQuestion(questionId, question);
+			isQuestionAdded = true;
+		}
+		return isQuestionAdded;
+	}
 
-    public boolean saveQuiz(Quiz quiz) {
+	public boolean saveQuiz(Quiz quiz) {
 
-        boolean isQuizSaved = false;
-        int quizId = 0;
-        // isAdded : to check if the quiz is added correctly
-        boolean isAdded = quizLibrary.addQuiz(quizId, quiz);
-        if (isAdded) {
-            isQuizSaved = true;
-        }
-        return isQuizSaved;
-    }
+		boolean isQuizSaved = false;
+		int quizId = 0;
+		// isAdded : to check if the quiz is added correctly
+		boolean isAdded = quizLibrary.addQuiz(quizId, quiz);
+		if (isAdded) {
+			isQuizSaved = true;
+		}
+		return isQuizSaved;
+	}
 
-    public void validateCode(int quizId) throws InValidQuizId {
+	public void validateCode(int quizId) throws InValidQuizId {
 
-        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
-        
-        if (quizLibrary.getQuiz(quizId) == null || quizId <= 0) {
-        	
-            throw new InValidQuizId(Constants.INVALID_QUIZ_ID);
-            
-        }
-    }
+		if (quizLibrary.getQuiz(quizId) == null || quizId <= 0) {
+
+			throw new InValidQuizId(Constants.INVALID_QUIZ_ID);
+
+		}
+	}
 
 //    public boolean validateQuizCode(int quizId) {
 //        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
 //        return quizLibrary.getQuizzes().containsKey(quizId);
 //    }
 
-    public boolean delete(int quizId) {
+	public boolean delete(int quizId) {
 
-        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
+		boolean isQuizDeleted = false;
+		if (quizId > 0) {
+			isQuizDeleted = quizLibrary.deleteQuiz(quizId);
+		}
+		return isQuizDeleted;
+	}
 
-        boolean isQuizDeleted = false;
-        if (quizId > 0) {
-            isQuizDeleted = quizLibrary.deleteQuiz(quizId);
-        }
-        return isQuizDeleted;
-    }
+	public boolean hostQuiz(int quizId) {
 
-    public boolean hostQuiz(int quizId) {
-    	
-        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
-        
-        boolean isHosted = false;
-        if (quizId > 0 && quizLibrary.getQuizzes().size() > 0) {
-            isHosted = quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);
-        }
-        return isHosted;
-    }
+		boolean isHosted = false;
+		if (quizId > 0 && quizLibrary.getQuizzes().size() > 0) {
+			isHosted = quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);
+		}
+		return isHosted;
+	}
 
+	public boolean update(Quiz quiz, int quizId) {
 
-    public boolean update(Quiz quiz, int quizId) {
-        QuizLibrary quizLibrary = AppContext.getApplicationContext().getBean(QuizLibrary.class);
-        boolean isQuizModified = false;
-        if (quizLibrary.getQuizzes().size() > 0) {
-            isQuizModified = quizLibrary.editQuiz(quizId, quiz);
-        }
-        return isQuizModified;
-    }
+		boolean isQuizModified = false;
+		if (quizLibrary.getQuizzes().size() > 0) {
+			isQuizModified = quizLibrary.editQuiz(quizId, quiz);
+		}
+		return isQuizModified;
+	}
 
 }

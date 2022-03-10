@@ -6,6 +6,7 @@ import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
 
 public interface UserQuizDao {
+	
     Map<User, UserQuiz> getAllUserQuizzes();
 
     void setQuiz(User user, UserQuiz quiz);

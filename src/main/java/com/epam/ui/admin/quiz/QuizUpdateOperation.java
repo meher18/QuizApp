@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum QuizUpdateOperation {
+	
     UPDATE_QUIZ_TITLE(1, "UPDATE QUIZ TITLE"),
     ADD_QUESTIONS(2, "ADD QUESTIONS TO QUIZ"),
     DELETE_QUESTIONS(3, "DELETE QUESTIONS FROM QUIZ"),

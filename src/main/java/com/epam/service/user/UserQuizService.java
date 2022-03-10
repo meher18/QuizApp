@@ -42,7 +42,7 @@ public class UserQuizService {
         return userQuiz;
     }
 
-    public boolean checkIfQuizTaken(int quizId) {
+    public boolean checkIfQuizTaken(int quizId, User loggedUser) {
 
         boolean isQuizAlreadyTaken = false;
 
@@ -51,7 +51,7 @@ public class UserQuizService {
                 .values()
                 .stream()
                 .filter(uQuiz ->
-                        uQuiz.getUser().getId() == UserSession.getLoggedUser().getId()
+                        uQuiz.getUser().getId() == loggedUser.getId()
                         && UserSession.getLoggedUser() != null)
                 .count();
         if (count > 0) {

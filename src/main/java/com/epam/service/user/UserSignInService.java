@@ -11,8 +11,11 @@ public class UserSignInService {
 
     @Autowired
     UserLibrary userLibrary;
+    
+    
     public User validate( User currentUser) {
-        User validUser = null;
+        
+    	User validUser = null;
 
         if (!userLibrary.getAllUsers().isEmpty()) {
             for (User userFromDb : userLibrary.getAllUsers()) {

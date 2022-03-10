@@ -17,96 +17,101 @@ import com.epam.ui.viewer.QuizViewer;
 @Component
 public class QuizBuilderUi {
 
+	public static final Logger LOGGER = LogManager.getLogger(QuizBuilderUi.class);
+	// Quiz builder service
+	@Autowired
+	QuizService quizService;
 
-    public static final Logger LOGGER = LogManager.getLogger(QuizBuilderUi.class);
-    // Quiz builder service
-    @Autowired
-    QuizService quizService;
+	@Autowired
+	Quiz quiz;
 
-    @Autowired
-    Quiz quiz;
+	@Autowired
+	QuestionService questionService;
 
-    public void buildQuiz() {
-        quiz = takeInputForQuiz();
-        selectQuestionsAndAdd();
-    }
+	@Autowired
+	SelectQuestionInput selectQuestionInput;
 
-    public Quiz takeInputForQuiz() {
-        LOGGER.info("Enter the quiz name: ");
-        String quizName = CorrectInput.getString();
-        Quiz quizObj = AppContext.getApplicationContext().getBean(Quiz.class);
-        quizObj.setQuizName(quizName);
-        return quizObj;
-    }
+	@Autowired
+	AdminDashBoardUi adminDashBoardUi;
 
-    public void selectQuestionsAndAdd() {
+	@Autowired
+	QuizViewer quizViewer;
 
-        int noOfQuestions = AppContext.getApplicationContext().getBean(QuestionService.class).getQuestions().size();
-        if (noOfQuestions <= 0) {
-            LOGGER.info("No questions to select");
-            nextAfterNoQuestions();
-        } else {
+	public void buildQuiz() {
+		takeInputForQuiz();
+		selectQuestionsAndAdd();
+	}
 
-            SelectQuestionInput selectQuestionInput = AppContext.getApplicationContext().getBean(SelectQuestionInput.class);
+	public void takeInputForQuiz() {
+		LOGGER.info("Enter the quiz name: ");
+		String quizName = CorrectInput.getString();
+		quiz.setQuizName(quizName);
+	}
 
-            int questionId = selectQuestionInput.questionSelectionInput();
+	public void selectQuestionsAndAdd() {
 
-            boolean isQuestionAdded = quizService.selectQuestionAndAddToQuiz(quiz, questionId);
-            if (isQuestionAdded) {
-                LOGGER.info("Question Added ");
-                nextAfterAddingQuestion();
-            }
-        }
-        QuizRedirectUi.redirect();
-    }
+		int noOfQuestions = questionService.getQuestions().size();
+		if (noOfQuestions <= 0) {
+			LOGGER.info("No questions to select");
+			nextAfterNoQuestions();
+		} else {
 
+			int questionId = selectQuestionInput.questionSelectionInput();
 
-    public void nextAfterAddingQuestion() {
+			boolean isQuestionAdded = quizService.selectQuestionAndAddToQuiz(quiz, questionId);
+			if (isQuestionAdded) {
+				LOGGER.info("Question Added ");
+				nextAfterAddingQuestion();
+			}
+		}
+		QuizRedirectUi.redirect();
+	}
 
-        LOGGER.info("Press 1 > ADD ANOTHER QUESTION TO QUIZ");
-        LOGGER.info("Press 2 > SAVE QUIZ");
-        LOGGER.info("Press 3 > ADMIN DASHBOARD");
+	public void nextAfterAddingQuestion() {
 
+		LOGGER.info("Press 1 > ADD ANOTHER QUESTION TO QUIZ");
+		LOGGER.info("Press 2 > SAVE QUIZ");
+		LOGGER.info("Press 3 > ADMIN DASHBOARD");
 
-        int nextChoice = CorrectInput.getInteger();
-        if (nextChoice == 1) {
-            selectQuestionsAndAdd();
-        } else if (nextChoice == 2) {
-            // if choice == 3, save the quiz
-            boolean isQuizSaved = quizService.saveQuiz(quiz);
-            if (isQuizSaved) {
-                LOGGER.info("Quiz Saved");
-                nextAfterSavingQuiz();
-            } else {
-                LOGGER.error("Unable to save the quiz");
-            }
-        } else {
-            AdminDashBoardUi.showAdminTasks();
-        }
-    }
+		int nextChoice = CorrectInput.getInteger();
+		if (nextChoice == 1) {
+			selectQuestionsAndAdd();
+		} else if (nextChoice == 2) {
+			// if choice == 3, save the quiz
+			boolean isQuizSaved = quizService.saveQuiz(quiz);
+			if (isQuizSaved) {
+				LOGGER.info("Quiz Saved");
+				nextAfterSavingQuiz();
+			} else {
+				LOGGER.error("Unable to save the quiz");
+			}
+		} else {
+			adminDashBoardUi.showAdminTasks();
+		}
+	}
 
-    public void nextAfterNoQuestions() {
+	public void nextAfterNoQuestions() {
 
-        LOGGER.info("Press 1 > ADD QUESTIONS");
-        LOGGER.info("Press 2 > ADMIN DASHBOARD");
+		LOGGER.info("Press 1 > ADD QUESTIONS");
+		LOGGER.info("Press 2 > ADMIN DASHBOARD");
 
-        int choice = CorrectInput.getInteger();
-        if (choice == 1) {
-            AppContext.getApplicationContext().getBean(QuestionBuilderUi.class).buildQuestion();
-        } else if (choice == 2) {
-            AdminDashBoardUi.showAdminTasks();
-        }
-    }
+		int choice = CorrectInput.getInteger();
+		if (choice == 1) {
+			AppContext.getApplicationContext().getBean(QuestionBuilderUi.class).buildQuestion();
+		} else if (choice == 2) {
+			adminDashBoardUi.showAdminTasks();
+		}
+	}
 
-    public void nextAfterSavingQuiz() {
+	public void nextAfterSavingQuiz() {
 
-        LOGGER.info("Press 1 > VIEW ALL QUIZZES");
-        LOGGER.info("Press 2 > ADMIN DASHBOARD");
-        int choice = CorrectInput.getInteger();
-        if (choice == 1) {
-            QuizViewer.viewAllQuizzes();
-        } else if (choice == 2) {
-            AdminDashBoardUi.showAdminTasks();
-        }
-    }
+		LOGGER.info("Press 1 > VIEW ALL QUIZZES");
+		LOGGER.info("Press 2 > ADMIN DASHBOARD");
+		int choice = CorrectInput.getInteger();
+		if (choice == 1) {
+			quizViewer.viewAllQuizzes();
+		} else if (choice == 2) {
+			adminDashBoardUi.showAdminTasks();
+		}
+	}
 }

@@ -11,79 +11,97 @@ import com.epam.config.AppContext;
 import com.epam.entity.QuestionAnswer;
 import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
+import com.epam.global.Constants;
 import com.epam.global.CorrectInput;
+import com.epam.service.admin.quizservice.QuizService;
+import com.epam.service.exceptions.InValidQuizId;
 import com.epam.service.user.UserQuizService;
+import com.epam.ui.admin.Utility;
 import com.epam.ui.user.UserRedirectUi;
+import com.epam.ui.user.UserSession;
 import com.epam.ui.viewer.UserQuizViewer;
 
 @Component
 public class UserQuizUi {
 
-    @Autowired
-    UserQuizViewer userQuizViewer;
+	@Autowired
+	UserQuizViewer userQuizViewer;
 
-    User user;
+	@Autowired
+	UserQuizService userQuizService;
 
-    public static final Logger LOGGER = LogManager.getLogger(UserQuizUi.class);
+	@Autowired
+	QuizService quizService;
 
-    public Integer takeInputForUserQuiz() {
-        return CorrectInput.getInteger();
-    }
+	@Autowired
+	StartQuizUi startQuizUi;
 
-    public Integer takeInputForConfirmation() {
-        LOGGER.info("Are you sure want to start the quiz");
-        LOGGER.info("Press 1 > YES");
-        LOGGER.info("Press 2 > NO");
-        return CorrectInput.getInteger();
-    }
+	public static final Logger LOGGER = LogManager.getLogger(UserQuizUi.class);
 
-    public void takeQuiz(User user) {
+	public Integer takeInputForUserQuiz() {
+		
+		LOGGER.info("Select the quiz index from above quizzes...");
+		return CorrectInput.getInteger();
+	}
 
-        this.user = user;
-        UserQuizService userQuizService = AppContext.getApplicationContext()
-                .getBean(UserQuizService.class);
-        userQuizService.setUser(user);
-        userQuizService.setUserQuiz(AppContext.getApplicationContext().getBean(UserQuiz.class));
+	public void takeQuiz(User userObj) {
 
-        boolean areQuizzesAvailable = userQuizViewer.viewAllQuizzes();
+		// viewAllQuizzes() shows all quizzes and return a boolean
+		if (!userQuizViewer.viewAllQuizzes()) {
 
-        if (!areQuizzesAvailable) {
-            LOGGER.info("No Quizzes Available");
-            UserRedirectUi.redirect();
-        } else {
+			LOGGER.info("No Quizzes Available");
+			UserRedirectUi.redirect();
 
-            // todo validate the quiz id
+		} else {
 
-            int quizId = takeInputForUserQuiz();
+			int quizId = takeInputForUserQuiz();
 
-            boolean isQuizTaken = userQuizService.checkIfQuizTaken(quizId);
-            if (isQuizTaken) {
-                LOGGER.info("You have already taken this quiz");
-            } else {
-                takeConfirmationAndStartQuiz(quizId, userQuizService);
-            }
+			try {
 
+				quizService.validateCode(quizId);
+				// check if the quiz is already taken
+				boolean isQuizTaken = userQuizService.checkIfQuizTaken(quizId, UserSession.getLoggedUser());
 
-            UserRedirectUi.redirect();
-        }
-    }
+				if (isQuizTaken) {
+					LOGGER.info("You have already taken this quiz");
+				} else {
 
-    public void takeConfirmationAndStartQuiz(int indexOfQuiz, UserQuizService userQuizService) {
+					setUserAndMakeQuiz(userObj);
+					takeConfirmationAndStartQuiz(quizId);
+				}
 
-        int confirmationFlag = takeInputForConfirmation();
-        if (confirmationFlag == 1) {
+			} catch (InValidQuizId e) {
+				LOGGER.error(Constants.INVALID_QUIZ_ID);
+			}
 
-            userQuizService.getUserQuiz().setQuizById(indexOfQuiz);
+			UserRedirectUi.redirect();
+		}
+	}
 
-            StartQuizUi startQuizUi = AppContext.getApplicationContext().getBean(StartQuizUi.class);
+	private void setUserAndMakeQuiz(User userObj) {
+		// change it to session user
+		User user = userObj;
 
-            List<QuestionAnswer> userAnswers = startQuizUi
-                    .startQuiz(userQuizService.getUserQuiz().getQuiz().getQuestions());
-            userQuizService.setAnswers(userAnswers);
-            userQuizService.saveQuiz();
+		userQuizService.setUser(user);
+		userQuizService.setUserQuiz(AppContext.getApplicationContext().getBean(UserQuiz.class));
+	}
 
-        } else if (confirmationFlag == 2) {
-            UserRedirectUi.redirect();
-        }
-    }
+	public void takeConfirmationAndStartQuiz(int indexOfQuiz) {
+
+		int confirmationFlag = Utility.takeInputForConfirmation();
+
+		if (confirmationFlag == 1) {
+
+			userQuizService.getUserQuiz().setQuizById(indexOfQuiz);
+
+			List<QuestionAnswer> userAnswers = startQuizUi
+					.startQuiz(userQuizService.getUserQuiz().getQuiz().getQuestions());
+			userQuizService.setAnswers(userAnswers);
+			userQuizService.saveQuiz();
+
+		} else {
+			UserRedirectUi.redirect();
+		}
+
+	}
 }

@@ -13,45 +13,43 @@ import com.epam.service.admin.quizservice.QuizService;
 @Component
 public class QuizDeleteUi {
 
+	@Autowired
+	QuizService quizService;
 
-    @Autowired
-    QuizService quizDeleter;
+	public static final Logger LOGGER = LogManager.getLogger(QuizDeleteUi.class);
 
-    public static final Logger LOGGER = LogManager.getLogger(QuizDeleteUi.class);
+	public void deleteQuiz() {
+		int code = takeCodeForDeletion();
+		try {
+			quizService.validateCode(code);
+			confirmAndDelete(code);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		QuizRedirectUi.redirect();
+	}
 
+	public void confirmAndDelete(int code) {
 
-    public void deleteQuiz() {
-        int code = takeCodeForDeletion();
-        try {
-            quizDeleter.validateCode(code);
-            confirmAndDelete(code);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-        }
-        QuizRedirectUi.redirect();
-    }
+		int confirmationFlag = takeInputForConfirmation();
 
-    public void confirmAndDelete(int code) {
+		if (confirmationFlag == 1) {
+			boolean isQuizDeleted = quizService.delete(code);
+			if (isQuizDeleted) {
+				LOGGER.info("Quiz Deleted");
+			} else {
+				LOGGER.error("Unable to delete");
+			}
+		} else if (confirmationFlag == 2) {
+			LOGGER.info("Ok Not done");
+		} else {
+			LOGGER.warn("Invalid input");
+			confirmAndDelete(code);
+		}
+	}
 
-        int confirmationFlag = takeInputForConfirmation();
-
-        if (confirmationFlag == 1) {
-            boolean isQuizDeleted = quizDeleter.delete(code);
-            if (isQuizDeleted) {
-                LOGGER.info("Quiz Deleted");
-            } else {
-                LOGGER.error("Unable to delete");
-            }
-        } else if (confirmationFlag == 2) {
-            LOGGER.info("Ok Not done");
-        } else {
-            LOGGER.warn("Invalid input");
-            confirmAndDelete(code);
-        }
-    }
-
-    public int takeCodeForDeletion() {
-        LOGGER.info("Please enter the quiz code: ");
-        return CorrectInput.getInteger();
-    }
+	public int takeCodeForDeletion() {
+		LOGGER.info("Please enter the quiz code: ");
+		return CorrectInput.getInteger();
+	}
 }
