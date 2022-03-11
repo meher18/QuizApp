@@ -9,8 +9,8 @@ import com.epam.data.library.QuestionsLibrary;
 import com.epam.data.library.QuizLibrary;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
-import com.epam.global.Constants;
-import com.epam.service.exceptions.InValidQuizId;
+import com.epam.exceptions.InValidQuizId;
+import com.epam.util.Constants;
 
 @Component
 public class QuizService {

@@ -5,8 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.global.CorrectInput;
 import com.epam.ui.viewer.QuestionsViewer;
+import com.epam.util.CorrectInput;
 
 @Component
 public class SelectQuestionInput {

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.epam.entity.Question;
-import com.epam.global.CorrectInput;
 import com.epam.service.admin.questionservice.QuestionService;
+import com.epam.util.CorrectInput;
 
 @Component
 public class QuestionUpdateUi {

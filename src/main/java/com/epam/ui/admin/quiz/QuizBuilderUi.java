@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.epam.config.AppContext;
 import com.epam.entity.Quiz;
-import com.epam.global.CorrectInput;
 import com.epam.service.admin.questionservice.QuestionService;
 import com.epam.service.admin.quizservice.QuizService;
 import com.epam.ui.admin.AdminDashBoardUi;
 import com.epam.ui.admin.question.QuestionBuilderUi;
 import com.epam.ui.viewer.QuizViewer;
+import com.epam.util.CorrectInput;
 
 @Component
 public class QuizBuilderUi {

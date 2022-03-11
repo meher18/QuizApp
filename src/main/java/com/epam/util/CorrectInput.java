@@ -1,4 +1,4 @@
-package com.epam.global;
+package com.epam.util;
 
 import java.util.Scanner;
 

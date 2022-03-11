@@ -11,15 +11,15 @@ import com.epam.config.AppContext;
 import com.epam.entity.QuestionAnswer;
 import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
-import com.epam.global.Constants;
-import com.epam.global.CorrectInput;
+import com.epam.exceptions.InValidQuizId;
 import com.epam.service.admin.quizservice.QuizService;
-import com.epam.service.exceptions.InValidQuizId;
 import com.epam.service.user.UserQuizService;
 import com.epam.ui.admin.Utility;
 import com.epam.ui.user.UserRedirectUi;
 import com.epam.ui.user.UserSession;
 import com.epam.ui.viewer.UserQuizViewer;
+import com.epam.util.Constants;
+import com.epam.util.CorrectInput;
 
 @Component
 public class UserQuizUi {

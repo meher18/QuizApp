@@ -3,7 +3,7 @@ package com.epam.ui.admin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.epam.global.CorrectInput;
+import com.epam.util.CorrectInput;
 
 public class Utility {
     public static final Logger LOGGER = LogManager.getLogger(Utility.class);

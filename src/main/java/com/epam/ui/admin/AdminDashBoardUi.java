@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.App;
-import com.epam.global.CorrectInput;
 import com.epam.service.admin.AdminDash;
 import com.epam.ui.admin.question.QuestionModuleUi;
 import com.epam.ui.admin.quiz.QuizModuleUi;
+import com.epam.util.CorrectInput;
 
 @Component
 public class AdminDashBoardUi {

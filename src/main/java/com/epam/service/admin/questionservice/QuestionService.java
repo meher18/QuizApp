@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.epam.data.library.QuestionsLibrary;
 import com.epam.entity.Question;
-import com.epam.global.Constants;
-import com.epam.service.exceptions.InValidQuestionDeletion;
-import com.epam.service.exceptions.InValidQuestionId;
+import com.epam.exceptions.InValidQuestionDeletion;
+import com.epam.exceptions.InValidQuestionId;
+import com.epam.util.Constants;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)

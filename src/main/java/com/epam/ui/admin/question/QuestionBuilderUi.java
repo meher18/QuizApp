@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import com.epam.config.AppContext;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
-import com.epam.global.CorrectInput;
 import com.epam.service.admin.questionservice.QuestionService;
+import com.epam.util.CorrectInput;
 
 @Component
 public class QuestionBuilderUi {

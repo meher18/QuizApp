@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.config.AppContext;
-import com.epam.global.CorrectInput;
 import com.epam.ui.admin.AdminDashBoardUi;
+import com.epam.util.CorrectInput;
 
 public class QuestionRedirectUi {
 	public static final Logger LOGGER = LogManager.getLogger(QuestionRedirectUi.class);

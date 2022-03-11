@@ -1,4 +1,4 @@
-package com.epam.service.exceptions;
+package com.epam.exceptions;
 
 public class InValidQuizId extends Exception{
     public InValidQuizId(String str)

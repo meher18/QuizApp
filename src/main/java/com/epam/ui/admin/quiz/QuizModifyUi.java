@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.epam.entity.Quiz;
-import com.epam.global.Constants;
-import com.epam.global.CorrectInput;
+import com.epam.exceptions.InValidQuizId;
 import com.epam.service.admin.quizservice.QuizService;
-import com.epam.service.exceptions.InValidQuizId;
+import com.epam.util.Constants;
+import com.epam.util.CorrectInput;
 
 @Component
 public class QuizModifyUi {

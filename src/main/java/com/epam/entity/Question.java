@@ -21,84 +21,88 @@ import org.springframework.stereotype.Component;
 @Entity
 public class Question {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int id;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Autowired
-    @Qualifier("questionOptions")
-    private List<QuestionOption> questionOptions;
+	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Autowired
+	@Qualifier("questionOptions")
+	public List<QuestionOption> questionOptions;
 
-    private String questionTitle;
-    private int mark = 0;
-    private int answer;
-    private String topicTag;
-    private String difficultyTag;
+	public String questionTitle;
+	public int mark = 0;
+	public int answer;
+	public String topicTag;
+	public String difficultyTag;
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public List<QuestionOption> getOptions() {
-        return questionOptions;
-    }
+	public List<QuestionOption> getOptions() {
+		return questionOptions;
+	}
 
-    public void setOption(QuestionOption questionOption) {
-        questionOption.setQuestion(this);
-        questionOptions.add(questionOption);
-    }
-    public void updateOption(int index, QuestionOption questionOption)
-    {
-        this.questionOptions.set(index, questionOption);
-    }
-    public String getQuestionTitle() {
-        return questionTitle;
-    }
+	public void setOption(QuestionOption questionOption) {
+		questionOption.setQuestion(this);
+		questionOptions.add(questionOption);
+	}
 
-    public void setQuestionTitle(String questionTitle) {
-        this.questionTitle = questionTitle;
-    }
+	public void updateOption(int index, QuestionOption questionOption) {
+		this.questionOptions.set(index, questionOption);
+	}
 
-    public int getMark() {
-        return mark;
-    }
+	public String getQuestionTitle() {
+		return questionTitle;
+	}
 
-    public void setMark(int mark) {
-        this.mark = mark;
-    }
+	public void setQuestionTitle(String questionTitle) {
+		this.questionTitle = questionTitle;
+	}
 
-    public int getAnswer() {
-        return answer;
-    }
+	public int getMark() {
+		return mark;
+	}
 
-    public void setAnswer(int answer) {
-        this.answer = answer;
-    }
+	public void setMark(int mark) {
+		this.mark = mark;
+	}
 
+	public int getAnswer() {
+		return answer;
+	}
 
-    public String getTopicTag() {
-        return topicTag;
-    }
+	public void setAnswer(int answer) {
+		this.answer = answer;
+	}
 
-    public void setTopicTag(String topicTag) {
-        this.topicTag = topicTag;
-    }
+	public String getTopicTag() {
+		return topicTag;
+	}
 
-    public String getDifficultyTag() {
-        return difficultyTag;
-    }
+	public void setTopicTag(String topicTag) {
+		this.topicTag = topicTag;
+	}
 
-    public void setDifficultyTag(String difficultyTag) {
-        this.difficultyTag = difficultyTag;
-    }
+	public String getDifficultyTag() {
+		return difficultyTag;
+	}
 
-    public void setOptions(List<QuestionOption> options) {
-        this.questionOptions = options;
-    }
+	public void setDifficultyTag(String difficultyTag) {
+		this.difficultyTag = difficultyTag;
+	}
+
+	public void setOptions(List<QuestionOption> options) {
+
+		for (QuestionOption option : options) {
+			option.setQuestion(this);
+		}
+		this.questionOptions = options;
+	}
 
 }

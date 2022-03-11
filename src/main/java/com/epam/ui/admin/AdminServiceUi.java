@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.epam.App;
 import com.epam.entity.Admin;
-import com.epam.global.CorrectInput;
 import com.epam.service.admin.AdminService;
+import com.epam.util.CorrectInput;
 
 @Component
 public class AdminServiceUi {
