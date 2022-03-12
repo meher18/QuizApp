@@ -18,11 +18,11 @@ public class AdminDashboardController {
 	{
 		return "admin/question/questionModule";
 	}
-//	@RequestMapping("/quizModule")
-//	public String showQuizModule()
-//	{
-//		return "adminDashBoard";
-//	}
+	@RequestMapping("/quizModule")
+	public String showQuizModule()
+	{
+		return "admin/quiz/quizModule";
+	}
 //	@RequestMapping("/questionModule")
 //	public String showAdminSettings()
 //	{

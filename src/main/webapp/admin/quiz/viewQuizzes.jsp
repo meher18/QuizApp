@@ -17,40 +17,37 @@
 </head>
 <body>
 
-	<h2 class="text-center">Below are the questions</h2>
+	<h2 class="text-center">Below are the quizzes</h2>
 	<div class="container">
 		<table id="table" class="table table-striped table-bordered">
-			${deletionStatus}
 			<thead>
 				<tr>
-					<th>Question Id</th>
-					<th>Question Title</th>
-					<th>Question Options</th>
-					<th>Question Answer</th>
-					<th>Question Topic Tag</th>
-					<th>Question Difficulty</th>
-					<th>Question Mark</th>
-					<th>Update Operation</th>
-					<th>Delete Operation</th>
+					<th>Quiz Id</th>
+					<th>Quiz Name</th>
+					<th>Questions</th>
+					<th>Quiz Status</th>
+					<th>Host Quiz</th>
+					<th>Update Quiz</th>
+					<th>Delete Quiz</th>
+
 				</tr>
 			</thead>
 			<tbody>
 
-				<c:forEach var="question" items="${questions}">
+				<c:forEach var="quiz" items="${quizzes}">
 					<tr>
-						<td>${question.id}</td>
-						<td>${question.questionTitle}</td>
+						<td>${quiz.getId()}</td>
+						<td>${quiz.getQuizName()}</td>
 						<td><ul>
-								<c:forEach items="${question.getOptions()}" var="option">
-									<li><a href="#">${option.getOptionTitle()}</a></li>
+								<c:forEach items="${quiz.getQuestions().values()}"
+									var="question">
+									<li><a href="#">${question.getQuestionTitle()}</a></li>
 								</c:forEach>
 							</ul></td>
-						<td>${question.answer}</td>
-						<td>${question.topicTag}</td>
-						<td>${question.difficultyTag}</td>
-						<td>${question.mark}</td>
-						<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
-						<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
+						<td>${quiz.getQuizTag()}</td>
+						<td><a href="hostTheQuiz?id=${quiz.getId()}">HOST QUIZ</a></td>
+						<td><a href="updateQuiz?id=${quiz.getId()}">Update</a></td>
+						<td><a href="deleteTheQuiz?id=${quiz.getId()}">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

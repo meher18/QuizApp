@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.epam.data.repository.QuestionDao;
@@ -13,7 +14,6 @@ import com.epam.entity.Question;
 public class QuestionsLibrary {
 
     @Autowired
-    @Qualifier("questionDaoImpl")
     QuestionDao questionDao;
 
     public Question getQuestion(int questionId) {

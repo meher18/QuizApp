@@ -25,7 +25,7 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 
-	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true )
 	@Autowired
 	@Qualifier("questionOptions")
 	public List<QuestionOption> questionOptions;

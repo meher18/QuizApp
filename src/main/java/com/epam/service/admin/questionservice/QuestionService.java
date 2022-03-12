@@ -24,11 +24,7 @@ public class QuestionService {
 
     public  Map<Integer, Question> getQuestions() {
 
-        if(questions == null)
-        {
-            questions = questionsLibrary.getQuestions();
-        }
-        return questions;
+        return questionsLibrary.getQuestions();
     }
 
     public Question getQuestion(int questionId) {

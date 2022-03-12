@@ -14,7 +14,7 @@
 	<form action="/addQuestion" method="get" class="form container">
 		<div class="input-group">
 			<label class="input-group-addon" for="title">Enter Question
-				Title</label> <input class="form-control" name="title"
+				Title </label> <input class="form-control" name="title"
 				placeholder="Question title" />
 		</div>
 		<div class="input-group">
@@ -51,13 +51,12 @@
 		<input type="submit" class="btn btn-primary" value="submit" />
 	</form>
 
-
-
 </body>
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+<script src="webjars/jquery/3.6.0/jquery.min.js"></script>
 <script>
 	$("#optionsNum").on("input", function(e) {
-
+		options = []
+		$("#optionsVal").val(options.join(":"));
 		var optionsNum = $(this).val();
 		$("#optionsContainer").empty();
 
@@ -69,12 +68,15 @@
 				placeholder : 'option ' + (i + 1)
 			})
 			a.on("input", function() {
-				options = " ";
+				options = [];
 				$("#optionsContainer").children().each(function() {
 
-					options += ($(this).val()) + ":";
+					//options += ($(this).val()) + ":";
+					if ($(this).val() != "") {
+						options.push($(this).val());
+					}
 				})
-				$("#optionsVal").val(options);
+				$("#optionsVal").val(options.join(":"));
 			})
 
 			$("#optionsContainer").append(a);

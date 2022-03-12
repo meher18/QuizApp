@@ -1,5 +1,6 @@
 package com.epam.data.repository.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,6 +39,7 @@ public class QuestionsDaoImpl implements QuestionDao {
 	@Override
 	public Map<Integer, Question> getAllQuestions() {
 
+		Map<Integer, Question> questionMap = new HashMap<Integer, Question>();
 		List<Question> questionList = entityManager.createQuery("SELECT q FROM Question q", Question.class)
 				.getResultList();
 
@@ -62,10 +64,16 @@ public class QuestionsDaoImpl implements QuestionDao {
 
 	@Override
 	public void deleteQuestion(int index) {
-		entityManager.getTransaction().begin();
-		Question question = entityManager.find(Question.class, index);
-		entityManager.remove(question);
-		entityManager.getTransaction().commit();
+		try {
+			entityManager.getTransaction().begin();
+			Question question = entityManager.find(Question.class, index);
+			entityManager.remove(question);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			entityManager.getTransaction().rollback();
+		}
+		
 	}
 
 	@Override
