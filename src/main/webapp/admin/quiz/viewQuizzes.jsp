@@ -7,7 +7,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
@@ -17,8 +17,20 @@
 </head>
 <body>
 
-	<h2 class="text-center">Below are the quizzes</h2>
+		<nav class="navbar navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">
+		   	 Quiz App
+		  	</a>
+		  	<div>
+				<nav class="nav nav-pills nav-fill">
+		   	 		<a class=" nav-item nav-link" href="createQuiz">Create Quiz</a>
+	  				<a class=" nav-item nav-link active" href="viewQuizzes">View Quiz Library</a> 	
+	  			</nav>
+			</div>
+		</nav>
+	
 	<div class="container">
+	<h2 class="text-center">Below are the quizzes</h2>
 		<table id="table" class="table table-striped table-bordered">
 			<thead>
 				<tr>

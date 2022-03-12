@@ -7,19 +7,37 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
+	
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+	
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
+<nav class="navbar navbar-dark bg-dark">
+		<a class="navbar-brand" href="/">
+	   	 Quiz App
+	  	</a>
+	  	<div>
+			<nav class="nav nav-pills nav-fill">
+	   	 		<nav class="nav nav-pills nav-fill">
+	   	 		<a class=" nav-item nav-link" href="createQuestion">Create Question</a>
+  				<a class=" nav-item nav-link active" href="viewQuestions">View Questions Library</a> 	
+  			</nav>
+  			</nav>
+		</div>
+	</nav>
+	
+	<div class="container-fluid" style="margin-top:35px">
 	<h2 class="text-center">Below are the questions</h2>
-	<div class="container">
-		<table id="table" class="table table-striped table-bordered">
+		<table id="table" class="table table-striped table-bordered table-responsive" >
 			${deletionStatus}
 			<thead>
 				<tr>
@@ -40,11 +58,27 @@
 					<tr>
 						<td>${question.id}</td>
 						<td>${question.questionTitle}</td>
-						<td><ul>
+						<td>
+						<div class="dropup">
+							  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							   Options
+							  </button>
+							  <div class="dropdown-menu card-body" aria-labelledby="dropdownMenuButton">
+							  <c:set var="optionCount" value="1"></c:set>
+							    <c:forEach items="${question.getOptions()}" var="option">
+									${optionCount}. <a href="#">${option.getOptionTitle()}</a>
+									<br>
+								<c:set var="optionCount" value="${optionCount+1}"></c:set>
+								</c:forEach>
+							  </div>
+							</div>
+						</td>
+						<%-- <td><ul>
 								<c:forEach items="${question.getOptions()}" var="option">
 									<li><a href="#">${option.getOptionTitle()}</a></li>
 								</c:forEach>
-							</ul></td>
+							</ul>
+						</td> --%>
 						<td>${question.answer}</td>
 						<td>${question.topicTag}</td>
 						<td>${question.difficultyTag}</td>

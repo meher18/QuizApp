@@ -7,7 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 
-<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet" />
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
@@ -31,57 +31,79 @@ const  a = (e) => {
 </head>
 <body>
 
-
-	<form action="createTheQuiz">
-
-		<input type="text" name="quizName" />
-		<!-- check question id -->
-		<input type="text" id="questionId" name="questionId" value="" /> <input
-			type="submit" value="submit" />
-	</form>
-	<h2 class="text-center">Below are the questions</h2>
-	<div class="container">
-		<table id="table" class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>Select Questions</th>
-					<th>Question Id</th>
-					<th>Question Title</th>
-					<th>Question Options</th>
-					<th>Question Answer</th>
-					<th>Question Topic Tag</th>
-					<th>Question Difficulty</th>
-					<th>Question Mark</th>
-					<th>Update Operation</th>
-					<th>Delete Operation</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				<c:forEach var="question" items="${questions}">
+	<nav class="navbar navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">
+		   	 Quiz App
+		  	</a>
+		  	<div>
+				<nav class="nav nav-pills nav-fill">
+		   	 		<a class=" nav-item nav-link active" href="createQuiz">Create Quiz</a>
+	  				<a class=" nav-item nav-link" href="viewQuizzes">View Quiz Library</a> 	
+	  			</nav>
+			</div>
+	</nav>
+	<div class = "row container-fluid">
+		<div class = "col-4">
+			
+			<form action="createTheQuiz" style="margin-top:35px" class = "card card-body">
+				<label for="quizName"><h5>Enter A Quiz Title</h5></label>
+				<input type="text" name="quizName" class="form-control" />
+				<br>
+				<!-- check question id -->
+				<h4 class = "alert alert-info">Select the Questions from the Table (click on the checkbox on first column of each row)</h4>
+				<input type="text" id="questionId" class ="form-control" name="questionId" value="" readonly /> 
+				<br>
+				<input
+					type="submit" value="submit" />
+			</form>
+			
+			
+		</div>
+		<div class = "col-8">		
+		<div class="" style="margin-top:35px">
+		
+			<table id="table" class="table table-striped table-bordered table-responsive">
+				<thead>
 					<tr>
-						<td><input type="checkbox" id="selectedId" onclick="a(this)"
-							name="selectedId" value="${question.id}"></td>
-						<td>${question.id}</td>
-						<td>${question.questionTitle}</td>
-						<td><ul>
-								<c:forEach items="${question.getOptions()}" var="option">
-									<li><a href="#">${option.getOptionTitle()}</a></li>
-								</c:forEach>
-							</ul></td>
-						<td>${question.answer}</td>
-						<td>${question.topicTag}</td>
-						<td>${question.difficultyTag}</td>
-						<td>${question.mark}</td>
-						<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
-						<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
+						<th>Select Questions</th>
+						<th>Question Id</th>
+						<th>Question Title</th>
+						<th>Question Options</th>
+						<th>Question Answer</th>
+						<th>Question Topic Tag</th>
+						<th>Question Difficulty</th>
+						<th>Question Mark</th>
+						<th>Update Operation</th>
+						<th>Delete Operation</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+				</thead>
+				<tbody>
+	
+					<c:forEach var="question" items="${questions}">
+						<tr>
+							<td><input type="checkbox" id="selectedId" onclick="a(this)"
+								name="selectedId" value="${question.id}"></td>
+							<td>${question.id}</td>
+							<td>${question.questionTitle}</td>
+							<td><ul>
+									<c:forEach items="${question.getOptions()}" var="option">
+										<li><a href="#">${option.getOptionTitle()}</a></li>
+									</c:forEach>
+								</ul></td>
+							<td>${question.answer}</td>
+							<td>${question.topicTag}</td>
+							<td>${question.difficultyTag}</td>
+							<td>${question.mark}</td>
+							<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
+							<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div> <!--  end of col-->
 
-
+</div> <!--  end of row   -->
 </body>
 
 

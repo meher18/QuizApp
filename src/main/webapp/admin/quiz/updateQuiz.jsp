@@ -7,7 +7,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet" />
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
@@ -29,69 +29,87 @@ const  a = (e) => {
 </script>
 </head>
 <body>
-	<form action="updateTheQuiz" method="get" class="form container">
-		<input class="form-control" name="id" value="${quiz.getId()}" />
-		<div class="input-group">
-			<label class="input-group-addon" for="quizName">Enter Quiz
-				Name </label> 
-				<input class="form-control" name="quizName"
-				placeholder="Quiz Name" value="${quiz.getQuizName()}" />
-		</div>
-		<input type="text" class="form-control" id="questionId" name="questionId" value='${String.join(",", ids)}' />
-		<div class="input-group">
-			<label class="input-group-addon" for="quizTag">Quiz Host
-				Status </label> 
-			<input class="form-control" name="quizTag"
-				placeholder="Quiz Host Status" value="${quiz.getQuizTag()}" />
-		</div>
-		<input type="submit" class="btn btn-primary" value="submit" />
-	</form>
-	
-	
-	
-	
-		<h2 class="text-center">Below are the questions</h2>
-	<div class="container">
-		<table id="table" class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>Select Questions</th>
-					<th>Question Id</th>
-					<th>Question Title</th>
-					<th>Question Options</th>
-					<th>Question Answer</th>
-					<th>Question Topic Tag</th>
-					<th>Question Difficulty</th>
-					<th>Question Mark</th>
-					<th>Update Operation</th>
-					<th>Delete Operation</th>
-				</tr>
-			</thead>
-			<tbody>
 
-				<c:forEach var="question" items="${questions}">
-					<tr>
-						<td><input type="checkbox" id="selectedId" onclick="a(this)"
-							name="selectedId" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
-						<td>${question.id}</td>
-						<td>${question.questionTitle}</td>
-						<td><ul>
-								<c:forEach items="${question.getOptions()}" var="option">
-									<li><a href="#">${option.getOptionTitle()}</a></li>
-								</c:forEach>
-							</ul></td>
-						<td>${question.answer}</td>
-						<td>${question.topicTag}</td>
-						<td>${question.difficultyTag}</td>
-						<td>${question.mark}</td>
-						<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
-						<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+	<nav class="navbar navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">
+		   	 Quiz App
+		  	</a>
+		  	<div>
+				<nav class="nav nav-pills nav-fill">
+		   	 		<a class=" nav-item nav-link " href="createQuiz">Create Quiz</a>
+	  				<a class=" nav-item nav-link" href="viewQuizzes">View Quiz Library</a> 	
+	  			</nav>
+			</div>
+	</nav>
+	<div class = "row">
+		<div class = "col-4">
+			<form action="updateTheQuiz" method="get" class="card card-body" style="margin-top:35px">
+				<input class="form-control" name="id" value="${quiz.getId()}" readonly/>
+				<div class="form-group">
+					<label  for="quizName">Enter Quiz
+						Name </label> 
+						<input name="quizName"
+						placeholder="Quiz Name" value="${quiz.getQuizName()}" class = "form-control" />
+				</div>
+				<alert class="alert alert-info">Check and Uncheck the checkbox in first column of every row for selecting and deselecting the question for quiz</alert>
+				<input type="text" class="form-control" id="questionId" name="questionId" value='${String.join(",", ids)}' 
+					readonly/>
+				<div class="form-group">
+					<label for="quizTag">Quiz Host
+						Status </label> 
+					<input class="form-control" name="quizTag"
+						placeholder="Quiz Host Status" value="${quiz.getQuizTag()}" />
+				</div>
+				
+				
+				<input type="submit" class="btn btn-primary" value="submit" />
+			</form>
+			
+		</div>
+		<div class = "col-8">
+			<div class="" style = "margin-top:35px">
+				
+				<table id="table" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Select Questions</th>
+							<th>Question Id</th>
+							<th>Question Title</th>
+							<th>Question Options</th>
+							<th>Question Answer</th>
+							<th>Question Topic Tag</th>
+							<th>Question Difficulty</th>
+							<th>Question Mark</th>
+							<th>Update Operation</th>
+							<th>Delete Operation</th>
+						</tr>
+					</thead>
+					<tbody>
+		
+						<c:forEach var="question" items="${questions}">
+							<tr>
+								<td><input type="checkbox" id="selectedId" onclick="a(this)"
+									name="selectedId" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
+								<td>${question.id}</td>
+								<td>${question.questionTitle}</td>
+								<td><ul>
+										<c:forEach items="${question.getOptions()}" var="option">
+											<li><a href="#">${option.getOptionTitle()}</a></li>
+										</c:forEach>
+									</ul></td>
+								<td>${question.answer}</td>
+								<td>${question.topicTag}</td>
+								<td>${question.difficultyTag}</td>
+								<td>${question.mark}</td>
+								<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
+								<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
-	
 </body>
 
 
@@ -102,7 +120,6 @@ const  a = (e) => {
 		
 	});
 	
-
 </script>
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>

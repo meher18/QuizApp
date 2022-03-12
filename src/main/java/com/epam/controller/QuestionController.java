@@ -90,13 +90,13 @@ public class QuestionController {
 		return "admin/question/viewQuestions";
 	}
 
-	@RequestMapping(value = "/updateTheQuestion", params = { "id", "title", "options", "optionsVal", "topic",
+	@RequestMapping(value = "/updateTheQuestion", params = { "id", "title", "optionsVal", "topic",
 			"difficulty", "answer", "mark" })
 	public String updateQuestion(@RequestParam(value = "id") String id, @RequestParam(value = "title") String title,
-			@RequestParam(value = "options") String optionCount,
 			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
 			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
-			@RequestParam(value = "mark") String mark) {
+			@RequestParam(value = "mark") String mark,
+			Model model) {
 
 		int questionId = Integer.parseInt(id);
 
@@ -147,7 +147,9 @@ public class QuestionController {
 		question.setMark(Integer.parseInt(mark));
 		questionService.update(question, questionId);
 
-		return "admin/question/updateQuestion";
+		model.addAttribute("questions", questionService.getQuestions().values());
+		model.addAttribute("updationStatus", "UPDATED");
+		return "admin/question/viewQuestions";
 
 	}
 }
