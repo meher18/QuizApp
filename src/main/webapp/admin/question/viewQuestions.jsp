@@ -28,6 +28,7 @@
 	  	<div>
 			<nav class="nav nav-pills nav-fill">
 	   	 		<nav class="nav nav-pills nav-fill">
+	   	 		<a class=" nav-item nav-link " href="adminDashboard">Home</a>
 	   	 		<a class=" nav-item nav-link" href="createQuestion">Create Question</a>
   				<a class=" nav-item nav-link active" href="viewQuestions">View Questions Library</a> 	
   			</nav>

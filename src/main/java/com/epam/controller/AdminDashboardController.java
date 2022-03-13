@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminDashboardController {
 
 	
-//	@RequestMapping("/")
-//	public String showAdminDashBoard()
-//	{
-//		return "adminDashBoard";
-//	}
+	@RequestMapping("/adminDashboard")
+	public String showAdminDashBoard()
+	{
+		return "admin/adminDashboard";
+	}
 	
 	@RequestMapping("/questionModule")
 	public String showQuestionModule()

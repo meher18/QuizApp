@@ -23,13 +23,14 @@
 		  	</a>
 		  	<div>
 				<nav class="nav nav-pills nav-fill">
+					<a class=" nav-item nav-link " href="adminDashboard">Home</a>
 		   	 		<a class=" nav-item nav-link" href="createQuiz">Create Quiz</a>
 	  				<a class=" nav-item nav-link active" href="viewQuizzes">View Quiz Library</a> 	
 	  			</nav>
 			</div>
 		</nav>
 	
-	<div class="container">
+	<div class="container" style = "margin-top:35px">
 	<h2 class="text-center">Below are the quizzes</h2>
 		<table id="table" class="table table-striped table-bordered">
 			<thead>

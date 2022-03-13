@@ -36,6 +36,7 @@ const  a = (e) => {
 		  	</a>
 		  	<div>
 				<nav class="nav nav-pills nav-fill">
+					<a class=" nav-item nav-link " href="adminDashboard">Home</a>
 		   	 		<a class=" nav-item nav-link " href="createQuiz">Create Quiz</a>
 	  				<a class=" nav-item nav-link" href="viewQuizzes">View Quiz Library</a> 	
 	  			</nav>
@@ -80,8 +81,6 @@ const  a = (e) => {
 							<th>Question Topic Tag</th>
 							<th>Question Difficulty</th>
 							<th>Question Mark</th>
-							<th>Update Operation</th>
-							<th>Delete Operation</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -101,8 +100,6 @@ const  a = (e) => {
 								<td>${question.topicTag}</td>
 								<td>${question.difficultyTag}</td>
 								<td>${question.mark}</td>
-								<td><a href="updateQuestion?id=${question.getId()}">Update</a></td>
-								<td><a href="deleteTheQuestion?id=${question.getId()}">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

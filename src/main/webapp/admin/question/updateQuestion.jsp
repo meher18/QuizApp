@@ -19,6 +19,7 @@
 	  	</a>
 	  	<div>
 			<nav class="nav nav-pills nav-fill">
+				<a class=" nav-item nav-link " href="adminDashboard">Home</a>
 	   	 		<a class=" nav-item nav-link" href="createQuestion">Create Question</a>
   				<a class=" nav-item nav-link " href="viewQuestions">View Questions Library</a> 
   			</nav>
@@ -89,7 +90,6 @@
 	</form>
 </body>
 
-
 <script>
 
 $(document).ready(function()
@@ -139,7 +139,7 @@ $("#addNewOption").on("click", function(){
 
 })
 
-		function bb() {
+	function bb() {
 				options = " ";
 				$("#optionsContainer").children().each(function() {
 
@@ -149,7 +149,7 @@ $("#addNewOption").on("click", function(){
 						}
 				})
 				$("#optionsVal").val(options);
-			}
+		}
 
 
 $("#removeOption").on("click", function(){

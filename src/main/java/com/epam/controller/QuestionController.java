@@ -134,6 +134,7 @@ public class QuestionController {
 
 	
 		question.questionOptions.clear();
+		
 		for (String optionTitle : optionsList) {
 			if (!question.questionOptions.contains(optionTitle)) {
 				QuestionOption option = AppContext.getApplicationContext().getBean(QuestionOption.class);
