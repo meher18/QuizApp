@@ -32,6 +32,7 @@
 				<label class="input-group-addon" for="title">Enter Question
 					Title</label> <input class="form-control" name="title"
 					placeholder="Question title" value="${question.questionTitle}" />
+					<small class=" text-danger">${errors.get("title")}</small>
 			</div>
 		<div class = "row">
 		<div class = "col">
@@ -58,6 +59,7 @@
 				<div class="form-group">
 					<input name="optionsVal" class="form-control" value=""
 						id="optionsVal" readonly>
+					<small class=" text-danger">${errors.get("optionsVal")}</small>
 				</div>
 		</div>
 		
@@ -67,22 +69,32 @@
 					<label class="input-group-addon" for="topic">Question Topic
 						Tag</label> <input class="form-control" name="topic" placeholder="topic tag"
 						value="${question.topicTag}" />
+						<small class=" text-danger">${errors.get("topic")}</small>
 				</div>
 				<div class="form-group">
-					<label class="input-group-addon" for="difficulty">Question
-						Difficulty </label> <input class="form-control" name="difficulty"
-						value="${question.difficultyTag}" placeholder="difficulty" />
+						<label class="input-group-addon" for="difficulty">Question
+							Difficulty</label> 
+						  <select class="form-control" name="difficulty" id="difficulty" value="${question.difficultyTag}">
+							<option value ="EASY">EASY</option>
+							<option value = "MEDIUM">MEDIUM</option>
+							<option value = "HARD">HARD</option>
+						  </select>
+					<!-- <input class="form-control" name="difficulty"
+						 placeholder="difficulty" /> -->
+						<small class=" text-danger">${errors.get("difficulty")}</small>
 				</div>
 				<div class="form-group">
 					<label class="input-group-addon" for="answer">Question Answer</label>
 					<input type="number" class="form-control" name="answer"
 						placeholder="answer" min="1" max="options.val"
 						value="${question.answer}" />
+					<small class=" text-danger">${errors.get("answer")}</small>
 				</div>
 				<div class="form-group">
 					<label class="input-group-addon" for="mark">Question Mark</label> <input
 						class="form-control" name="mark" placeholder="mark" min="1" max="30"
 						value="${question.mark}" />
+					<small class=" text-danger">${errors.get("mark")}</small>
 				</div>
 				<input type="submit" class="btn btn-primary" value="submit" />
 		</div>
@@ -92,92 +104,65 @@
 
 <script>
 
-$(document).ready(function()
-		{
+$(document).ready(function(){
 	for (var i = 0; i < Number(${question.getOptions().size()}); i++) {
 
 		options = "";
 		$("#optionsContainer").children().each(function() {
 
-			options += ($(this).children("input").val()) + ":";
+			if($(this).children("input").val() != "")
+				{
+				options += ($(this).children("input").val()) + ":";
+			}
 		})
 		$("#optionsVal").val(options);
-/* 	a.on("input", function() {
-		options = " ";
-		$("#optionsContainer").children().each(function() {
 
-			options += ($(this).val()) + ":";
-		})
-		$("#optionsVal").val(options);
-	}) */
-
-
-}
-		})
+		}
+})
 
 
 
 $("#addNewOption").on("click", function(){
-	// console.log("add option");
-
 
 			var numberOfOptions = $("#optionsContainer").children().length;
 			
 			var div = $(document.createElement('div'));
 			div.html("Option "+(numberOfOptions+1));
 			
-			var a = $(document.createElement('input')).prop({
+			var optionInput = $(document.createElement('input')).prop({
 				type : 'text',
 				className : 'form-control',
 				placeholder : 'option ' + (numberOfOptions + 1),
 				//value: "${question.getOptions().get(i).optionTitle}"
 			})
 		
-			a.on("input", bb)
-			div.append(a);
+			optionInput.on("input", bb)
+			div.append(optionInput);
 			$("#optionsContainer").append(div);
-
 })
 
-	function bb() {
-				options = " ";
-				$("#optionsContainer").children().each(function() {
+function bb() {
+	options = "";
+	$("#optionsContainer").children().each(function() {
 
-					if($(this).children("input").val() != "")
-						{
-							options += ($(this).children("input").val()) + ":";
-						}
-				})
-				$("#optionsVal").val(options);
+		if($(this).children("input").val() != "")
+		{
+			if($(this).children("input").val() != ""){
+				options += ($(this).children("input").val()) + ":";
+			}
 		}
+	})
+	$("#optionsVal").val(options);
+}
 
 
 $("#removeOption").on("click", function(){
 	// console.log("remove option");
 	$("#optionsContainer").children().last().remove();
 		
-	//a.on("input", function() {
-	//options = " ";
-		//	$("#optionsContainer").children().each(function() {
-			//			options += ($(this).val()) + ":";
-			//	})
-			//	$("#optionsVal").val(options);
-			//})
-			
  	var currentVal = $("#optionsVal").val();
-	
-	//currentVal = currentVal.substr(-1);
-	//var indexOfColon = currentVal.lastIndexOf(":");
-	//console.log(indexOfColon);
-	
-	//currentVal = currentVal.substr(0, indexOfColon);
-/* 	var vals = currentVal.split(":");
-	vals.slice(0, -1);
-	console.log(vals);
-	
-	vals = vals.slice(0, -1);
-	console.log(vals); */
- 	options = " ";
+
+ 	options = "";
 	$("#optionsContainer").children().each(function() {
 
 		if($(this).children("input").val() != "")

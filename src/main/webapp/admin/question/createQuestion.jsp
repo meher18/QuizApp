@@ -23,46 +23,64 @@
   			</nav>
 		</div>
 	</nav>
+	${questionCreationStatus}
 	<form action="/addQuestion" method="get" class="form container" style="width: 100%;margin-top:35px;">
 		
 		<div class="form-group">
 			<label class="input-group-addon" for="title">Enter QuestionTitle </label> 
 			<input class="form-control" name="title"
-							placeholder="Question title" />
+							placeholder="Question title" required />
+		<small class=" text-danger">${errors.get("title")}</small>
+							
 		</div>
 		<div class="form-row">
 			<div class="col">
 					<div class="form-group">
 						<label class="input-group-addon" for="options">Enter number
-							of options</label> <input class="form-control" name="options"
-							placeholder="Question Option" id="optionsNum" />
+							of options</label>
+							 <input type = "number" class="form-control" name="options"
+							placeholder="Question Option" id="optionsNum"  min = "2"  max = "6" required/>
+							<small class=" text-danger">${errors.get("options")}</small>
 					</div>
 					<div class="form-group " style="height:200px;overflow-y:scroll;">
-						<div class="card-body" id="optionsContainer"></div>
+						<div class="card-body form-group" id="optionsContainer"></div>
 					</div>
 					<div class="form-group">
 						<input name="optionsVal" class="form-control" value=""
-							id="optionsVal" readonly>
+							id="optionsVal" readonly required>
+						<small class=" text-danger">${errors.get("optionsVal")}</small>
 					</div>
 			</div>
 			<div class = "col">
 					<div class="form-group">
 						<label class="input-group-addon" for="topic">Question Topic
-							Tag</label> <input class="form-control" name="topic" placeholder="topic tag" />
+							Tag</label> <input class="form-control" name="topic" placeholder="topic tag" required />
+							<small class=" text-danger">${errors.get("topic")}</small>
 					</div>
 					<div class="form-group">
-						<label class="input-group-addon" for="difficulty">Question
-							Difficulty</label> <input class="form-control" name="difficulty"
-							placeholder="difficulty" />
+				
+						 <label class="input-group-addon" for="difficulty">Question
+							Difficulty</label> 
+						  <select class="form-control" name="difficulty" id="difficulty" >
+							<option value ="EASY">EASY</option>
+							<option value = "MEDIUM">MEDIUM</option>
+							<option value = "HARD">HARD</option>
+						  </select>
+							<!-- <input class="form-control" name="difficulty"
+							placeholder="difficulty" /> -->
+							<small class=" text-danger">${errors.get("difficulty")}</small>
 					</div>
 					<div class="form-group">
 						<label class="input-group-addon" for="answer">Question Answer</label>
 						<input type="number" class="form-control" name="answer"
-							placeholder="answer" min="1" max="options.val" />
+							placeholder="answer" min="1" max="options.val" required />
+							<small class=" text-danger">${errors.get("answer")}</small>
 					</div>
 					<div class="form-group">
-						<label class="input-group-addon" for="mark">Question Mark</label> <input
-							class="form-control" name="mark" placeholder="mark" min="1" max="30" />
+						<label class="input-group-addon" for="mark">Question Mark</label> 
+						<input type ="number" 
+							class="form-control" name="mark" placeholder="mark" min="1" max="30" required />
+							<small class=" text-danger">${errors.get("mark")}</small>
 					</div>
 			
 					<input type="submit" class="btn btn-primary" value="submit" />
@@ -74,36 +92,47 @@
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
 <script>
 	$("#optionsNum").on("input", function(e) {
+	
 		options = []
+		// if the number of options changed then
+		// set the options val to empty
 		$("#optionsVal").val(options.join(":"));
+		
+		
 		var optionsNum = $(this).val();
-		$("#optionsContainer").empty();
-
-		for (var i = 0; i < Number(optionsNum); i++) {
-
-			 var div = $(document.createElement('div'));
-			div.html("Option "+(i+1));
+		
+		if(Number(optionsNum) <2 || Number(optionsNum)  > 6)
+		{
+			alert("minmum 2 options, maximum 6 options can be entered");
+		}else{
 			
-			var a = $(document.createElement('input')).prop({
-				type : 'text',
-				className : 'form-control',
-				placeholder : 'option ' + (i + 1)
-			})
-			a.on("input", function() {
-				options = [];
-				$("#optionsContainer").children().each(function() {
+			$("#optionsContainer").empty();
 
-					//options += ($(this).val()) + ":";
-					if ($(this).children("input").val() != "") {
-						options.push($(this).children("input").val());
-					}
+			for (var i = 0; i < Number(optionsNum); i++) {
+
+				 var div = $(document.createElement('div'));
+				div.html("Option "+(i+1));
+				
+				var a = $(document.createElement('input')).prop({
+					type : 'text',
+					className : 'form-control',
+					placeholder : 'Enter option ' + (i + 1)
 				})
-				$("#optionsVal").val(options.join(":"));
-			})
-			
-			div.append(a)
+				a.on("input", function() {
+					options = [];
+					$("#optionsContainer").children().each(function() {
 
-			$("#optionsContainer").append(div);
+						//options += ($(this).val()) + ":";
+						if ($(this).children("input").val() != "") {
+							options.push($(this).children("input").val());
+						}
+					})
+					$("#optionsVal").val(options.join(":"));
+				})
+				div.append(a)
+
+				$("#optionsContainer").append(div);
+			}
 		}
 	})
 </script>

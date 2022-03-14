@@ -51,10 +51,14 @@ const  a = (e) => {
 			<form action="createTheQuiz" style="margin-top:35px" class = "card card-body">
 				<label for="quizName"><h5>Enter A Quiz Title</h5></label>
 				<input type="text" name="quizName" class="form-control" />
+						<small class=" text-danger">${errors.get("quizName")}</small>
+				
 				<br>
 				<!-- check question id -->
 				<h4 class = "alert alert-info">Select the Questions from the Table (click on the checkbox on first column of each row)</h4>
 				<input type="text" id="questionId" class ="form-control" name="questionId" value="" readonly /> 
+				<small class=" text-danger">${errors.get("questionId")}</small>
+				
 				<br>
 				<input
 					type="submit" value="submit" />

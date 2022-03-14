@@ -1,7 +1,9 @@
 package com.epam.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,8 +49,58 @@ public class QuestionController {
 			@RequestParam(value = "options") String optionCount,
 			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
 			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
-			@RequestParam(value = "mark") String mark) {
+			@RequestParam(value = "mark") String mark,
+			Model model) {
 
+		Map<String, String> errors = new HashMap<String, String>();
+		
+		
+		if(title == "")
+		{
+			errors.put("title", "Please provide the title");
+		}
+		
+		if(optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6 )
+		{
+			errors.put("options", "Please provide min 2 options, max 6 options");
+		}
+		if(optionsValue == "")
+		{
+			errors.put("optionsVal", "Please provide the options");
+		}
+		if(topicTag == "")
+		{
+			errors.put("topic", "Please provide the topic");
+		}
+		if(difficulty == "")
+		{
+			errors.put("difficulty", "Please provide the difficulty");
+		}
+		if(answer == "")
+		{
+			errors.put("answer", "Please provide the answer");
+		}
+		if(mark == "")
+		{
+			errors.put("mark", "Please provide the mark");
+		}
+		
+		if(errors.size() <= 0)
+		{
+			createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
+			model.addAttribute("questionCreationStatus", "Question Created");
+		}
+		else {
+			model.addAttribute("errors", errors);
+		}
+		
+
+		return "admin/question/createQuestion";
+
+	}
+
+	private void createQuestion(String title, String optionsValue, String topicTag, String difficulty, String answer,
+			String mark) {
 		Question question = AppContext.getApplicationContext().getBean(Question.class);
 
 		question.setQuestionTitle(title);
@@ -68,10 +120,9 @@ public class QuestionController {
 		question.setMark(Integer.parseInt(mark));
 
 		questionService.createQuestion(question);
-
-		return "admin/question/createQuestion";
-
 	}
+	
+	
 
 	@RequestMapping(value = "/deleteTheQuestion", params = "id")
 	public String deleteQuestion(@RequestParam(value = "id") String questionId, Model model) {
@@ -98,6 +149,53 @@ public class QuestionController {
 			@RequestParam(value = "mark") String mark,
 			Model model) {
 
+		Map<String, String> errors = new HashMap<String, String>();
+		
+		
+		if(title == "")
+		{
+			errors.put("title", "Please provide the title");
+		}
+		
+		if(optionsValue == "")
+		{
+			errors.put("optionsVal", "Please provide the options");
+		}
+		if(topicTag == "")
+		{
+			errors.put("topic", "Please provide the topic");
+		}
+		if(difficulty == "")
+		{
+			errors.put("difficulty", "Please provide the difficulty");
+		}
+		if(answer == "")
+		{
+			errors.put("answer", "Please provide the answer");
+		}
+		if(mark == "")
+		{
+			errors.put("mark", "Please provide the mark");
+		}
+		
+		String redirectPage = "admin/question/viewQuestions";
+		if(errors.size() <= 0)
+		{
+			updateQuestion(id, title, optionsValue, topicTag, difficulty, answer, mark);
+			model.addAttribute("questions", questionService.getQuestions().values());
+			model.addAttribute("updationStatus", "UPDATED");
+		}
+		else {
+			model.addAttribute("errors", errors);
+			redirectPage = "redirect:/updateQuestion?id="+id;
+		}
+		
+		return redirectPage;
+
+	}
+
+	private void updateQuestion(String id, String title, String optionsValue, String topicTag, String difficulty,
+			String answer, String mark) {
 		int questionId = Integer.parseInt(id);
 
 		Question question = questionService.getQuestion(questionId);
@@ -106,31 +204,6 @@ public class QuestionController {
 		String options[] = optionsValue.split(":");
 
 		List<String> optionsList = Arrays.asList(options);
-
-//		
-//		if (optionsList.size() >= question.getOptions().size()) {
-//			int i = 0;
-//			for (i = 0; i < question.getOptions().size(); i++) {
-//				question.getOptions().get(i).setOptionTitle(optionsList.get(i));
-//			}
-//
-//			if (i < optionsList.size()) {
-//				QuestionOption option = AppContext.getApplicationContext().getBean(QuestionOption.class);
-//				option.setOptionTitle(optionsList.get(i));
-//				question.setOption(option);
-//				i++;
-//			}
-//
-//		} else {
-//			int j = 0;
-//			for (j = 0; j < optionsList.size(); j++) {
-//				question.getOptions().get(j).setOptionTitle(optionsList.get(j));
-//			}
-//			if (j < question.getOptions().size()) {
-//				question.getOptions().remove(j);
-//				j++;
-//			}
-//		}
 
 	
 		question.questionOptions.clear();
@@ -146,11 +219,7 @@ public class QuestionController {
 		question.setDifficultyTag(difficulty);
 		question.setAnswer(Integer.parseInt(answer));
 		question.setMark(Integer.parseInt(mark));
+		
 		questionService.update(question, questionId);
-
-		model.addAttribute("questions", questionService.getQuestions().values());
-		model.addAttribute("updationStatus", "UPDATED");
-		return "admin/question/viewQuestions";
-
 	}
 }

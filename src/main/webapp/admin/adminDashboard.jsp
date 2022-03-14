@@ -24,6 +24,8 @@
 	  			</nav>
 			</div>
 </nav>
+${adminLoginStatus}
+
 <div  class = "container card card-body" style = "margin-top:35px">
 
 <div class="card-columns">

@@ -1,6 +1,8 @@
 package com.epam.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,103 +27,124 @@ public class QuizController {
 	QuestionService questionService;
 
 	@RequestMapping("/viewQuizzes")
-	public String viewQuizzes(Model model)
-	{
+	public String viewQuizzes(Model model) {
 		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-		
+
 		return "admin/quiz/viewQuizzes";
 	}
-	
-	
-	@RequestMapping(value = "/updateQuiz", params = {"id"})
-	public String updateQuiz(
-			@RequestParam(value = "id") String id,
-			Model model)
-	{
+
+	@RequestMapping(value = "/updateQuiz", params = { "id" })
+	public String updateQuiz(@RequestParam(value = "id") String id, Model model) {
 		int quizId = Integer.parseInt(id);
 		Quiz quiz = quizService.getQuiz(quizId);
 		model.addAttribute("quiz", quiz);
 		model.addAttribute("questions", questionService.getQuestions().values());
-		List<String> idList = quiz.getQuestions().values().stream().map(q -> q.id+"").collect(Collectors.toList());
-		
+		List<String> idList = quiz.getQuestions().values().stream().map(q -> q.id + "").collect(Collectors.toList());
+
 		model.addAttribute("ids", idList);
 		return "admin/quiz/updateQuiz";
 	}
-	
-	
+
 	@RequestMapping("/createQuiz")
 	public String createQuiz(Model model) {
 
 		model.addAttribute("questions", questionService.getQuestions().values());
 		return "admin/quiz/createQuiz";
 	}
-	
-	@RequestMapping(value = "/hostTheQuiz", params = {"id"})
+
+	@RequestMapping(value = "/hostTheQuiz", params = { "id" })
 	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) {
 
 		int quizId = Integer.parseInt(id);
 		quizService.hostQuiz(quizId);
-		
+
 		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-		return "admin/quiz/viewQuizzes";
-	}
-	
-	
-	@RequestMapping(value = "/deleteTheQuiz", params = {"id"})
-	public String deleteTheQuiz(@RequestParam(value = "id") String id, Model model) {
-		
-		int quizId = Integer.parseInt(id);
-		quizService.delete(quizId);
-		
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-		return "admin/quiz/viewQuizzes";
+		return "redirect:/viewQuizzes";
 	}
 
-	@RequestMapping(value = "/createTheQuiz", params = {"quizName", "questionId"})
-	public String createTheQuiz(
-			@RequestParam(value = "quizName") String quizName,
-			@RequestParam(value = "questionId") String questionId,
-			Model model){
-		
-		Quiz quiz = AppContext.getApplicationContext().getBean(Quiz.class);
-		quiz.setQuizName(quizName);
-		
-		String[] questionIds = questionId.split(",");
-		Stream.of(questionIds).forEach(id -> {
-			quizService.selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
-		});
-		
-		quizService.saveQuiz(quiz);
-		
-		model.addAttribute("quizUpdationStatus", "UPDATED");
+	@RequestMapping(value = "/deleteTheQuiz", params = { "id" })
+	public String deleteTheQuiz(@RequestParam(value = "id") String id, Model model) {
+
+		int quizId = Integer.parseInt(id);
+		quizService.delete(quizId);
+
 		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-		return "admin/quiz/viewQuizzes";
+		return "redirect:/viewQuizzes";
 	}
-	
-	
-	@RequestMapping(value = "/updateTheQuiz", params = {"id","quizName", "questionId", "quizTag"})
-	public String updateTheQuiz(
-			@RequestParam(value = "quizName") String quizName,
-			@RequestParam(value = "id") String qId,
-			@RequestParam(value = "questionId") String questionId,
-			@RequestParam(value = "quizTag") String quizTag,
-			Model model){
-		
+
+	@RequestMapping(value = "/createTheQuiz", params = { "quizName", "questionId" })
+	public String createTheQuiz(@RequestParam(value = "quizName") String quizName,
+			@RequestParam(value = "questionId") String questionId, Model model) {
+
+		Map<String, String> errors = new HashMap<String, String>();
+
+		if (quizName == "") {
+			errors.put("quizName", "Please provide the Quiz Name");
+		}
+
+		if (questionId == "") {
+			errors.put("questionId", "Please provide some questions");
+		}
+
+		String redirectPage = "admin/quiz/createQuiz";
+
+		if (errors.size() <= 0) {
+			Quiz quiz = AppContext.getApplicationContext().getBean(Quiz.class);
+			quiz.setQuizName(quizName);
+
+			String[] questionIds = questionId.split(",");
+			Stream.of(questionIds).forEach(id -> {
+				quizService.selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
+			});
+
+			model.addAttribute("quizUpdationStatus", "UPDATED");
+			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+			quizService.saveQuiz(quiz);
+			redirectPage = "admin/quiz/viewQuizzes";
+		} else {
+			model.addAttribute("questions", questionService.getQuestions().values());
+			model.addAttribute("errors", errors);
+		}
+
+		return redirectPage;
+	}
+
+	@RequestMapping(value = "/updateTheQuiz", params = { "id", "quizName", "questionId", "quizTag" })
+	public String updateTheQuiz(@RequestParam(value = "quizName") String quizName,
+			@RequestParam(value = "id") String qId, @RequestParam(value = "questionId") String questionId,
+			@RequestParam(value = "quizTag") String quizTag, Model model) {
+
 		int quizId = Integer.parseInt(qId);
-		Quiz quiz = quizService.getQuiz(quizId);
-		quiz.setQuizName(quizName);
-		String[] questionIds = questionId.split(",");
-		quiz.getQuestions().clear();
-		Stream.of(questionIds).forEach(id -> {
-			quizService.selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
-		});
+		Map<String, String> errors = new HashMap<String, String>();
+
+		if (quizName == "") {
+			errors.put("quizName", "Please provide the Quiz Name");
+		}
+
+		if (questionId == "") {
+			errors.put("questionId", "Please provide some questions");
+		}
+
+		String redirectPage = "redirect:/updateQuiz?id="+quizId;
+		if(errors.size() <= 0)
+		{
+			Quiz quiz = quizService.getQuiz(quizId);
+			quiz.setQuizName(quizName);
+			String[] questionIds = questionId.split(",");
+			quiz.getQuestions().clear();
+			Stream.of(questionIds).forEach(id -> {
+				quizService.selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
+			});
+
+			quiz.setQuizTag(quizTag);
+
+			quizService.update(quiz, quizId);
+
+			model.addAttribute("quizUpdationStatus", "UPDATED");
+			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+			redirectPage = "admin/quiz/viewQuizzes";
+		}
 		
-		quiz.setQuizTag(quizTag);
-		
-		quizService.update(quiz, quizId);
-		
-		model.addAttribute("quizUpdationStatus", "UPDATED");
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-		return "admin/quiz/viewQuizzes";
+		return redirectPage;
 	}
 }

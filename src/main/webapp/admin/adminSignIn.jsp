@@ -12,12 +12,15 @@
 </head>
 <body>
 
+
 	<nav class="navbar navbar-dark bg-dark">
 				<a class="navbar-brand" href="/">
 			   	 Quiz App
 			  	</a>
 			 
 	</nav>
+	
+	${adminLoginStatus}
 	<div class = "container" style = "margin-top:35px">
 		<form action="signInAdmin" method="get" class = "card card-body">
 			<input type ="text" name = "name" placeholder="Admin user name" class = "form-control" />

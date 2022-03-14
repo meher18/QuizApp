@@ -19,7 +19,7 @@
 		  	<h5 class = "text-center text-light">Admin / Question Module</h5>
 		  	<div>
 				<nav class="nav nav-pills nav-fill">
-		   	 		<a class=" nav-item nav-link active" href="adminDashboard">Home</a>
+		   	 		<a class=" nav-item nav-link" href="adminDashboard">Home</a>
 	  				<a class=" nav-item nav-link" href="adminLogout">Logout</a> 	
 	  			</nav>
 			</div>

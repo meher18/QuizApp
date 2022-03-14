@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet" />
+<script src="webjars/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
 <script>
@@ -42,7 +43,7 @@ const  a = (e) => {
 	  			</nav>
 			</div>
 	</nav>
-	<div class = "row">
+	<div class = "row container-fluid" >
 		<div class = "col-4">
 			<form action="updateTheQuiz" method="get" class="card card-body" style="margin-top:35px">
 				<input class="form-control" name="id" value="${quiz.getId()}" readonly/>
@@ -57,12 +58,12 @@ const  a = (e) => {
 					readonly/>
 				<div class="form-group">
 					<label for="quizTag">Quiz Host
-						Status </label> 
-					<input class="form-control" name="quizTag"
-						placeholder="Quiz Host Status" value="${quiz.getQuizTag()}" />
+						Status</label>
+					  <select class="form-control" name="quizTag" id="quizTag" value = "${quiz.getQuizTag()}">
+						<option value = "HOSTED" ${quiz.getQuizTag().equals("HOSTED") ? "selected" : ""}> HOSTED </option>
+						<option value = "NOT HOSTED" ${quiz.getQuizTag().equals("NOT HOSTED") ? "selected" : ""}> NOT HOSTED</option>
+					  </select>
 				</div>
-				
-				
 				<input type="submit" class="btn btn-primary" value="submit" />
 			</form>
 			
@@ -70,7 +71,7 @@ const  a = (e) => {
 		<div class = "col-8">
 			<div class="" style = "margin-top:35px">
 				
-				<table id="table" class="table table-striped table-bordered">
+				<table id="table" class="table table-striped table-bordered table-responsive">
 					<thead>
 						<tr>
 							<th>Select Questions</th>
@@ -110,7 +111,7 @@ const  a = (e) => {
 </body>
 
 
-<script src="webjars/jquery/3.6.0/jquery.min.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#table').DataTable();
