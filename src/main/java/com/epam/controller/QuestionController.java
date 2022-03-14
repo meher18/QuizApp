@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.epam.config.AppContext;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
+import com.epam.exceptions.InValidQuestionDeletion;
+import com.epam.exceptions.InValidQuestionId;
 import com.epam.service.admin.questionservice.QuestionService;
 
 @Controller
@@ -84,6 +86,7 @@ public class QuestionController {
 		{
 			errors.put("mark", "Please provide the mark");
 		}
+		String redirectPage = "redirect:/viewQuestions";
 		
 		if(errors.size() <= 0)
 		{
@@ -92,10 +95,11 @@ public class QuestionController {
 		}
 		else {
 			model.addAttribute("errors", errors);
+			redirectPage = "admin/question/createQuestion";
 		}
 		
 
-		return "admin/question/createQuestion";
+		return redirectPage;
 
 	}
 
@@ -131,11 +135,24 @@ public class QuestionController {
 		
 		int id = Integer.parseInt(questionId);
 		
-		if(questionService.delete(id))
-		{
-				deletionStatus = " Deleted";
+	
+		try {
+			questionService.validateQuestionId(id);
+
+			if(questionService.delete(id))
+			{
+					deletionStatus = " Deleted";
+			}
+		} catch (InValidQuestionId e) {
+			deletionStatus = "Unable to delete, Invalid Question Id";
+			
+			e.printStackTrace();
+		} catch (InValidQuestionDeletion e) {
+			
+			deletionStatus = "Unable to delete, Question is part of some quiz";
+			e.printStackTrace();
 		}
-		
+	
 		model.addAttribute("questions", questionService.getQuestions().values());
 		model.addAttribute("deletionStatus", deletionStatus);
 		return "admin/question/viewQuestions";

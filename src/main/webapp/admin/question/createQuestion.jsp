@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | Create Question</title>
 
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
-<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+	
 </head>
 <body class = "bg-light">
 	<nav class="navbar navbar-dark bg-dark">
@@ -18,6 +18,7 @@
 	  	<div>
 			<nav class="nav nav-pills nav-fill">
 	   	 		<a class=" nav-item nav-link " href="adminDashboard">Home</a>
+	   	 		<a class=" nav-item nav-link " href="questionModule">Question Module</a>
 	   	 		<a class=" nav-item nav-link active" href="createQuestion">Create Question</a>
   				<a class=" nav-item nav-link" href="viewQuestions">View Questions Library</a> 	
   			</nav>
@@ -101,9 +102,10 @@
 		
 		var optionsNum = $(this).val();
 		
-		if(Number(optionsNum) <2 || Number(optionsNum)  > 6)
+		if(Number(optionsNum) < 2 || Number(optionsNum)  > 6)
 		{
 			alert("minmum 2 options, maximum 6 options can be entered");
+			$("#optionsNum").val("2").trigger("input");
 		}else{
 			
 			$("#optionsContainer").empty();
@@ -116,7 +118,8 @@
 				var a = $(document.createElement('input')).prop({
 					type : 'text',
 					className : 'form-control',
-					placeholder : 'Enter option ' + (i + 1)
+					placeholder : 'Enter option ' + (i + 1),
+					required:'true'
 				})
 				a.on("input", function() {
 					options = [];

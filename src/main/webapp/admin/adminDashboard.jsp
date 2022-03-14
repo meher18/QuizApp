@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | Admin</title>
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -28,7 +28,7 @@ ${adminLoginStatus}
 
 <div  class = "container card card-body" style = "margin-top:35px">
 
-<div class="card-columns">
+<div class="card-columns mx-auto">
 		<div class="card">
 			<div class="card-body">
 				<a href="questionModule">Question Module</a>

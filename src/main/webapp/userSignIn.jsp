@@ -15,21 +15,20 @@
 		<a class="navbar-brand" href="/">
 	   	 Quiz App
 	  	</a>
-	  	<div>
-			<nav class="nav nav-pills nav-fill">
-	   	 		<a class=" nav-item nav-link active" href="createQuestion">Create Question</a>
-  				<a class=" nav-item nav-link" href="viewQuestions">View Questions Library</a> 	
+	  	<nav class="nav nav-pills nav-fill">
+	   	 		<a class=" nav-item nav-link active" href="userSignIn">User Sign In</a>
+  				<a class=" nav-item nav-link " href="userSignUp">User Sign Up</a> 	
   			</nav>
-		</div>
 	</nav>
-	<form action = "signInTheUser" class="">
+	<form action = "signInTheUser" class="container card card-body" style = "margin-top:35px">
+	<h4  class = "text-center">User Login</h4>
 	  <div class="form-group">
 	    <label for="userName" class="sr-only">User Name</label>
-	    <input type="text" class="form-control" name = "userName" id="userName" placeholder = "Enter user name">
+	    <input type="text" class="form-control" name = "userName" id="userName" placeholder = "Enter user name" required>
 	  </div>
 	  <div class="form-group ">
 	    <label for="userPassword" class="sr-only">Password</label>
-	    <input type="password" class="form-control" name = "userPassword" id="userPassword" placeholder="Enter password">
+	    <input type="password" class="form-control" name = "userPassword" id="userPassword" placeholder="Enter password" required>
 	  </div>
 	  <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
 	</form>

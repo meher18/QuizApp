@@ -17,7 +17,7 @@ public class UserSignUpService {
         boolean isAlreadyMember = false;
         if (!userLibrary.getAllUsers().isEmpty()) {
             for (User user : userLibrary.getAllUsers()) {
-                if (user.getEmail().equals(newUser.getEmail())) {
+                if (user.getUserName().equals(newUser.getUserName())) {
                     isAlreadyMember = true;
                     break;
                 }

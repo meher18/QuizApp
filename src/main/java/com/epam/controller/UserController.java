@@ -6,10 +6,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.epam.config.AppContext;
+import com.epam.entity.Admin;
 import com.epam.entity.User;
 import com.epam.service.user.UserSignInService;
 import com.epam.service.user.UserSignUpService;
@@ -31,7 +33,7 @@ public class UserController {
 	{
 		
 		
-		String redirect = "userSignIn";
+		String redirect = "redirect:/userSignIn";
 		User user = AppContext.getApplicationContext().getBean(User.class);
 		user.setUserName(userName);
 		user.setUserPassword(userPassword);
@@ -42,7 +44,7 @@ public class UserController {
 			HttpSession userSession = request.getSession();
 			userSession.setAttribute("userName", validUser.getUserName());
 			userSession.setAttribute("userEmail", validUser.getEmail());
-			redirect = "user/userModule";
+			redirect = "redirect:/userModule";
 		}
 		else {
 			model.addAttribute("userLoginStatus", "invalid credentials");
@@ -60,7 +62,7 @@ public class UserController {
 	{
 		
 		
-		String redirect = "userSignUp";
+		String redirect = "redirect:/userSignUp";
 		User newUser = AppContext.getApplicationContext().getBean(User.class);
 		newUser.setUserName(userName);
 		newUser.setEmail(userEmail);
@@ -77,9 +79,18 @@ public class UserController {
 			HttpSession userSession = request.getSession();
 			userSession.setAttribute("userName", newUser.getUserName());
 			userSession.setAttribute("userEmail", newUser.getEmail());
-			redirect = "user/userModule";
+			redirect = "redirect:/userModule";
 		}
-		
 		return redirect;
+	}
+	@GetMapping("/userLogout")
+	public String logoutUser(Admin admin, HttpServletRequest request) {
+
+		HttpSession httpSession = request.getSession();
+		httpSession.removeAttribute("userName");
+		httpSession.removeAttribute("userEmail");
+		
+		return "redirect:/";
+
 	}
 }

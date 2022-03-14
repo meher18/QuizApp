@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | Admin Sign In</title>
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -23,9 +23,10 @@
 	${adminLoginStatus}
 	<div class = "container" style = "margin-top:35px">
 		<form action="signInAdmin" method="get" class = "card card-body">
-			<input type ="text" name = "name" placeholder="Admin user name" class = "form-control" />
+			<h4  class = "text-center">Admin Sign In</h4>
+			<input type ="text" name = "name" placeholder="Admin user name" class = "form-control" required/>
 			<br>
-			<input type ="text" name = "pass" placeholder = "Admin password" class = "form-control"/>
+			<input type ="text" name = "pass" placeholder = "Admin password" class = "form-control" required/>
 			<br>
 			<button type ="submit" class = "btn btn-primary">Submit</button>
 		</form>

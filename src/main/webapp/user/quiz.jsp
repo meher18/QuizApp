@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | Quiz Started</title>
 
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet" />

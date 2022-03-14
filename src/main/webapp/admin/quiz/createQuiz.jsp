@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | Create Quiz</title>
 
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet" />
@@ -40,6 +40,7 @@ const  a = (e) => {
 		  	<div>
 				<nav class="nav nav-pills nav-fill">
 					<a class=" nav-item nav-link " href="adminDashboard">Home</a>
+					<a class=" nav-item nav-link " href="quizModule">Quiz Module</a>
 		   	 		<a class=" nav-item nav-link active" href="createQuiz">Create Quiz</a>
 	  				<a class=" nav-item nav-link" href="viewQuizzes">View Quiz Library</a> 	
 	  			</nav>

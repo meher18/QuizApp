@@ -22,18 +22,26 @@ public class HomeController {
 	public String showUserSignIn(HttpServletRequest request)
 	{
 		HttpSession httpSession = request.getSession();
-		String redirectPage = "user/userSignIn";
+		String redirectPage = "userSignIn";
 		
 		if(httpSession.getAttribute("userName") != null)
 		{
-			redirectPage = "redirect:/userDashboard";
+			redirectPage = "redirect:/userModule";
 		}
 		return redirectPage;
 	}
 	@RequestMapping("/userSignUp")
-	public String showUserSignUp()
+	public String showUserSignUp(HttpServletRequest request)
 	{
-		return "userSignUp";
+		
+		HttpSession httpSession = request.getSession();
+		String redirectPage = "userSignUp";
+		
+		if(httpSession.getAttribute("userName") != null)
+		{
+			redirectPage = "redirect:/userModule";
+		}
+		return redirectPage;
 	}
 	
 	@RequestMapping("/admin")

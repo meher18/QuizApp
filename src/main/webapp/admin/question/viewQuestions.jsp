@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz App | View</title>
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
 	rel="stylesheet">
 	
@@ -29,6 +29,7 @@
 			<nav class="nav nav-pills nav-fill">
 	   	 		<nav class="nav nav-pills nav-fill">
 	   	 		<a class=" nav-item nav-link " href="adminDashboard">Home</a>
+	   	 		<a class=" nav-item nav-link " href="questionModule">Question Module</a>
 	   	 		<a class=" nav-item nav-link" href="createQuestion">Create Question</a>
   				<a class=" nav-item nav-link active" href="viewQuestions">View Questions Library</a> 	
   			</nav>

@@ -17,26 +17,28 @@
 	  	</a>
 	  	<div>
 			<nav class="nav nav-pills nav-fill">
-	   	 		<a class=" nav-item nav-link " href="createQuestion">Create Question</a>
-  				<a class=" nav-item nav-link" href="viewQuestions">View Questions Library</a> 	
+	   	 		<a class=" nav-item nav-link " href="userSignIn">User Sign In</a>
+  				<a class=" nav-item nav-link active" href="userSignUp">User Sign Up</a> 	
   			</nav>
 		</div>
 	</nav>
 	${userSignUpStatus}
-	<form action = "signUpTheUser" class="">
+	<form action = "signUpTheUser" class="container card card-body" style = "margin-top:35px">
+	<h4 class = "text-center">User Registration</h4>
 	  <div class="form-group">
 	    <label for="userName" class="sr-only">User Name</label>
-	    <input type="text" class="form-control" name = "userName" id="userName" placeholder = "Enter user name">
+	    <input type="text" class="form-control" name = "userName" id="userName" placeholder = "Enter user name" required>
 	  </div>
 	  <div class="form-group">
 	    <label for="userEmail" class="sr-only">User Email</label>
-	    <input type="text" class="form-control" name = "userEmail" id="userEmail" placeholder = "Enter user email">
+	    <input type="email" class="form-control" name = "userEmail" id="userEmail" placeholder = "Enter user email" required
+	    pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" >
 	  </div>
 	  <div class="form-group ">
 	    <label for="userPassword" class="sr-only">Password</label>
-	    <input type="password" class="form-control" name = "userPassword" id="userPassword" placeholder="Enter password">
+	    <input type="password" class="form-control" name = "userPassword" id="userPassword" placeholder="Enter password" required>
 	  </div>
-	  <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+	  <button type="submit" class="btn btn-primary mb-2">Register</button>
 	</form>
 </body>
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
