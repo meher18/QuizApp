@@ -179,7 +179,7 @@ public class QuestionController {
 			errors.put("mark", "Please provide the mark");
 		}
 
-		String redirectPage = "admin/question/viewQuestions";
+		String redirectPage = "redirect:/viewQuestions";
 		if (errors.size() <= 0) {
 			updateQuestion(id, title, optionsValue, topicTag, difficulty, answer, mark);
 			model.addAttribute("questions", questionService.getQuestions().values());

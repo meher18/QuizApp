@@ -132,8 +132,8 @@ public class QuestionControllerTest {
 				.param("difficulty", difficulty)
 				.param("answer", answer)
 				.param("mark", mark))
-		.andExpect(view().name("admin/question/viewQuestions"))
-		.andExpect(status().isOk());
+		.andExpect(view().name("redirect:/viewQuestions"))
+		.andExpect(status().is3xxRedirection());
 		
 	}
 	

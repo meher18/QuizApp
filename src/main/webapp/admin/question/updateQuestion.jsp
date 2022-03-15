@@ -105,22 +105,27 @@
 
 <script>
 numberOfOptions = 0;
+optionsArray = []
+
 $(document).ready(function(){
+	
 	for (var i = 0; i < Number(${question.getOptions().size()}); i++) {
 
 		options = "";
+		optionsArray = [];
 		$("#optionsContainer").children().each(function() {
 
-			if($(this).children("input").val() != "")
-				{
-				options += ($(this).children("input").val()) + ":";
+			if($(this).children("input").val() != ""){
+				//options += ($(this).children("input").val()) + ":";
+				optionsArray.push($(this).children("input").val())
 			}
 		})
-		$("#optionsVal").val(options);
+		
+		$("#optionsVal").val(optionsArray.join(":"));
+		//$("#optionsVal").val(options);
 		numberOfOptions++;
 		}
 	
-
 	$("#answer").attr("max", numberOfOptions);
 })
 
@@ -129,64 +134,83 @@ $(document).ready(function(){
 $("#addNewOption").on("click", function(){
 
 			
-			var numberOfOptions = $("#optionsContainer").children().length;
-			
-			var div = $(document.createElement('div'));
-			div.html("Option "+(numberOfOptions+1));
-			
-			var optionInput = $(document.createElement('input')).prop({
-				type : 'text',
-				className : 'form-control',
-				placeholder : 'option ' + (numberOfOptions + 1),
-				//value: "${question.getOptions().get(i).optionTitle}"
-			})
+		var numberOfOptions = $("#optionsContainer").children().length;
 		
-			optionInput.on("input", bb)
-			div.append(optionInput);
-			$("#optionsContainer").append(div);
-			
-			
-			$("#answer").val("");
-			numberOfOptions++;
-			$("#answer").attr("max", numberOfOptions );
+		if(numberOfOptions >= 6)
+		{
+			alert("Not more than 6 options are allowed");
+			return;
+		}
+		var div = $(document.createElement('div'));
+		div.html("Option "+(numberOfOptions+1));
+		
+		var optionInput = $(document.createElement('input')).prop({
+			type : 'text',
+			className : 'form-control',
+			placeholder : 'option ' + (numberOfOptions + 1),
+			//value: "${question.getOptions().get(i).optionTitle}"
+		})
+	
+		optionInput.on("input", bb)
+		div.append(optionInput);
+		$("#optionsContainer").append(div);
+		
+		
+		$("#answer").val("");
+		numberOfOptions++;
+		$("#answer").attr("max", numberOfOptions );
 })
 
 function bb() {
 	options = "";
+	optionsArray = [];
 	$("#optionsContainer").children().each(function() {
 
 		if($(this).children("input").val() != "")
 		{
 			if($(this).children("input").val() != ""){
-				options += ($(this).children("input").val()) + ":";
+				//options += ($(this).children("input").val()) + ":";
+				optionsArray.push($(this).children("input").val());
 			}
 		}
 	})
-	$("#optionsVal").val(options);
+	$("#optionsVal").val(optionsArray.join(":"));
+	//$("#optionsVal").val(options);
 }
 
 
 $("#removeOption").on("click", function(){
 	// console.log("remove option");
+	
+	var optionsCount = $("#optionsContainer").children().length;
+		
+	if(optionsCount <= 2)
+	{
+			alert("Cannot remove, minimum 2 options are required");
+			return;
+	}
 	$("#optionsContainer").children().last().remove();
 		
  	var currentVal = $("#optionsVal").val();
 
  	options = "";
+ 	optionsArray = [];
 	$("#optionsContainer").children().each(function() {
 
 		if($(this).children("input").val() != "")
 			{
-				options += ($(this).children("input").val()) + ":";
+				//options += ($(this).children("input").val()) + ":";
+				
+				optionsArray.push($(this).children("input").val());
 			}
 	})
 	
-	$("#optionsVal").val(options);
+	$("#optionsVal").val(optionsArray.join(":"));
 	
 	$("#answer").val("");
-	numberOfOptions--;
-	if(numberOfOptions >= 0){
-	$("#answer").attr("max", numberOfOptions );
+	optionsCount--;
+	if(optionsCount >= 0){
+	$("#answer").attr("max", optionsCount );
 	}	
 })
 
