@@ -66,7 +66,7 @@
 							   Options
 							  </button>
 							  <div class="dropdown-menu card-body" aria-labelledby="dropdownMenuButton">
-							  <c:set var="optionCount" value="1"></c:set>
+							 	<c:set var="optionCount" value="1"></c:set>
 							    <c:forEach items="${question.getOptions()}" var="option">
 									${optionCount}. <a href="#">${option.getOptionTitle()}</a>
 									<br>

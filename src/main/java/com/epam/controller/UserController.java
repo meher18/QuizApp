@@ -34,7 +34,7 @@ public class UserController {
 		
 		
 		String redirect = "redirect:/userSignIn";
-		User user = AppContext.getApplicationContext().getBean(User.class);
+		User user = new User();
 		user.setUserName(userName);
 		user.setUserPassword(userPassword);
 		User validUser = signInService.validate(user);
@@ -63,7 +63,7 @@ public class UserController {
 		
 		
 		String redirect = "redirect:/userSignUp";
-		User newUser = AppContext.getApplicationContext().getBean(User.class);
+		User newUser = new User();
 		newUser.setUserName(userName);
 		newUser.setEmail(userEmail);
 		newUser.setUserPassword(userPassword);

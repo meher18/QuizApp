@@ -39,6 +39,7 @@
 					<th>Quiz Id</th>
 					<th>Quiz Name</th>
 					<th>Questions</th>
+					<th>Total Marks</th>
 					<th>Quiz Status</th>
 					<th>Host Quiz</th>
 					<th>Update Quiz</th>
@@ -58,6 +59,7 @@
 									<li><a href="#">${question.getQuestionTitle()}</a></li>
 								</c:forEach>
 							</ul></td>
+						<td>${quiz.getTotalMarks()}</td>
 						<td>${quiz.getQuizTag()}</td>
 						<td><a href="hostTheQuiz?id=${quiz.getId()}">HOST QUIZ</a></td>
 						<td><a href="updateQuiz?id=${quiz.getId()}">Update</a></td>

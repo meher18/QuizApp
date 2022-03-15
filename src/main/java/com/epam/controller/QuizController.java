@@ -89,7 +89,7 @@ public class QuizController {
 		String redirectPage = "admin/quiz/createQuiz";
 
 		if (errors.size() <= 0) {
-			Quiz quiz = AppContext.getApplicationContext().getBean(Quiz.class);
+			Quiz quiz = new Quiz();
 			quiz.setQuizName(quizName);
 
 			String[] questionIds = questionId.split(",");
@@ -100,7 +100,7 @@ public class QuizController {
 			model.addAttribute("quizUpdationStatus", "UPDATED");
 			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 			quizService.saveQuiz(quiz);
-			redirectPage = "admin/quiz/viewQuizzes";
+			redirectPage = "redirect:/viewQuizzes";
 		} else {
 			model.addAttribute("questions", questionService.getQuestions().values());
 			model.addAttribute("errors", errors);
@@ -132,6 +132,7 @@ public class QuizController {
 			quiz.setQuizName(quizName);
 			String[] questionIds = questionId.split(",");
 			quiz.getQuestions().clear();
+			quiz.setTotalMarks(0);
 			Stream.of(questionIds).forEach(id -> {
 				quizService.selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
 			});
@@ -142,7 +143,7 @@ public class QuizController {
 
 			model.addAttribute("quizUpdationStatus", "UPDATED");
 			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-			redirectPage = "admin/quiz/viewQuizzes";
+			redirectPage = "redirect:/viewQuizzes";
 		}
 		
 		return redirectPage;

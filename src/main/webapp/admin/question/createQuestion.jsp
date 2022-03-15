@@ -73,8 +73,8 @@
 					</div>
 					<div class="form-group">
 						<label class="input-group-addon" for="answer">Question Answer</label>
-						<input type="number" class="form-control" name="answer"
-							placeholder="answer" min="1" max="options.val" required />
+						<input type="number" class="form-control" name="answer" id="answer"
+							placeholder="answer" min="1" max="" required />
 							<small class=" text-danger">${errors.get("answer")}</small>
 					</div>
 					<div class="form-group">
@@ -94,6 +94,7 @@
 <script>
 	$("#optionsNum").on("input", function(e) {
 	
+		
 		options = []
 		// if the number of options changed then
 		// set the options val to empty
@@ -102,6 +103,7 @@
 		
 		var optionsNum = $(this).val();
 		
+		$("#answer").attr("max", optionsNum);
 		if(Number(optionsNum) < 2 || Number(optionsNum)  > 6)
 		{
 			alert("minmum 2 options, maximum 6 options can be entered");

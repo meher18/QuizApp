@@ -86,7 +86,7 @@
 				</div>
 				<div class="form-group">
 					<label class="input-group-addon" for="answer">Question Answer</label>
-					<input type="number" class="form-control" name="answer"
+					<input type="number" class="form-control" name="answer" id="answer"
 						placeholder="answer" min="1" max="options.val"
 						value="${question.answer}" />
 					<small class=" text-danger">${errors.get("answer")}</small>
@@ -104,7 +104,7 @@
 </body>
 
 <script>
-
+numberOfOptions = 0;
 $(document).ready(function(){
 	for (var i = 0; i < Number(${question.getOptions().size()}); i++) {
 
@@ -117,14 +117,18 @@ $(document).ready(function(){
 			}
 		})
 		$("#optionsVal").val(options);
-
+		numberOfOptions++;
 		}
+	
+
+	$("#answer").attr("max", numberOfOptions);
 })
 
 
 
 $("#addNewOption").on("click", function(){
 
+			
 			var numberOfOptions = $("#optionsContainer").children().length;
 			
 			var div = $(document.createElement('div'));
@@ -140,6 +144,11 @@ $("#addNewOption").on("click", function(){
 			optionInput.on("input", bb)
 			div.append(optionInput);
 			$("#optionsContainer").append(div);
+			
+			
+			$("#answer").val("");
+			numberOfOptions++;
+			$("#answer").attr("max", numberOfOptions );
 })
 
 function bb() {
@@ -171,7 +180,14 @@ $("#removeOption").on("click", function(){
 				options += ($(this).children("input").val()) + ":";
 			}
 	})
+	
 	$("#optionsVal").val(options);
+	
+	$("#answer").val("");
+	numberOfOptions--;
+	if(numberOfOptions >= 0){
+	$("#answer").attr("max", numberOfOptions );
+	}	
 })
 
 

@@ -1,5 +1,6 @@
 package com.epam.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,7 @@ public class Question {
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true )
 	@Autowired
 	@Qualifier("questionOptions")
-	public List<QuestionOption> questionOptions;
+	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	public String questionTitle;
 	public int mark = 0;
