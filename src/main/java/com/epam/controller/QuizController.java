@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.config.AppContext;
 import com.epam.entity.Quiz;
 import com.epam.service.admin.questionservice.QuestionService;
 import com.epam.service.admin.quizservice.QuizService;

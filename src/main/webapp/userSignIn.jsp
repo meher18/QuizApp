@@ -32,6 +32,9 @@
 	  </div>
 	  <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
 	</form>
+	
+	
+	
 </body>
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
 </html>

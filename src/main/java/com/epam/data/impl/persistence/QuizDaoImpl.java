@@ -1,4 +1,4 @@
-package com.epam.data.repository.impl;
+package com.epam.data.impl.persistence;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,18 +6,13 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
-import com.epam.data.repository.QuizDao;
+import com.epam.data.dao.QuizDao;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
 
-@Component
-@Primary
 public class QuizDaoImpl implements QuizDao {
 
-	@Autowired
 	EntityManager entityManager;
 
 	public Quiz getQuiz(int quizId) {

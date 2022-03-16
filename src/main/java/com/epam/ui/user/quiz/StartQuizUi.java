@@ -1,12 +1,12 @@
 package com.epam.ui.user.quiz;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.epam.entity.Question;
@@ -18,9 +18,8 @@ public class StartQuizUi {
 
 	public static final Logger LOGGER = LogManager.getLogger(StartQuizUi.class);
 
-	@Autowired
-	@Qualifier("questionAnswers")
-	List<QuestionAnswer> answers;
+
+	List<QuestionAnswer> answers = new ArrayList<>();
 	
 	@Autowired
 	QuestionAnswer userAnswer;

@@ -62,7 +62,8 @@ const  a = (e) => {
 				
 				<br>
 				<input
-					type="submit" value="submit" />
+				class="btn btn-primary"
+					type="submit" value="Create Quiz" />
 			</form>
 			
 			
@@ -108,6 +109,8 @@ const  a = (e) => {
 	</div> <!--  end of col-->
 
 </div> <!--  end of row   -->
+
+
 </body>
 
 

@@ -35,8 +35,6 @@ public class Quiz {
 
     //  maybe it should be removed
     @ManyToMany
-    @Autowired
-    @Qualifier("questions")
     Map<Integer, Question> questions = new HashMap<>();
 
     private int totalMarks = 0;

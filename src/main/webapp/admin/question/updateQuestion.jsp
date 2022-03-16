@@ -97,11 +97,15 @@
 						value="${question.mark}" />
 					<small class=" text-danger">${errors.get("mark")}</small>
 				</div>
-				<input type="submit" class="btn btn-primary" value="submit" />
+				<input type="submit" class="btn btn-primary" value="Update Question" />
 		</div>
 	</div>
 	</form>
+	
+	
 </body>
+
+
 
 <script>
 numberOfOptions = 0;
@@ -128,8 +132,6 @@ $(document).ready(function(){
 	
 	$("#answer").attr("max", numberOfOptions);
 })
-
-
 
 $("#addNewOption").on("click", function(){
 

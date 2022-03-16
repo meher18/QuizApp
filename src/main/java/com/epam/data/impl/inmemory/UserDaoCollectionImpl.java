@@ -1,19 +1,18 @@
-package com.epam.data.repository.inmemory;
+package com.epam.data.impl.inmemory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.repository.UserDao;
+import com.epam.data.dao.UserDao;
 import com.epam.entity.User;
 
 @Component
 public class UserDaoCollectionImpl implements UserDao {
 
-    @Autowired
-    List<User> users;
+    
+    List<User> users = new ArrayList<>();
 
     public UserDaoCollectionImpl() {
         users = new ArrayList<>();

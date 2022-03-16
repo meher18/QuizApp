@@ -1,7 +1,6 @@
 package com.epam.controller;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,9 +21,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.epam.data.library.QuestionsLibrary;
 import com.epam.entity.Question;
 import com.epam.service.admin.questionservice.QuestionService;
+import com.epam.service.libraryservice.QuestionsLibraryService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(QuestionController.class)
@@ -37,7 +36,7 @@ public class QuestionControllerTest {
 	private QuestionService questionService;
 	
 	@MockBean
-	private QuestionsLibrary library;
+	private QuestionsLibraryService library;
 
 	Map<Integer, Question> questions = new HashMap<>();
 	Question q1 = new Question();
@@ -111,6 +110,29 @@ public class QuestionControllerTest {
 		
 	}
 	
+	
+	@Test
+	void addQuestionTestForErrors() throws Exception{
+		title = "";
+		options = "";
+		optionsVal = "";
+		topic = "";
+		difficulty = "";
+		answer = "";
+		mark = "";
+		
+		mockMvc.perform(get("/addQuestion")
+				.param("title", title)
+				.param("options", options)
+				.param("optionsVal", optionsVal)
+				.param("topic", topic)
+				.param("difficulty", difficulty)
+				.param("answer", answer)
+				.param("mark", mark))
+		.andExpect(view().name("admin/question/createQuestion"))
+		.andExpect(status().isOk());
+		
+	}
 	
 
 	@Test

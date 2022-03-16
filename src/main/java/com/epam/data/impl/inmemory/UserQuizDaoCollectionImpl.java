@@ -1,12 +1,13 @@
-package com.epam.data.repository.inmemory;
+package com.epam.data.impl.inmemory;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.repository.UserQuizDao;
+import com.epam.data.dao.UserQuizDao;
 import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
 
@@ -14,8 +15,7 @@ import com.epam.entity.UserQuiz;
 @Component
 public class UserQuizDaoCollectionImpl implements UserQuizDao {
 
-    @Autowired
-    Map<User, UserQuiz> userQuizMap ;
+    Map<User, UserQuiz> userQuizMap = new HashMap<User, UserQuiz>();
 
     @Override
     public Map<User, UserQuiz> getAllUserQuizzes() {

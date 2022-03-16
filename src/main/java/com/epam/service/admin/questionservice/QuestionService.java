@@ -7,10 +7,10 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.library.QuestionsLibrary;
 import com.epam.entity.Question;
 import com.epam.exceptions.InValidQuestionDeletion;
 import com.epam.exceptions.InValidQuestionId;
+import com.epam.service.libraryservice.QuestionsLibraryService;
 import com.epam.util.Constants;
 
 @Component
@@ -18,7 +18,7 @@ import com.epam.util.Constants;
 public class QuestionService {
 
     @Autowired
-    QuestionsLibrary questionsLibrary;
+    QuestionsLibraryService questionsLibrary;
 
     Map<Integer, Question> questions;
 

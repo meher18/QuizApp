@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.epam")
-public class GlobalConfig {
+public class Config {
+
 
     @Bean("scanner")
     public Scanner getScanner()

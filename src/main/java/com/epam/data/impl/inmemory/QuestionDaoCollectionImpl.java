@@ -1,19 +1,19 @@
-package com.epam.data.repository.inmemory;
+package com.epam.data.impl.inmemory;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.repository.QuestionDao;
+import com.epam.data.dao.QuestionDao;
 import com.epam.entity.Question;
 
 
 @Component
 public class QuestionDaoCollectionImpl implements QuestionDao {
 
-    @Autowired
-    Map<Integer, Question> questionMap;
+    
+    Map<Integer, Question> questionMap = new HashMap<Integer, Question>();
 
     @Override
     public Question getQuestion(int questionId) {

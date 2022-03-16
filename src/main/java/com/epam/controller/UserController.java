@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.config.AppContext;
 import com.epam.entity.Admin;
 import com.epam.entity.User;
 import com.epam.service.user.UserSignInService;
@@ -84,7 +83,7 @@ public class UserController {
 		return redirect;
 	}
 	@GetMapping("/userLogout")
-	public String logoutUser(Admin admin, HttpServletRequest request) {
+	public String logoutUser(HttpServletRequest request) {
 
 		HttpSession httpSession = request.getSession();
 		httpSession.removeAttribute("userName");

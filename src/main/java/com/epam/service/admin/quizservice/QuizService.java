@@ -5,21 +5,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.library.QuestionsLibrary;
-import com.epam.data.library.QuizLibrary;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
 import com.epam.exceptions.InValidQuizId;
+import com.epam.service.libraryservice.QuestionsLibraryService;
+import com.epam.service.libraryservice.QuizLibraryService;
 import com.epam.util.Constants;
 
 @Component
 public class QuizService {
 
 	@Autowired
-	QuizLibrary quizLibrary;
+	QuizLibraryService quizLibrary;
 
 	@Autowired
-	QuestionsLibrary questionsLibrary;
+	QuestionsLibraryService questionsLibrary;
 
 	public Map<Integer, Quiz> getAllQuizzes() {
 

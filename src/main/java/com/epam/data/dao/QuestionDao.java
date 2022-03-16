@@ -1,10 +1,10 @@
-package com.epam.data.repository;
+package com.epam.data.dao;
 
 import java.util.Map;
 
 import com.epam.entity.Question;
 
-public interface QuestionDao {
+public interface QuestionDao{
 
     Question getQuestion(int questionId);
 

@@ -1,4 +1,4 @@
-package com.epam.data.repository.impl;
+package com.epam.data.impl.persistence;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,25 +9,18 @@ import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
 import com.epam.config.AppContext;
-import com.epam.data.repository.QuestionDao;
-import com.epam.data.repository.QuizDao;
+import com.epam.data.dao.QuestionDao;
+import com.epam.data.dao.QuizDao;
 import com.epam.entity.Question;
 
-@Component
-@Primary
-@Qualifier("questionDaoImpl")
 public class QuestionsDaoImpl implements QuestionDao {
 
-	@Autowired
+	
 	EntityManager entityManager;
 
-	@Autowired
-	@Qualifier("questions")
-	Map<Integer, Question> questionMap;
+	Map<Integer, Question> questionMap = new HashMap<Integer, Question>();
 
 	public Question getQuestion(int questionId) {
 		entityManager.getTransaction().begin();

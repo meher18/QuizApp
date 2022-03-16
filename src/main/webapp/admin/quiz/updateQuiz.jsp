@@ -65,7 +65,7 @@ const  a = (e) => {
 						<option value = "NOT HOSTED" ${quiz.getQuizTag().equals("NOT HOSTED") ? "selected" : ""}> NOT HOSTED</option>
 					  </select>
 				</div>
-				<input type="submit" class="btn btn-primary" value="submit" />
+				<input type="submit" class="btn btn-primary" value="Update Quiz" />
 			</form>
 			
 		</div>
@@ -109,6 +109,10 @@ const  a = (e) => {
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
 </body>
 
 

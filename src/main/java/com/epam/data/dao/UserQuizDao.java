@@ -1,4 +1,4 @@
-package com.epam.data.repository;
+package com.epam.data.dao;
 
 import java.util.Map;
 

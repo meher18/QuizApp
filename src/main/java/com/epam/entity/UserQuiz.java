@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.epam.config.AppContext;
-import com.epam.data.library.QuizLibrary;
+import com.epam.service.libraryservice.QuizLibraryService;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -28,7 +28,7 @@ public class UserQuiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int quizId;
+    private int id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
@@ -45,15 +45,15 @@ public class UserQuiz {
 
 
     public void setQuizById(int idOfQuiz) {
-        this.quiz = AppContext.getApplicationContext().getBean(QuizLibrary.class).getQuizzes().get(idOfQuiz);
+        this.quiz = AppContext.getApplicationContext().getBean(QuizLibraryService.class).getQuizzes().get(idOfQuiz);
     }
 
     public int getQuizId() {
-        return quizId;
+        return id;
     }
 
     public void setQuizId(int quizId) {
-        this.quizId = quizId;
+        this.id = quizId;
     }
 
     public User getUser() {

@@ -27,8 +27,7 @@ public class Question {
 	public int id;
 
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true )
-	@Autowired
-	@Qualifier("questionOptions")
+	
 	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	public String questionTitle;

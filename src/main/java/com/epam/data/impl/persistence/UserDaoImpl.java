@@ -1,21 +1,17 @@
-package com.epam.data.repository.impl;
+package com.epam.data.impl.persistence;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
-import com.epam.data.repository.UserDao;
+import com.epam.data.dao.UserDao;
 import com.epam.entity.User;
 
-@Component
-@Primary
 public class UserDaoImpl implements UserDao {
 
-    @Autowired
+    
     EntityManager entityManager;
 
     @Override

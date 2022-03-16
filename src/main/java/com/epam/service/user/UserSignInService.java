@@ -3,14 +3,14 @@ package com.epam.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.data.library.UserLibrary;
 import com.epam.entity.User;
+import com.epam.service.libraryservice.UserLibraryService;
 
 @Component
 public class UserSignInService {
 
     @Autowired
-    UserLibrary userLibrary;
+    UserLibraryService userLibrary;
     
     
     public User validate( User currentUser) {

@@ -46,6 +46,10 @@
 			</div>
 		</div>
 	</div>
+	
+	<footer class = "footer fixed-bottom bg-dark text-white text-center" style="padding:5px">
+		<p>Copyright © Meher Sai Ram</p>
+	</footer>
 
 </body>
 </html>
