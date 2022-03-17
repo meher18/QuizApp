@@ -46,68 +46,68 @@ const  a = (e) => {
 	  			</nav>
 			</div>
 	</nav>
-	<div class = "row container-fluid">
-		<div class = "col-4">
-			
-			<form action="createTheQuiz" style="margin-top:35px" class = "card card-body">
-				<label for="quizName"><h5>Enter A Quiz Title</h5></label>
-				<input type="text" name="quizName" class="form-control" />
-						<small class=" text-danger">${errors.get("quizName")}</small>
+	<div class = "container-fluid" style="margin-top:35px">
+		<form action="createTheQuiz"  class = "row">
+			<div class = "col-4 card-body">
 				
-				<br>
-				<!-- check question id -->
-				<h4 class = "alert alert-info">Select the Questions from the Table (click on the checkbox on first column of each row)</h4>
-				<input type="text" id="questionId" class ="form-control" name="questionId" value="" readonly /> 
-				<small class=" text-danger">${errors.get("questionId")}</small>
+				<div class = "input-container card card-body">
+					<label for="quizName"><h5>Enter A Quiz Title</h5></label>
+					<input type="text" name="quizName" class="form-control" />
+							<small class=" text-danger">${errors.get("quizName")}</small>
+					
+					<br>
+					<!-- check question id -->
+					<h4 class = "alert alert-info">Select the Questions from the Table (click on the checkbox on first column of each row)</h4>
+					<input type="text" id="questionId" class ="form-control" name="questionId" value="" readonly /> 
+						<small class=" text-danger">${errors.get("questionId")}</small>
+					<br>
+					<input
+					class="btn btn-primary"
+						type="submit" value="Create Quiz" />
 				
-				<br>
-				<input
-				class="btn btn-primary"
-					type="submit" value="Create Quiz" />
-			</form>
+				</div>
+			</div>
 			
+			<div class = "col-8">		
+			<div class="" style="margin-top:35px">
 			
-		</div>
-		<div class = "col-8">		
-		<div class="" style="margin-top:35px">
-		
-			<table id="table" class="table table-striped table-bordered table-responsive">
-				<thead>
-					<tr>
-						<th>Select Questions</th>
-						<th>Question Id</th>
-						<th>Question Title</th>
-						<th>Question Options</th>
-						<th>Question Answer</th>
-						<th>Question Topic Tag</th>
-						<th>Question Difficulty</th>
-						<th>Question Mark</th>
-					</tr>
-				</thead>
-				<tbody>
-	
-					<c:forEach var="question" items="${questions}">
+				<table id="table" class="table table-striped table-bordered table-responsive">
+					<thead class = "thead-dark">
 						<tr>
-							<td><input type="checkbox" id="selectedId" onclick="a(this)"
-								name="selectedId" value="${question.id}"></td>
-							<td>${question.id}</td>
-							<td>${question.questionTitle}</td>
-							<td><ul>
-									<c:forEach items="${question.getOptions()}" var="option">
-										<li><a href="#">${option.getOptionTitle()}</a></li>
-									</c:forEach>
-								</ul></td>
-							<td>${question.answer}</td>
-							<td>${question.topicTag}</td>
-							<td>${question.difficultyTag}</td>
-							<td>${question.mark}</td>
+							<th>Select Questions</th>
+							<th>Question Id</th>
+							<th>Question Title</th>
+							<th>Question Options</th>
+							<th>Question Answer</th>
+							<th>Question Topic Tag</th>
+							<th>Question Difficulty</th>
+							<th>Question Mark</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-	</div> <!--  end of col-->
-
+					</thead>
+					<tbody>
+		
+						<c:forEach var="question" items="${questions}">
+							<tr>
+								<td><input type="checkbox" id="questionIds" onclick="a(this)"
+									name="questionIds" value="${question.id}"></td>
+								<td>${question.id}</td>
+								<td>${question.questionTitle}</td>
+								<td><ul>
+										<c:forEach items="${question.getOptions()}" var="option">
+											<li>${option.getOptionTitle()}</li>
+										</c:forEach>
+									</ul></td>
+								<td>${question.answer}</td>
+								<td>${question.topicTag}</td>
+								<td>${question.difficultyTag}</td>
+								<td>${question.mark}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div> <!--  end of col-->
+	</form>
 </div> <!--  end of row   -->
 
 

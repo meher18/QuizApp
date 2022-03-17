@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,7 +25,6 @@ public class Question {
 	public int id;
 
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true )
-	
 	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	public String questionTitle;
@@ -104,5 +101,14 @@ public class Question {
 		}
 		this.questionOptions = options;
 	}
+
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", questionOptions=" + questionOptions + ", questionTitle=" + questionTitle
+				+ ", mark=" + mark + ", answer=" + answer + ", topicTag=" + topicTag + ", difficultyTag="
+				+ difficultyTag + "]";
+	}
+	
+	
 
 }

@@ -41,7 +41,7 @@
 	<h2 class="text-center">Below are the questions</h2>
 		<table id="table" class="table table-striped table-bordered table-responsive" >
 			${deletionStatus}
-			<thead>
+			<thead class = "thead-dark">
 				<tr>
 					<th>Question Id</th>
 					<th>Question Title</th>
@@ -61,26 +61,21 @@
 						<td>${question.id}</td>
 						<td>${question.questionTitle}</td>
 						<td>
-						<div class="dropup">
-							  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<div class="dropright">
+							  <button class="btn btn-light dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							   Options
 							  </button>
 							  <div class="dropdown-menu card-body" aria-labelledby="dropdownMenuButton">
 							 	<c:set var="optionCount" value="1"></c:set>
 							    <c:forEach items="${question.getOptions()}" var="option">
-									${optionCount}. <a href="#">${option.getOptionTitle()}</a>
+									${optionCount}. ${option.getOptionTitle()}
 									<br>
 								<c:set var="optionCount" value="${optionCount+1}"></c:set>
 								</c:forEach>
 							  </div>
 							</div>
 						</td>
-						<%-- <td><ul>
-								<c:forEach items="${question.getOptions()}" var="option">
-									<li><a href="#">${option.getOptionTitle()}</a></li>
-								</c:forEach>
-							</ul>
-						</td> --%>
+						
 						<td>${question.answer}</td>
 						<td>${question.topicTag}</td>
 						<td>${question.difficultyTag}</td>

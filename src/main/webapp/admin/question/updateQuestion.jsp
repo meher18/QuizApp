@@ -30,8 +30,8 @@
 	
 			<div class="form-group">
 			
-				<label class="input-group-addon" for="title">Enter Question
-					Title</label> <input class="form-control" name="title"
+				<label class="input-group-addon" for="questionTitle">Enter Question
+					Title</label> <input class="form-control" name="questionTitle"
 					placeholder="Question title" value="${question.questionTitle}" />
 					<small class=" text-danger">${errors.get("title")}</small>
 			</div>
@@ -50,51 +50,52 @@
 						<c:forEach items="${question.getOptions()}" var="option">
 							<div>
 								Option ${optionCount}
+								<input oninput="showOptions()" name = "questionOptions" class = "form-control" value="${option.getOptionTitle()}" required>
 								<c:set var="optionCount" value="${optionCount+1}">
 								</c:set>
-								<input oninput="bb()" class = "form-control" value="${option.getOptionTitle()}">
 							</div>
+							<small class=" text-danger">${errors.get("options")}</small>
 						</c:forEach>
 					</div>
 				</div>
-				<div class="form-group">
+				<%-- <div class="form-group">
 					<input name="optionsVal" class="form-control" value=""
 						id="optionsVal" readonly>
 					<small class=" text-danger">${errors.get("optionsVal")}</small>
-				</div>
+				</div> --%>
 		</div>
 		
 		<div class = "col">
 				<input class="form-control" name="id" value="${question.getId()}" readonly />	
 				<div class="form-group">
-					<label class="input-group-addon" for="topic">Question Topic
-						Tag</label> <input class="form-control" name="topic" placeholder="topic tag"
-						value="${question.topicTag}" />
+					<label class="input-group-addon" for="topicTag">Question Topic
+						Tag</label> <input class="form-control" name="topicTag" placeholder="topic tag"
+						value="${question.topicTag}" required />
 						<small class=" text-danger">${errors.get("topic")}</small>
 				</div>
 				<div class="form-group">
-						<label class="input-group-addon" for="difficulty">Question
+						<label class="input-group-addon" for="difficultyTag">Question
 							Difficulty</label> 
-						  <select class="form-control" name="difficulty" id="difficulty" value="${question.difficultyTag}">
-							<option value ="EASY">EASY</option>
-							<option value = "MEDIUM">MEDIUM</option>
-							<option value = "HARD">HARD</option>
+						  <select class="form-control" name="difficultyTag" id="difficultyTag" required>
+							<option value ="EASY" ${question.difficultyTag.equals("EASY") ? "selected" : ""}>EASY</option>
+							<option value = "MEDIUM" ${question.difficultyTag.equals("MEDIUM") ? "selected" : ""}>MEDIUM</option>
+							<option value = "HARD" ${question.difficultyTag.equals("HARD") ? "selected" : ""}>HARD</option>
 						  </select>
-					<!-- <input class="form-control" name="difficulty"
-						 placeholder="difficulty" /> -->
 						<small class=" text-danger">${errors.get("difficulty")}</small>
 				</div>
 				<div class="form-group">
 					<label class="input-group-addon" for="answer">Question Answer</label>
 					<input type="number" class="form-control" name="answer" id="answer"
 						placeholder="answer" min="1" max="options.val"
-						value="${question.answer}" />
+						value="${question.answer}" required />
 					<small class=" text-danger">${errors.get("answer")}</small>
 				</div>
 				<div class="form-group">
-					<label class="input-group-addon" for="mark">Question Mark</label> <input
+					<label class="input-group-addon" for="mark">Question Mark</label> 
+					<input
+						type = "number"
 						class="form-control" name="mark" placeholder="mark" min="1" max="30"
-						value="${question.mark}" />
+						value="${question.mark}"  required/>
 					<small class=" text-danger">${errors.get("mark")}</small>
 				</div>
 				<input type="submit" class="btn btn-primary" value="Update Question" />
@@ -108,63 +109,48 @@
 
 
 <script>
-numberOfOptions = 0;
-optionsArray = []
+//optionsArray = []
 
 $(document).ready(function(){
-	
-	for (var i = 0; i < Number(${question.getOptions().size()}); i++) {
 
-		options = "";
-		optionsArray = [];
-		$("#optionsContainer").children().each(function() {
-
-			if($(this).children("input").val() != ""){
-				//options += ($(this).children("input").val()) + ":";
-				optionsArray.push($(this).children("input").val())
-			}
-		})
-		
-		$("#optionsVal").val(optionsArray.join(":"));
-		//$("#optionsVal").val(options);
-		numberOfOptions++;
-		}
-	
-	$("#answer").attr("max", numberOfOptions);
+	$("#answer").attr("max", ${question.getOptions().size()});
 })
 
 $("#addNewOption").on("click", function(){
 
-			
-		var numberOfOptions = $("#optionsContainer").children().length;
+		numberOfOptions = $("#optionsContainer").children("div").length;
 		
+		console.log(numberOfOptions);
 		if(numberOfOptions >= 6)
 		{
 			alert("Not more than 6 options are allowed");
-			return;
-		}
-		var div = $(document.createElement('div'));
-		div.html("Option "+(numberOfOptions+1));
+			
+		}else{
+			var div = $(document.createElement('div'));
+			div.html("Option "+(numberOfOptions+1));
+			
+			var optionInput = $(document.createElement('input')).prop({
+				type : 'text',
+				className : 'form-control',
+				placeholder : 'option ' + (numberOfOptions + 1),
+				name : 'questionOptions',
+				required : 'true'
+				//value: "${question.getOptions().get(i).optionTitle}"
+			})
 		
-		var optionInput = $(document.createElement('input')).prop({
-			type : 'text',
-			className : 'form-control',
-			placeholder : 'option ' + (numberOfOptions + 1),
-			//value: "${question.getOptions().get(i).optionTitle}"
-		})
-	
-		optionInput.on("input", bb)
-		div.append(optionInput);
-		$("#optionsContainer").append(div);
-		
-		
-		$("#answer").val("");
-		numberOfOptions++;
-		$("#answer").attr("max", numberOfOptions );
+			optionInput.on("input", showOptions())
+			div.append(optionInput);
+			$("#optionsContainer").append(div);
+			
+			
+			$("#answer").val("");
+			numberOfOptions++;
+			$("#answer").attr("max", numberOfOptions );
+	}
 })
 
-function bb() {
-	options = "";
+function showOptions() {
+	/* options = "";
 	optionsArray = [];
 	$("#optionsContainer").children().each(function() {
 
@@ -176,44 +162,29 @@ function bb() {
 			}
 		}
 	})
-	$("#optionsVal").val(optionsArray.join(":"));
+	$("#optionsVal").val(optionsArray.join(":")); */
 	//$("#optionsVal").val(options);
 }
 
 
 $("#removeOption").on("click", function(){
-	// console.log("remove option");
 	
-	var optionsCount = $("#optionsContainer").children().length;
+	var optionsCount = $("#optionsContainer").children("div").length;
 		
 	if(optionsCount <= 2)
 	{
-			alert("Cannot remove, minimum 2 options are required");
-			return;
-	}
-	$("#optionsContainer").children().last().remove();
+		alert("Cannot remove, minimum 2 options are required");
+	}else{
+		$("#optionsContainer").children().last().remove();
 		
- 	var currentVal = $("#optionsVal").val();
-
- 	options = "";
- 	optionsArray = [];
-	$("#optionsContainer").children().each(function() {
-
-		if($(this).children("input").val() != "")
-			{
-				//options += ($(this).children("input").val()) + ":";
-				
-				optionsArray.push($(this).children("input").val());
-			}
-	})
+		$("#answer").val("");
+		optionsCount--;
+		if(optionsCount >= 0){
+			$("#answer").attr("max", optionsCount );
+		}	
+	}
 	
-	$("#optionsVal").val(optionsArray.join(":"));
 	
-	$("#answer").val("");
-	optionsCount--;
-	if(optionsCount >= 0){
-	$("#answer").attr("max", optionsCount );
-	}	
 })
 
 

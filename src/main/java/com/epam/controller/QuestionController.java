@@ -1,9 +1,10 @@
 package com.epam.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.epam.dto.QuestionDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
 import com.epam.exceptions.InValidQuestionDeletion;
@@ -44,71 +46,110 @@ public class QuestionController {
 
 	}
 
-	@RequestMapping(value = "/addQuestion", params = { "title", "options", "optionsVal", "topic", "difficulty",
-			"answer", "mark" })
-	public String addQuestion(@RequestParam(value = "title") String title,
-			@RequestParam(value = "options") String optionCount,
-			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
-			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
-			@RequestParam(value = "mark") String mark, Model model) {
+//	@RequestMapping(value = "/addQuestion", params = { "title", "options", "optionsVal", "topic", "difficulty",
+//			"answer", "mark" })
+//	public String addQuestion(@RequestParam(value = "title") String title,
+//			@RequestParam(value = "options") String optionCount,
+//			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
+//			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
+//			@RequestParam(value = "mark") String mark, Model model) {
+//
+//		Map<String, String> errors = new HashMap<String, String>();
+//
+//		if (title == "") {
+//			errors.put("title", "Please provide the title");
+//		}
+//
+//		if (optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6) {
+//			errors.put("options", "Please provide min 2 options, max 6 options");
+//		}
+//		if (optionsValue == "") {
+//			errors.put("optionsVal", "Please provide the options");
+//		}
+//		if (topicTag == "") {
+//			errors.put("topic", "Please provide the topic");
+//		}
+//		if (difficulty == "") {
+//			errors.put("difficulty", "Please provide the difficulty");
+//		}
+//		if (answer == "") {
+//			errors.put("answer", "Please provide the answer");
+//		}
+//		if (mark == "") {
+//			errors.put("mark", "Please provide the mark");
+//		}
+//		String redirectPage = "redirect:/viewQuestions";
+//
+//		if (errors.isEmpty()) {
+//			model.addAttribute("questionCreationStatus", "Question Created");
+//			createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
+//		} else {
+//			model.addAttribute("errors", errors);
+//			redirectPage = "admin/question/createQuestion";
+//		}
+//
+//		return redirectPage;
+//
+//	}
+
+	@RequestMapping(value = "/addQuestion")
+	public String addTheQuestion(QuestionDto questionDto, Model model, HttpServletResponse response) {
 
 		Map<String, String> errors = new HashMap<String, String>();
 
-		if (title == "") {
+		if (questionDto.questionTitle == "") {
 			errors.put("title", "Please provide the title");
 		}
 
-		if (optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6) {
+		if (questionDto.questionOptions.size() == 0 || questionDto.questionOptions.size() < 2
+				|| questionDto.questionOptions.size() > 6) {
 			errors.put("options", "Please provide min 2 options, max 6 options");
 		}
-		if (optionsValue == "") {
-			errors.put("optionsVal", "Please provide the options");
-		}
-		if (topicTag == "") {
+		if (questionDto.topicTag == "") {
 			errors.put("topic", "Please provide the topic");
 		}
-		if (difficulty == "") {
+		if (questionDto.difficultyTag == "") {
 			errors.put("difficulty", "Please provide the difficulty");
 		}
-		if (answer == "") {
+		if (questionDto.answer == 0) {
 			errors.put("answer", "Please provide the answer");
 		}
-		if (mark == "") {
+		if (questionDto.mark < 0) {
 			errors.put("mark", "Please provide the mark");
 		}
 		String redirectPage = "redirect:/viewQuestions";
 
 		if (errors.isEmpty()) {
-			model.addAttribute("questionCreationStatus", "Question Created");
-			createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
+			response.addHeader("questionCreationStatus", "Question Created");
+//			model.addAttribute("questionCreationStatus", "Question Created");
+			createQuestion(questionDto);
 		} else {
 			model.addAttribute("errors", errors);
 			redirectPage = "admin/question/createQuestion";
 		}
 
 		return redirectPage;
-
 	}
 
-	public void createQuestion(String title, String optionsValue, String topicTag, String difficulty, String answer,
-			String mark) {
+//	public void createQuestion(String title, String optionsValue, String topicTag, String difficulty, String answer,
+	public void createQuestion(QuestionDto questionDto) {
 		Question question = new Question();
 
-		question.setQuestionTitle(title);
+		question.setQuestionTitle(questionDto.questionTitle);
 
-		String options[] = optionsValue.split(":");
+//		String options[] = questionDtooptionsValue.split(":");
 
-		List<String> optionsList = Arrays.asList(options);
+		List<String> optionsList = questionDto.questionOptions;
 		for (String optionTitle : optionsList) {
 			QuestionOption option = new QuestionOption();
 			option.setOptionTitle(optionTitle);
 			question.setOption(option);
 		}
 
-		question.setTopicTag(topicTag);
-		question.setDifficultyTag(difficulty);
-		question.setAnswer(Integer.parseInt(answer));
-		question.setMark(Integer.parseInt(mark));
+		question.setTopicTag(questionDto.topicTag);
+		question.setDifficultyTag(questionDto.difficultyTag);
+		question.setAnswer(questionDto.answer);
+		question.setMark(questionDto.mark);
 
 		questionService.createQuestion(question);
 	}
@@ -139,59 +180,54 @@ public class QuestionController {
 		return "admin/question/viewQuestions";
 	}
 
-	@RequestMapping(value = "/updateTheQuestion", params = { "id", "title", "optionsVal", "topic", "difficulty",
-			"answer", "mark" })
-	public String updateQuestion(@RequestParam(value = "id") String id, @RequestParam(value = "title") String title,
-			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
-			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
-			@RequestParam(value = "mark") String mark, Model model) {
+	@RequestMapping(value = "/updateTheQuestion")
+	public String updateTheQuestion(QuestionDto questionDto, Model model) {
 
 		Map<String, String> errors = new HashMap<String, String>();
 
-		if (title == "") {
+		if (questionDto.questionTitle == "") {
 			errors.put("title", "Please provide the title");
 		}
 
-		if (optionsValue == "") {
-			errors.put("optionsVal", "Please provide the options");
+		if (questionDto.questionOptions.size() <= 0 || questionDto.questionOptions.size() < 2 || questionDto.questionOptions.size() > 6) {
+			errors.put("options", "Please provide min 2 options, max 6 options");
 		}
-		if (topicTag == "") {
+		if (questionDto.topicTag == "") {
 			errors.put("topic", "Please provide the topic");
 		}
-		if (difficulty == "") {
+		if (questionDto.difficultyTag == "") {
 			errors.put("difficulty", "Please provide the difficulty");
 		}
-		if (answer == "") {
+		if (questionDto.answer <= 0) {
 			errors.put("answer", "Please provide the answer");
 		}
-		if (mark == "") {
+		if (questionDto.mark <= 0) {
 			errors.put("mark", "Please provide the mark");
 		}
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (errors.size() <= 0) {
-			updateQuestion(id, title, optionsValue, topicTag, difficulty, answer, mark);
+			updateQuestion(questionDto);
 			model.addAttribute("questions", questionService.getQuestions().values());
 			model.addAttribute("updationStatus", "UPDATED");
 		} else {
 			model.addAttribute("errors", errors);
-			redirectPage = "redirect:/updateQuestion?id=" + id;
+			redirectPage = "redirect:/updateQuestion?id=" + questionDto.id;
 		}
 
 		return redirectPage;
 
 	}
 
-	private void updateQuestion(String id, String title, String optionsValue, String topicTag, String difficulty,
-			String answer, String mark) {
-		int questionId = Integer.parseInt(id);
+	private void updateQuestion(QuestionDto questoinDto) {
+		int questionId = questoinDto.id;
 
 		Question question = questionService.getQuestion(questionId);
-		question.setQuestionTitle(title);
+		question.setQuestionTitle(questoinDto.questionTitle);
 
-		String options[] = optionsValue.split(":");
+//		String options[] = optionsValue.split(":");
 
-		List<String> optionsList = Arrays.asList(options);
+		List<String> optionsList = questoinDto.questionOptions;
 
 		question.questionOptions.clear();
 
@@ -201,10 +237,10 @@ public class QuestionController {
 			question.setOption(option);
 
 		}
-		question.setTopicTag(topicTag);
-		question.setDifficultyTag(difficulty);
-		question.setAnswer(Integer.parseInt(answer));
-		question.setMark(Integer.parseInt(mark));
+		question.setTopicTag(questoinDto.topicTag);
+		question.setDifficultyTag(questoinDto.difficultyTag);
+		question.setAnswer(questoinDto.answer);
+		question.setMark(questoinDto.mark);
 
 		questionService.update(question, questionId);
 	}

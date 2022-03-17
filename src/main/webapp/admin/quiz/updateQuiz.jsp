@@ -44,9 +44,10 @@ const  a = (e) => {
 	  			</nav>
 			</div>
 	</nav>
-	<div class = "row container-fluid" >
+	<div class = "container-fluid" style="margin-top:35px">
+		<form action="updateTheQuiz" method="get" class="row" >
 		<div class = "col-4">
-			<form action="updateTheQuiz" method="get" class="card card-body" style="margin-top:35px">
+			<div class="input-container card card-body">
 				<input class="form-control" name="id" value="${quiz.getId()}" readonly/>
 				<div class="form-group">
 					<label  for="quizName">Enter Quiz
@@ -66,14 +67,14 @@ const  a = (e) => {
 					  </select>
 				</div>
 				<input type="submit" class="btn btn-primary" value="Update Quiz" />
-			</form>
-			
-		</div>
+			</div>
+		</div>	
+	
 		<div class = "col-8">
 			<div class="" style = "margin-top:35px">
 				
 				<table id="table" class="table table-striped table-bordered table-responsive">
-					<thead>
+					<thead class = "thead-dark">
 						<tr>
 							<th>Select Questions</th>
 							<th>Question Id</th>
@@ -86,16 +87,15 @@ const  a = (e) => {
 						</tr>
 					</thead>
 					<tbody>
-		
-						<c:forEach var="question" items="${questions}">
+							<c:forEach var="question" items="${questions}">
 							<tr>
 								<td><input type="checkbox" id="selectedId" onclick="a(this)"
-									name="selectedId" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
+									name="questionIds" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
 								<td>${question.id}</td>
 								<td>${question.questionTitle}</td>
 								<td><ul>
 										<c:forEach items="${question.getOptions()}" var="option">
-											<li><a href="#">${option.getOptionTitle()}</a></li>
+											<li>${option.getOptionTitle()}</li>
 										</c:forEach>
 									</ul></td>
 								<td>${question.answer}</td>
@@ -103,11 +103,13 @@ const  a = (e) => {
 								<td>${question.difficultyTag}</td>
 								<td>${question.mark}</td>
 							</tr>
-						</c:forEach>
-					</tbody>
+							</c:forEach>
+						</tbody>
 				</table>
 			</div>
+			
 		</div>
+		</form>
 	</div>
 	
 	

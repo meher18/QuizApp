@@ -33,8 +33,8 @@
 	
 	<div class="container" style = "margin-top:35px">
 	<h2 class="text-center">Below are the quizzes</h2>
-		<table id="table" class="table table-striped table-bordered">
-			<thead>
+		<table id="table" class="table table-striped table-bordered table-responsive">
+			<thead class = "thead-dark">
 				<tr>
 					<th>Quiz Id</th>
 					<th>Quiz Name</th>
@@ -56,14 +56,14 @@
 						<td><ul>
 								<c:forEach items="${quiz.getQuestions().values()}"
 									var="question">
-									<li><a href="#">${question.getQuestionTitle()}</a></li>
+									<li>${question.getQuestionTitle()}</li>
 								</c:forEach>
 							</ul></td>
 						<td>${quiz.getTotalMarks()}</td>
 						<td>${quiz.getQuizTag()}</td>
-						<td><a href="hostTheQuiz?id=${quiz.getId()}">HOST QUIZ</a></td>
-						<td><a href="updateQuiz?id=${quiz.getId()}">Update</a></td>
-						<td><a href="deleteTheQuiz?id=${quiz.getId()}">Delete</a></td>
+						<td><a href="hostTheQuiz?id=${quiz.getId()}"  class = '${quiz.getQuizTag().equals("HOSTED") ? " nav-link disabled" : " nav-link"}'>HOST QUIZ</a></td>
+						<td><a href="updateQuiz?id=${quiz.getId()}" class = "nav-link">Update</a></td>
+						<td><a href="deleteTheQuiz?id=${quiz.getId()}" class = '${quiz.getQuizTag().equals("HOSTED") ? " nav-link disabled" : " nav-link"}'>Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
