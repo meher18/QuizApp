@@ -53,45 +53,35 @@ public class QuestionController {
 			@RequestParam(value = "mark") String mark, Model model) {
 
 		Map<String, String> errors = new HashMap<String, String>();
-		
-		
-		if(title == "")
-		{
+
+		if (title == "") {
 			errors.put("title", "Please provide the title");
 		}
-		
-		if(optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6 )
-		{
+
+		if (optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6) {
 			errors.put("options", "Please provide min 2 options, max 6 options");
 		}
-		if(optionsValue == "")
-		{
+		if (optionsValue == "") {
 			errors.put("optionsVal", "Please provide the options");
 		}
-		if(topicTag == "")
-		{
+		if (topicTag == "") {
 			errors.put("topic", "Please provide the topic");
 		}
-		if(difficulty == "")
-		{
+		if (difficulty == "") {
 			errors.put("difficulty", "Please provide the difficulty");
 		}
-		if(answer == "")
-		{
+		if (answer == "") {
 			errors.put("answer", "Please provide the answer");
 		}
-		if(mark == "")
-		{
+		if (mark == "") {
 			errors.put("mark", "Please provide the mark");
 		}
 		String redirectPage = "redirect:/viewQuestions";
 
-		if(errors.isEmpty())
-		{
-		model.addAttribute("questionCreationStatus", "Question Created");
-		createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
-		}
-		else {
+		if (errors.isEmpty()) {
+			model.addAttribute("questionCreationStatus", "Question Created");
+			createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
+		} else {
 			model.addAttribute("errors", errors);
 			redirectPage = "admin/question/createQuestion";
 		}
@@ -206,10 +196,10 @@ public class QuestionController {
 		question.questionOptions.clear();
 
 		for (String optionTitle : optionsList) {
-				QuestionOption option = new QuestionOption();
-				option.setOptionTitle(optionTitle);
-				question.setOption(option);
-			
+			QuestionOption option = new QuestionOption();
+			option.setOptionTitle(optionTitle);
+			question.setOption(option);
+
 		}
 		question.setTopicTag(topicTag);
 		question.setDifficultyTag(difficulty);

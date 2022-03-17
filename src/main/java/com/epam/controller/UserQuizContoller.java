@@ -29,16 +29,15 @@ public class UserQuizContoller {
 		model.addAttribute("hostedQuizzes", hostedQuizzes);
 		return "user/viewHostedQuizzes";
 	}
-	
-	@RequestMapping(value = "/takeTheQuiz", params = {"quizId"})
-	public String  takeQuiz(@RequestParam(value = "quizId") String id, Model model)
-	{
-	
+
+	@RequestMapping(value = "/takeTheQuiz", params = { "quizId" })
+	public String takeQuiz(@RequestParam(value = "quizId") String id, Model model) {
+
 		int quizId = Integer.parseInt(id);
-		
+
 		// take from the quizzes, not directly from db
-		Quiz  quiz  = quizService.getQuiz(quizId);
-		
+		Quiz quiz = quizService.getQuiz(quizId);
+
 		model.addAttribute("quiz", quiz);
 		return "user/quiz";
 	}

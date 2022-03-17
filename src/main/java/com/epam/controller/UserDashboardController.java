@@ -8,29 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserDashboardController {
-	
+
 	@RequestMapping("/userModule")
-	public String showUserDashboard(HttpServletRequest request)
-	{
+	public String showUserDashboard(HttpServletRequest request) {
 
 		String redirectPage = "redirect:/";
 		HttpSession httpSession = request.getSession();
-	
-		if(httpSession.getAttribute("userName") != null)
-		{
+
+		if (httpSession.getAttribute("userName") != null) {
 			redirectPage = "user/userModule";
 		}
 		return redirectPage;
 	}
+
 	@RequestMapping("/viewParticipation")
-	public String viewParticipation(HttpServletRequest request)
-	{
-		
+	public String viewParticipation(HttpServletRequest request) {
+
 		String redirectPage = "redirect:/";
 		HttpSession httpSession = request.getSession();
-		
-		if(httpSession.getAttribute("userName") != null)
-		{
+
+		if (httpSession.getAttribute("userName") != null) {
 			System.out.println("adfasfd");
 			redirectPage = "user/viewParticipation";
 		}

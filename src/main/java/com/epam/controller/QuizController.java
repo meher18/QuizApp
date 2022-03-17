@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.epam.entity.Quiz;
+import com.epam.exceptions.QuizException;
 import com.epam.service.admin.questionservice.QuestionService;
 import com.epam.service.admin.quizservice.QuizService;
 
@@ -52,11 +53,19 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/hostTheQuiz", params = { "id" })
-	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) {
+	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) throws QuizException {
 
 		int quizId = Integer.parseInt(id);
 		quizService.hostQuiz(quizId);
-
+		try {
+			quizService.getAllQuizzes().values();
+		}catch(Exception e) {
+			QuizException q = new QuizException();
+			q.setModel(null);
+			q.setErrorMessage("Quizzes not Found");
+			throw q;
+		}
+		
 		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 		return "redirect:/viewQuizzes";
 	}
@@ -124,9 +133,8 @@ public class QuizController {
 			errors.put("questionId", "Please provide some questions");
 		}
 
-		String redirectPage = "redirect:/updateQuiz?id="+quizId;
-		if(errors.size() <= 0)
-		{
+		String redirectPage = "redirect:/updateQuiz?id=" + quizId;
+		if (errors.size() <= 0) {
 			Quiz quiz = quizService.getQuiz(quizId);
 			quiz.setQuizName(quizName);
 			String[] questionIds = questionId.split(",");
@@ -144,7 +152,7 @@ public class QuizController {
 			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 			redirectPage = "redirect:/viewQuizzes";
 		}
-		
+
 		return redirectPage;
 	}
 }

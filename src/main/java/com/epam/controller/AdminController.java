@@ -22,9 +22,9 @@ public class AdminController {
 
 		String adminLoginStatus = "INVALID CREDENTIALS";
 		String redirectPage = "redirect:/admin";
-		
+
 		if (adminService.checkValidity(admin)) {
-			
+
 			adminLoginStatus = "LOGIN SUCCESSFUL";
 			HttpSession session = request.getSession();
 			session.setAttribute("adminUserName", admin.getName());
@@ -39,7 +39,7 @@ public class AdminController {
 
 		HttpSession httpSession = request.getSession();
 		httpSession.removeAttribute("adminUserName");
-		
+
 		return "redirect:/";
 
 	}

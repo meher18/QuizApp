@@ -8,30 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AdminDashboardController {
-	
-	
+
 	@RequestMapping("/adminDashboard")
-	public String showAdminDashBoard(HttpServletRequest request)
-	{
+	public String showAdminDashBoard(HttpServletRequest request) {
 
 		String redirectPage = "redirect:/";
 		HttpSession httpSession = request.getSession();
-		
-		if(httpSession.getAttribute("adminUserName") != null)
-		{
+
+		if (httpSession.getAttribute("adminUserName") != null) {
 			redirectPage = "admin/adminDashboard";
 		}
 		return redirectPage;
 	}
-	
+
 	@RequestMapping("/questionModule")
-	public String showQuestionModule()
-	{
+	public String showQuestionModule() {
 		return "admin/question/questionModule";
 	}
+
 	@RequestMapping("/quizModule")
-	public String showQuizModule()
-	{
+	public String showQuizModule() {
 		return "admin/quiz/quizModule";
 	}
 //	@RequestMapping("/questionModule")

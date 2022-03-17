@@ -9,53 +9,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-	
+
 	@RequestMapping("/")
-	public String showWelcomePage(HttpServletRequest request,  Model model)
-	{
+	public String showWelcomePage(HttpServletRequest request, Model model) {
 		String redirectPage = "index";
-	
+
 		return redirectPage;
 	}
-	
+
 	@RequestMapping("/userSignIn")
-	public String showUserSignIn(HttpServletRequest request)
-	{
+	public String showUserSignIn(HttpServletRequest request) {
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "userSignIn";
-		
-		if(httpSession.getAttribute("userName") != null)
-		{
+
+		if (httpSession.getAttribute("userName") != null) {
 			redirectPage = "redirect:/userModule";
 		}
 		return redirectPage;
 	}
+
 	@RequestMapping("/userSignUp")
-	public String showUserSignUp(HttpServletRequest request)
-	{
-		
+	public String showUserSignUp(HttpServletRequest request) {
+
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "userSignUp";
-		
-		if(httpSession.getAttribute("userName") != null)
-		{
+
+		if (httpSession.getAttribute("userName") != null) {
 			redirectPage = "redirect:/userModule";
 		}
 		return redirectPage;
 	}
-	
+
 	@RequestMapping("/admin")
-	public String showAdminSignIn(HttpServletRequest request)
-	{
+	public String showAdminSignIn(HttpServletRequest request) {
 
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "admin/adminSignIn";
-		
-		if(httpSession.getAttribute("adminUserName") != null)
-		{
+
+		if (httpSession.getAttribute("adminUserName") != null) {
 			redirectPage = "redirect:/adminDashboard";
 		}
 		return redirectPage;
 	}
-	
+
 }

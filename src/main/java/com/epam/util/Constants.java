@@ -9,6 +9,7 @@ public class Constants {
     {
 
     }
+  
     public static final String INVALID_INPUT = "Invalid Input, Please enter only digits";
     public static final String QUIZ_HOSTED = "HOSTED";
     public static final String QUIZ_NOT_HOSTED = "NOT HOSTED";
