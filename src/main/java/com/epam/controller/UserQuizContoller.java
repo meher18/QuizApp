@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.entity.Quiz;
-import com.epam.service.admin.quizservice.QuizService;
+import com.epam.dto.QuizDto;
+import com.epam.service.admin.QuizService;
 import com.epam.service.user.UserQuizService;
 
 @Controller
@@ -23,7 +23,7 @@ public class UserQuizContoller {
 
 	@RequestMapping("/viewHostedQuizzes")
 	public String viewAllHostedQuizzes(Model model) {
-		List<Quiz> hostedQuizzes = quizService.getAllQuizzes().values().stream()
+		List<QuizDto> hostedQuizzes = quizService.getAllQuizzes().values().stream()
 				.filter(quiz -> quiz.getQuizTag().equalsIgnoreCase("HOSTED")).collect(Collectors.toList());
 
 		model.addAttribute("hostedQuizzes", hostedQuizzes);
@@ -36,9 +36,9 @@ public class UserQuizContoller {
 		int quizId = Integer.parseInt(id);
 
 		// take from the quizzes, not directly from db
-		Quiz quiz = quizService.getQuiz(quizId);
+		QuizDto quizDto = quizService.getQuiz(quizId);
 
-		model.addAttribute("quiz", quiz);
+		model.addAttribute("quiz", quizDto);
 		return "user/quiz";
 	}
 }

@@ -22,7 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.epam.entity.Question;
-import com.epam.service.admin.questionservice.QuestionService;
+import com.epam.service.admin.QuestionService;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 
 @ExtendWith(SpringExtension.class)

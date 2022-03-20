@@ -54,7 +54,7 @@
 						<td>${quiz.getId()}</td>
 						<td>${quiz.getQuizName()}</td>
 						<td><ul>
-								<c:forEach items="${quiz.getQuestions().values()}"
+								<c:forEach items="${quiz.getQuestions()}"
 									var="question">
 									<li>${question.getQuestionTitle()}</li>
 								</c:forEach>

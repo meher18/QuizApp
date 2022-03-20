@@ -1,10 +1,10 @@
-package com.epam.service.admin.questionservice;
+package com.epam.service.admin;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -32,29 +32,12 @@ public class QuestionService {
 
 	public Map<Integer, QuestionDto> getQuestions() {
 
-//    	Map<Integer, QuestionDto> questionDtos = questionsLibrary.getQuestions()
-//    			.values().stream().collect(Collectors.toMap(K -> K.getId(), V -> {
-//    				question
-//    			}));
-
-//		mapper.typeMap(Question.class, QuestionDto.class).addMappings(mapper -> {
-//				mapper.map(src -> src.getOptions().stream().map( option -> option.getOptionTitle()).collect(Collectors.toList()), QuestionDto::setQuestionOptions);
-//			});
-		mapper.typeMap(Question.class, QuestionDto.class).addMappings( new PropertyMap<Question, QuestionDto>() {
-			
-			@Override
-			protected void configure() {
-				map().setQuestionOptions(source.getOptions().stream().map(o -> o.getOptionTitle()).collect(Collectors.toList()));
-				
-			}
-		} );
-//		
-		System.out.println("mapping done");
-		
-//   
-		Map<Integer, QuestionDto> questionDtos = questionsLibrary.getQuestions().values().stream()
-				.collect(Collectors.toMap(K -> K.getId(), V -> mapper.map(V,QuestionDto.class)));
-		return questionDtos;
+		return questionsLibrary.getQuestions().values().stream()
+				.collect(Collectors.toMap(Question::getId, value -> {
+					QuestionDto qDto = mapper.map(value, QuestionDto.class);
+					qDto.setQuestionOptions(value.getOptions().stream().map(option -> option.getOptionTitle()).collect(Collectors.toList()));
+					return qDto;
+				}));
 	}
 
 	public Question getQuestion(int questionId) {
@@ -81,7 +64,14 @@ public class QuestionService {
 		}
 	}
 
-	public boolean createQuestion(Question newQuestion) {
+	public boolean createQuestion(QuestionDto newQuestionDto) {
+		
+		Question newQuestion = mapper.map(newQuestionDto, Question.class);
+		newQuestion.setOptions(newQuestionDto.getQuestionOptions().stream().map(o->{
+			QuestionOption option = new QuestionOption();
+			option.setOptionTitle(o);
+			return option;
+		}).collect(Collectors.toList()));
 // question Creator
 		boolean isQuestionCreated = false;
 
@@ -96,12 +86,30 @@ public class QuestionService {
 		return isQuestionCreated;
 	}
 
-	public boolean update(Question newQuestion, int id) {
+	public boolean update(QuestionDto questionDto) {
 
+		int id = questionDto.id;
+		Question question = questionsLibrary.getQuestion(id);
+		question.setQuestionTitle(questionDto.questionTitle);
+
+		List<String> optionsList = questionDto.questionOptions;
+
+		question.questionOptions.clear();
+
+		for (String optionTitle : optionsList) {
+			QuestionOption option = new QuestionOption();
+			option.setOptionTitle(optionTitle);
+			question.setOption(option);
+
+		}
+		question.setTopicTag(questionDto.topicTag);
+		question.setDifficultyTag(questionDto.difficultyTag);
+		question.setAnswer(questionDto.answer);
+		question.setMark(questionDto.mark);
 		boolean isQuestionUpdated = false;
 
-		if (newQuestion != null) {
-			isQuestionUpdated = questionsLibrary.editQuestion(id, newQuestion);
+		if (question != null) {
+			isQuestionUpdated = questionsLibrary.editQuestion(id, question);
 		}
 		return isQuestionUpdated;
 	}

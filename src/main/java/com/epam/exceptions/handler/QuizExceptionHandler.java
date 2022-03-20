@@ -1,4 +1,4 @@
-package com.epam.exception.handler;
+package com.epam.exceptions.handler;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

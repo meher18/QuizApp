@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.epam.entity.Quiz;
-import com.epam.service.admin.quizservice.QuizService;
+import com.epam.service.admin.QuizService;
 import com.epam.service.user.UserQuizService;
 
 @ExtendWith(SpringExtension.class)

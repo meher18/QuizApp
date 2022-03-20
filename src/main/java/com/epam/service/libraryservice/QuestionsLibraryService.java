@@ -28,8 +28,7 @@ public class QuestionsLibraryService {
 
 	public Map<Integer, Question> getQuestions() {
 		List<Question> questionsList = (List<Question>) questionRepository.findAll();
-		Map<Integer, Question> questions = questionsList.stream().collect(Collectors.toMap(k -> k.getId(), v -> v));
-		return questions;
+		return questionsList.stream().collect(Collectors.toMap(Question::getId, v -> v));
 	}
 
 	public boolean addQuestion(int index, Question question) {

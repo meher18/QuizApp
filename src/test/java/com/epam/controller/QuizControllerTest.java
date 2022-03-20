@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
-import com.epam.service.admin.questionservice.QuestionService;
-import com.epam.service.admin.quizservice.QuizService;
+import com.epam.service.admin.QuestionService;
+import com.epam.service.admin.QuizService;
 
 
 @ExtendWith(SpringExtension.class)

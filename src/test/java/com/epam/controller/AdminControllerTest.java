@@ -20,7 +20,7 @@ import com.epam.service.admin.AdminService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(AdminController.class)
-public class AdminControllerTest {
+class AdminControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

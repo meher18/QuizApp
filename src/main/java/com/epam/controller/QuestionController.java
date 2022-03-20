@@ -1,7 +1,6 @@
 package com.epam.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.epam.dto.QuestionDto;
-import com.epam.entity.Question;
-import com.epam.entity.QuestionOption;
 import com.epam.exceptions.InValidQuestionDeletion;
 import com.epam.exceptions.InValidQuestionId;
-import com.epam.service.admin.questionservice.QuestionService;
+import com.epam.service.admin.QuestionService;
 
 @Controller
 public class QuestionController {
@@ -33,7 +30,6 @@ public class QuestionController {
 	@RequestMapping("/viewQuestions")
 	public String viewQuestions(Model model) {
 
-		model.addAttribute("admin/question/viewQuestions");
 		model.addAttribute("questions", questionService.getQuestions().values());
 		return "admin/question/viewQuestions";
 	}
@@ -49,20 +45,20 @@ public class QuestionController {
 	@RequestMapping(value = "/addQuestion")
 	public String addTheQuestion(QuestionDto questionDto, Model model, HttpServletResponse response) {
 
-		Map<String, String> errors = new HashMap<String, String>();
+		Map<String, String> errors = new HashMap<>();
 
-		if (questionDto.questionTitle == "") {
+		if (questionDto.questionTitle.equals("")) {
 			errors.put("title", "Please provide the title");
 		}
 
-		if (questionDto.questionOptions.size() == 0 || questionDto.questionOptions.size() < 2
+		if (questionDto.questionOptions.isEmpty() || questionDto.questionOptions.size() < 2
 				|| questionDto.questionOptions.size() > 6) {
 			errors.put("options", "Please provide min 2 options, max 6 options");
 		}
-		if (questionDto.topicTag == "") {
+		if (questionDto.topicTag.equals("")) {
 			errors.put("topic", "Please provide the topic");
 		}
-		if (questionDto.difficultyTag == "") {
+		if (questionDto.difficultyTag.equals("")) {
 			errors.put("difficulty", "Please provide the difficulty");
 		}
 		if (questionDto.answer == 0) {
@@ -74,9 +70,7 @@ public class QuestionController {
 		String redirectPage = "redirect:/viewQuestions";
 
 		if (errors.isEmpty()) {
-			response.addHeader("questionCreationStatus", "Question Created");
-//			model.addAttribute("questionCreationStatus", "Question Created");
-			createQuestion(questionDto);
+			questionService.createQuestion(questionDto);
 		} else {
 			model.addAttribute("errors", errors);
 			redirectPage = "admin/question/createQuestion";
@@ -85,32 +79,10 @@ public class QuestionController {
 		return redirectPage;
 	}
 
-//	public void createQuestion(String title, String optionsValue, String topicTag, String difficulty, String answer,
-	public void createQuestion(QuestionDto questionDto) {
-		Question question = new Question();
-
-		question.setQuestionTitle(questionDto.questionTitle);
-
-//		String options[] = questionDtooptionsValue.split(":");
-
-		List<String> optionsList = questionDto.questionOptions;
-		for (String optionTitle : optionsList) {
-			QuestionOption option = new QuestionOption();
-			option.setOptionTitle(optionTitle);
-			question.setOption(option);
-		}
-
-		question.setTopicTag(questionDto.topicTag);
-		question.setDifficultyTag(questionDto.difficultyTag);
-		question.setAnswer(questionDto.answer);
-		question.setMark(questionDto.mark);
-
-		questionService.createQuestion(question);
-	}
-
 	@RequestMapping(value = "/deleteTheQuestion", params = "id")
 	public String deleteQuestion(@RequestParam(value = "id") String questionId, Model model) {
 
+		// check session
 		String deletionStatus = "Not Deleted";
 
 		int id = Integer.parseInt(questionId);
@@ -137,13 +109,14 @@ public class QuestionController {
 	@RequestMapping(value = "/updateTheQuestion")
 	public String updateTheQuestion(QuestionDto questionDto, Model model) {
 
-		Map<String, String> errors = new HashMap<String, String>();
+		Map<String, String> errors = new HashMap<>();
 
-		if (questionDto.questionTitle == "") {
+		if (questionDto.questionTitle.equals("")) {
 			errors.put("title", "Please provide the title");
 		}
 
-		if (questionDto.questionOptions.size() <= 0 || questionDto.questionOptions.size() < 2 || questionDto.questionOptions.size() > 6) {
+		if (questionDto.questionOptions.isEmpty() || questionDto.questionOptions.size() < 2
+				|| questionDto.questionOptions.size() > 6) {
 			errors.put("options", "Please provide min 2 options, max 6 options");
 		}
 		if (questionDto.topicTag == "") {
@@ -161,7 +134,8 @@ public class QuestionController {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (errors.size() <= 0) {
-			updateQuestion(questionDto);
+			
+			questionService.update(questionDto);
 			model.addAttribute("questions", questionService.getQuestions().values());
 			model.addAttribute("updationStatus", "UPDATED");
 		} else {
@@ -173,29 +147,4 @@ public class QuestionController {
 
 	}
 
-	private void updateQuestion(QuestionDto questoinDto) {
-		int questionId = questoinDto.id;
-
-		Question question = questionService.getQuestion(questionId);
-		question.setQuestionTitle(questoinDto.questionTitle);
-
-//		String options[] = optionsValue.split(":");
-
-		List<String> optionsList = questoinDto.questionOptions;
-
-		question.questionOptions.clear();
-
-		for (String optionTitle : optionsList) {
-			QuestionOption option = new QuestionOption();
-			option.setOptionTitle(optionTitle);
-			question.setOption(option);
-
-		}
-		question.setTopicTag(questoinDto.topicTag);
-		question.setDifficultyTag(questoinDto.difficultyTag);
-		question.setAnswer(questoinDto.answer);
-		question.setMark(questoinDto.mark);
-
-		questionService.update(question, questionId);
-	}
 }

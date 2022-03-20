@@ -42,7 +42,7 @@ public class UserQuizService {
         return userQuiz;
     }
 
-    public boolean checkIfQuizTaken(int quizId, User loggedUser) {
+    public boolean checkIfQuizTaken(User loggedUser) {
 
         boolean isQuizAlreadyTaken = false;
 

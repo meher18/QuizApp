@@ -31,15 +31,11 @@ public class Quiz {
 	@Column(name = "quiz_code")
 	private long quizCode;
 
-	// maybe it should be removed
 	@ManyToMany
 	Map<Integer, Question> questions = new HashMap<>();
 
 	private int totalMarks = 0;
 
-	// we can set the quiz tag to "hosted" or "completed" so that user view quizzes
-	// accordingly
-	// NOT HOSTED is default
 	private String quizTag = Constants.QUIZ_NOT_HOSTED;
 
 	public void addQuestion(int index, Question question) {

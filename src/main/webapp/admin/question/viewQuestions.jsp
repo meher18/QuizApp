@@ -68,7 +68,7 @@
 							  <div class="dropdown-menu card-body" aria-labelledby="dropdownMenuButton">
 							 	<c:set var="optionCount" value="1"></c:set>
 							    <c:forEach items="${question.getQuestionOptions()}" var="option">
-									${optionCount}. ${option.getOptionTitle()}
+									${optionCount}. ${option}
 									<br>
 								<c:set var="optionCount" value="${optionCount+1}"></c:set>
 								</c:forEach>

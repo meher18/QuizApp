@@ -90,12 +90,12 @@ const  a = (e) => {
 							<c:forEach var="question" items="${questions}">
 							<tr>
 								<td><input type="checkbox" id="selectedId" onclick="a(this)"
-									name="questionIds" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
+									name="questions" value="${question.id}" ${ids.contains(question.id.toString())  ? "checked" : ""}></td>
 								<td>${question.id}</td>
 								<td>${question.questionTitle}</td>
 								<td><ul>
-										<c:forEach items="${question.getOptions()}" var="option">
-											<li>${option.getOptionTitle()}</li>
+										<c:forEach items="${question.getQuestionOptions()}" var="option">
+											<li>${option}</li>
 										</c:forEach>
 									</ul></td>
 								<td>${question.answer}</td>

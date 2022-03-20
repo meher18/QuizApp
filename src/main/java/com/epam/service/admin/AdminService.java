@@ -20,9 +20,7 @@ public class AdminService {
 
 		Admin currentAdmin = mapper.map(adminDto, Admin.class);
 
-		boolean isValidAdmin = currentAdmin.getName().equals(ADMIN_NAME)
+		return currentAdmin.getName().equals(ADMIN_NAME)
 				&& currentAdmin.getPass().equals(ADMIN_PASSWORD);
-
-		return isValidAdmin;
 	}
 }
