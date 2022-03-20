@@ -46,52 +46,6 @@ public class QuestionController {
 
 	}
 
-//	@RequestMapping(value = "/addQuestion", params = { "title", "options", "optionsVal", "topic", "difficulty",
-//			"answer", "mark" })
-//	public String addQuestion(@RequestParam(value = "title") String title,
-//			@RequestParam(value = "options") String optionCount,
-//			@RequestParam(value = "optionsVal") String optionsValue, @RequestParam(value = "topic") String topicTag,
-//			@RequestParam(value = "difficulty") String difficulty, @RequestParam(value = "answer") String answer,
-//			@RequestParam(value = "mark") String mark, Model model) {
-//
-//		Map<String, String> errors = new HashMap<String, String>();
-//
-//		if (title == "") {
-//			errors.put("title", "Please provide the title");
-//		}
-//
-//		if (optionCount == "" || Integer.parseInt(optionCount) < 2 || Integer.parseInt(optionCount) > 6) {
-//			errors.put("options", "Please provide min 2 options, max 6 options");
-//		}
-//		if (optionsValue == "") {
-//			errors.put("optionsVal", "Please provide the options");
-//		}
-//		if (topicTag == "") {
-//			errors.put("topic", "Please provide the topic");
-//		}
-//		if (difficulty == "") {
-//			errors.put("difficulty", "Please provide the difficulty");
-//		}
-//		if (answer == "") {
-//			errors.put("answer", "Please provide the answer");
-//		}
-//		if (mark == "") {
-//			errors.put("mark", "Please provide the mark");
-//		}
-//		String redirectPage = "redirect:/viewQuestions";
-//
-//		if (errors.isEmpty()) {
-//			model.addAttribute("questionCreationStatus", "Question Created");
-//			createQuestion(title, optionsValue, topicTag, difficulty, answer, mark);
-//		} else {
-//			model.addAttribute("errors", errors);
-//			redirectPage = "admin/question/createQuestion";
-//		}
-//
-//		return redirectPage;
-//
-//	}
-
 	@RequestMapping(value = "/addQuestion")
 	public String addTheQuestion(QuestionDto questionDto, Model model, HttpServletResponse response) {
 

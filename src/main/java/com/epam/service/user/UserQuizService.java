@@ -10,7 +10,7 @@ import com.epam.entity.QuestionAnswer;
 import com.epam.entity.User;
 import com.epam.entity.UserQuiz;
 import com.epam.service.libraryservice.UserQuizLibraryService;
-import com.epam.ui.user.UserSession;
+import com.epam.util.UserSession;
 
 @Component
 public class UserQuizService {

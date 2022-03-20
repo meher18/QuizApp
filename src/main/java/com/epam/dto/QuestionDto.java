@@ -71,11 +71,4 @@ public class QuestionDto {
 		this.difficultyTag = difficultyTag;
 	}
 
-	@Override
-	public String toString() {
-		return "Question [id=" + id + ", questionOptions=" + questionOptions + ", questionTitle=" + questionTitle
-				+ ", mark=" + mark + ", answer=" + answer + ", topicTag=" + topicTag + ", difficultyTag="
-				+ difficultyTag + "]";
-	}
-
 }

@@ -2,10 +2,13 @@ package com.epam.exceptions;
 
 import org.springframework.ui.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class QuizException  extends Exception{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public QuizException(){
 		
 	}

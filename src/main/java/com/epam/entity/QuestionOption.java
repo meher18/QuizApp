@@ -17,12 +17,12 @@ public class QuestionOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    public int id;
 
-    private String title;
+    public String title;
 
     @ManyToOne
-    private Question question;
+    public Question question;
 
     public int getId() {
         return id;
@@ -47,4 +47,11 @@ public class QuestionOption {
     public String getOptionTitle() {
         return title;
     }
+
+	@Override
+	public String toString() {
+		return "QuestionOption [id=" + id + ", title=" + title + ", question=" + question + "]";
+	}
+    
+    
 }

@@ -12,9 +12,7 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String showWelcomePage(HttpServletRequest request, Model model) {
-		String redirectPage = "index";
-
-		return redirectPage;
+		return "index";
 	}
 
 	@RequestMapping("/userSignIn")

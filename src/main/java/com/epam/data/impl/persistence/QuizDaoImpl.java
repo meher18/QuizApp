@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.epam.data.dao.QuizDao;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;

@@ -1,7 +1,12 @@
 package com.epam.exceptions;
 
 public class InValidQuestion extends Exception{
-    InValidQuestion(String str)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	InValidQuestion(String str)
     {
         super(str);
     }

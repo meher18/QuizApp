@@ -32,6 +32,7 @@ public class Question {
 	public int answer;
 	public String topicTag;
 	public String difficultyTag;
+	
 
 	public int getId() {
 		return id;
@@ -102,13 +103,7 @@ public class Question {
 		this.questionOptions = options;
 	}
 
-	@Override
-	public String toString() {
-		return "Question [id=" + id + ", questionOptions=" + questionOptions + ", questionTitle=" + questionTitle
-				+ ", mark=" + mark + ", answer=" + answer + ", topicTag=" + topicTag + ", difficultyTag="
-				+ difficultyTag + "]";
-	}
-	
+
 	
 
 }

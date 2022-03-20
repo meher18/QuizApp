@@ -22,7 +22,7 @@
 	
 	${adminLoginStatus}
 	<div class = "container" style = "margin-top:35px">
-		<form action="signInAdmin" method="get" class = "card card-body">
+		<form action="signInTheAdmin" method="get" class = "card card-body">
 			<h4  class = "text-center">Admin Sign In</h4>
 			<input type ="text" name = "name" placeholder="Admin user name" class = "form-control" required/>
 			<br>

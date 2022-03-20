@@ -1,5 +1,5 @@
 
-package com.epam.ui.user;
+package com.epam.util;
 
 import org.springframework.stereotype.Component;
 

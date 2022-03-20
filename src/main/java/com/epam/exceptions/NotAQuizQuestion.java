@@ -1,7 +1,12 @@
 package com.epam.exceptions;
 
 public class NotAQuizQuestion extends Exception{
-    public NotAQuizQuestion(String str)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public NotAQuizQuestion(String str)
     {
         super(str);
     }

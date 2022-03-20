@@ -30,10 +30,6 @@ public class AdminDashboardController {
 	public String showQuizModule() {
 		return "admin/quiz/quizModule";
 	}
-//	@RequestMapping("/questionModule")
-//	public String showAdminSettings()
-//	{
-//		return "adminDashBoard";
-//	}
+
 
 }

@@ -7,9 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.epam.config.AppContext;
 import com.epam.data.dao.QuestionDao;
 import com.epam.data.dao.QuizDao;

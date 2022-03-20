@@ -11,6 +11,6 @@ public class QuizExceptionHandler {
 
 	@ExceptionHandler(QuizException.class)
 	public Model handleException(QuizException exception) {
-		return null;
+		return exception.getModel();
 	}
 }

@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.epam.data.dao.UserDao;
 import com.epam.entity.User;
 
