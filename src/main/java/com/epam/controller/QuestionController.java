@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -43,39 +44,15 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/addQuestion")
-	public String addTheQuestion(QuestionDto questionDto, Model model, HttpServletResponse response) {
+	public String addTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model, HttpServletResponse response) {
 
-		Map<String, String> errors = new HashMap<>();
-
-		if (questionDto.questionTitle.equals("")) {
-			errors.put("title", "Please provide the title");
-		}
-
-		if (questionDto.questionOptions.isEmpty() || questionDto.questionOptions.size() < 2
-				|| questionDto.questionOptions.size() > 6) {
-			errors.put("options", "Please provide min 2 options, max 6 options");
-		}
-		if (questionDto.topicTag.equals("")) {
-			errors.put("topic", "Please provide the topic");
-		}
-		if (questionDto.difficultyTag.equals("")) {
-			errors.put("difficulty", "Please provide the difficulty");
-		}
-		if (questionDto.answer == 0) {
-			errors.put("answer", "Please provide the answer");
-		}
-		if (questionDto.mark < 0) {
-			errors.put("mark", "Please provide the mark");
-		}
 		String redirectPage = "redirect:/viewQuestions";
-
-		if (errors.isEmpty()) {
+		if(!bindingResult.hasErrors())
+		{
 			questionService.createQuestion(questionDto);
-		} else {
-			model.addAttribute("errors", errors);
+		}else {
 			redirectPage = "admin/question/createQuestion";
 		}
-
 		return redirectPage;
 	}
 
@@ -107,39 +84,16 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/updateTheQuestion")
-	public String updateTheQuestion(QuestionDto questionDto, Model model) {
+	public String updateTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model) {
 
-		Map<String, String> errors = new HashMap<>();
-
-		if (questionDto.questionTitle.equals("")) {
-			errors.put("title", "Please provide the title");
-		}
-
-		if (questionDto.questionOptions.isEmpty() || questionDto.questionOptions.size() < 2
-				|| questionDto.questionOptions.size() > 6) {
-			errors.put("options", "Please provide min 2 options, max 6 options");
-		}
-		if (questionDto.topicTag == "") {
-			errors.put("topic", "Please provide the topic");
-		}
-		if (questionDto.difficultyTag == "") {
-			errors.put("difficulty", "Please provide the difficulty");
-		}
-		if (questionDto.answer <= 0) {
-			errors.put("answer", "Please provide the answer");
-		}
-		if (questionDto.mark <= 0) {
-			errors.put("mark", "Please provide the mark");
-		}
 
 		String redirectPage = "redirect:/viewQuestions";
-		if (errors.size() <= 0) {
-			
+		if (!bindingResult.hasErrors()) {
+
 			questionService.update(questionDto);
 			model.addAttribute("questions", questionService.getQuestions().values());
 			model.addAttribute("updationStatus", "UPDATED");
 		} else {
-			model.addAttribute("errors", errors);
 			redirectPage = "redirect:/updateQuestion?id=" + questionDto.id;
 		}
 

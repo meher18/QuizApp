@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.dto.QuestionDto;
 import com.epam.dto.QuizDto;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
@@ -22,7 +21,7 @@ public class QuizService {
 
 	@Autowired
 	ModelMapper mapper;
-	
+
 	@Autowired
 	QuizLibraryService quizLibrary;
 
@@ -31,12 +30,11 @@ public class QuizService {
 
 	public Map<Integer, QuizDto> getAllQuizzes() {
 
-		return quizLibrary.getQuizzes().values().stream()
-				.collect(Collectors.toMap(Quiz::getId, value -> {
-					QuizDto quizDto = mapper.map(value, QuizDto.class);
-					quizDto.setQuestions(value.getQuestions().values().stream().toList());
-					return quizDto;
-				}));
+		return quizLibrary.getQuizzes().values().stream().collect(Collectors.toMap(Quiz::getId, value -> {
+			QuizDto quizDto = mapper.map(value, QuizDto.class);
+			quizDto.setQuestions(value.getQuestions().values().stream().toList());
+			return quizDto;
+		}));
 	}
 
 	public Map<Integer, Question> getQuestionForQuiz(Quiz quiz) {

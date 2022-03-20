@@ -1,13 +1,12 @@
 package com.epam.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,14 +52,6 @@ public class QuizController {
 
 		int quizId = Integer.parseInt(id);
 		quizService.hostQuiz(quizId);
-//		try {
-//			quizService.getAllQuizzes().values();
-//		} catch (Exception e) {
-//			QuizException q = new QuizException();
-//			q.setModel(null);
-//			q.setErrorMessage("Quizzes not Found");
-//			throw q;
-//		}
 
 		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 		return "redirect:/viewQuizzes";
@@ -77,59 +68,31 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/createTheQuiz")
-	public String createTheQuiz(QuizDto quizDto, String[] questions, Model model) {
-
-		Map<String, String> errors = new HashMap<>();
-
-		if (quizDto.quizName.equals("")) {
-			errors.put("quizName", "Please provide the Quiz Name");
-		}
-
-		if (quizDto.questions.isEmpty()) {
-			errors.put("questionId", "Please provide some questions");
-		}
+	public String createTheQuiz(QuizDto quizDto, BindingResult bindingResult, String[] questions, Model model) {
 
 		String redirectPage = "admin/quiz/createQuiz";
 
-		if (errors.size() <= 0) {
-
+		if (!bindingResult.hasErrors()) {
+			
 			quizService.createQuiz(quizDto, questions);
 
 			model.addAttribute("quizUpdationStatus", "UPDATED");
 			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 
 			redirectPage = "redirect:/viewQuizzes";
-		} else {
-			model.addAttribute("questions", questionService.getQuestions().values());
-			model.addAttribute("errors", errors);
 		}
 
 		return redirectPage;
 	}
 
 	@RequestMapping(value = "/updateTheQuiz", params = { "id", "quizName", "questionId", "quizTag" })
-	public String updateTheQuiz(QuizDto quizDto, String[] questions, Model model) {
+	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult, Model model) {
 
-		Map<String, String> errors = new HashMap<>();
+		quizService.update(quizDto, questions);
 
-		if (quizDto.quizName == "") {
-			errors.put("quizName", "Please provide the Quiz Name");
-		}
+		model.addAttribute("quizUpdationStatus", "UPDATED");
+		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
 
-		if (quizDto.questions.isEmpty()) {
-			errors.put("questionId", "Please provide some questions");
-		}
-
-		String redirectPage = "redirect:/updateQuiz?id=" + quizDto.id;
-		if (errors.size() <= 0) {
-
-			quizService.update(quizDto, questions);
-
-			model.addAttribute("quizUpdationStatus", "UPDATED");
-			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
-			redirectPage = "redirect:/viewQuizzes";
-		}
-
-		return redirectPage;
+		return "redirect:/viewQuizzes";
 	}
 }

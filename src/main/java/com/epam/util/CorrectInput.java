@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.epam.config.AppContext;
+import com.epam.AppContext;
 
 @Component
 public class CorrectInput {

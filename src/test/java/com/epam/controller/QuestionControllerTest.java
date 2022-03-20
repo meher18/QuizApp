@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,38 +22,43 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.epam.dto.QuestionDto;
 import com.epam.entity.Question;
 import com.epam.service.admin.QuestionService;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(QuestionController.class)
-public class QuestionControllerTest {
+class QuestionControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
 	private QuestionService questionService;
-	
+
 	@MockBean
 	private QuestionsLibraryService library;
 
-	Map<Integer, Question> questions = new HashMap<>();
-	Question q1 = new Question();
-	Question q2 = new Question();
+	Map<Integer, QuestionDto> questions = new HashMap<>();
+	QuestionDto q1 = new QuestionDto();
+	QuestionDto q2 = new QuestionDto();
 
-	String title ;
-	String options ;
-	String optionsVal ;
-	String topic ;
+	Map<Integer, Question> questionsMap = new HashMap<>();
+	Question quesiton1 = new Question();
+	Question question2 = new Question();
+
+	String title;
+	String options;
+	String optionsVal;
+	String topic;
 	String difficulty;
 	String answer;
-	String mark ;
+	String mark;
 
 	@BeforeEach
 	void setUp() {
-		
+
 		q1.setId(1);
 		q2.setId(2);
 		questions.put(1, q1);
@@ -88,81 +94,49 @@ public class QuestionControllerTest {
 	}
 
 	@Test
-	void addQuestionTestForNoErrors() throws Exception{
+	void addQuestionTestForNoErrors() throws Exception {
 		title = "questionTitle";
-		options = "2";
-		optionsVal = "1,3";
+
+		optionsVal = Arrays.asList(new String[] { "asdf", "asdfasdf" }).toString();
 		topic = "java";
 		difficulty = "easy";
 		answer = "2";
 		mark = "10";
-		
-		mockMvc.perform(get("/addQuestion")
-				.param("title", title)
-				.param("options", options)
-				.param("optionsVal", optionsVal)
-				.param("topic", topic)
-				.param("difficulty", difficulty)
-				.param("answer", answer)
-				.param("mark", mark))
-		.andExpect(view().name("redirect:/viewQuestions"))
-		.andExpect(status().is3xxRedirection());
-		
+
+		mockMvc.perform(get("/addQuestion").param("id", "0").param("questionTitle", title)
+				.param("questionOptions", optionsVal).param("topicTag", topic).param("difficultyTag", difficulty)
+				.param("answer", answer).param("mark", mark)).andExpect(view().name("redirect:/viewQuestions"))
+				.andExpect(status().is3xxRedirection());
+
 	}
-	
-	
-	@Test
-	void addQuestionTestForErrors() throws Exception{
-		title = "";
-		options = "";
-		optionsVal = "";
-		topic = "";
-		difficulty = "";
-		answer = "";
-		mark = "";
-		
-		mockMvc.perform(get("/addQuestion")
-				.param("title", title)
-				.param("options", options)
-				.param("optionsVal", optionsVal)
-				.param("topic", topic)
-				.param("difficulty", difficulty)
-				.param("answer", answer)
-				.param("mark", mark))
-		.andExpect(view().name("admin/question/createQuestion"))
-		.andExpect(status().isOk());
-		
-	}
-	
 
 	@Test
-	void updateQuestionForNoErrors() throws Exception{
-		String id = "1";
+	void addQuestionTestForErrors() throws Exception {
+
+		mockMvc.perform(get("/addQuestion").param("id", "").param("questionTitle", "").param("questionOptions", "")
+				.param("topicTag", "").param("difficultyTag", difficulty).param("answer", answer).param("mark", mark))
+				.andExpect(view().name("admin/question/createQuestion")).andExpect(status().isOk());
+	}
+
+	@Test
+	void updateQuestionForNoErrors() throws Exception {
 		title = "questionTitle";
 		optionsVal = "1,3";
 		topic = "java";
 		difficulty = "easy";
 		answer = "2";
 		mark = "10";
-		
+
 		when(questionService.getQuestion(1)).thenReturn(q1);
-		mockMvc.perform(get("/updateTheQuestion")
-				.param("id", id)
-				.param("title", title)
-				.param("optionsVal", optionsVal)
-				.param("topic", topic)
-				.param("difficulty", difficulty)
-				.param("answer", answer)
-				.param("mark", mark))
-		.andExpect(view().name("redirect:/viewQuestions"))
-		.andExpect(status().is3xxRedirection());
-		
+		mockMvc.perform(get("/updateTheQuestion").param("id", "0").param("questionTitle", title)
+				.param("questionOptions", optionsVal).param("topicTag", topic).param("difficultyTag", difficulty)
+				.param("answer", answer).param("mark", mark)).andExpect(view().name("redirect:/viewQuestions"))
+				.andExpect(status().is3xxRedirection());
+
 	}
-	
-	
 
 	@Test
-	void updateQuestionForErrors() throws Exception{
+	void updateQuestionForErrors() throws Exception {
 		String id = "1";
 		title = "";
 		optionsVal = "";
@@ -170,62 +144,45 @@ public class QuestionControllerTest {
 		difficulty = "";
 		answer = "";
 		mark = "";
-		
+
 		when(questionService.getQuestion(1)).thenReturn(q1);
-		mockMvc.perform(get("/updateTheQuestion")
-				.param("id", id)
-				.param("title", title)
-				.param("optionsVal", optionsVal)
-				.param("topic", topic)
-				.param("difficulty", difficulty)
-				.param("answer", answer)
-				.param("mark", mark))
-		.andExpect(view().name("redirect:/updateQuestion?id="+ id))
-		.andExpect(status().is3xxRedirection());
-		
+		mockMvc.perform(get("/updateTheQuestion").param("id", id).param("title", title).param("optionsVal", optionsVal)
+				.param("topic", topic).param("difficulty", difficulty).param("answer", answer).param("mark", mark))
+				.andExpect(view().name("redirect:/updateQuestion?id=" + id)).andExpect(status().is3xxRedirection());
+
 	}
-	
 
 	@Test
-	void deletionForValidQuestionId() throws Exception{
+	void deletionForValidQuestionId() throws Exception {
 		String id = "1";
 		when(questionService.getQuestions()).thenReturn(questions);
 		when(questionService.delete(1)).thenReturn(true);
-		mockMvc.perform(get("/deleteTheQuestion")
-				.param("id", id))
-		.andExpect(model().attribute("questions", hasSize(2)))
-		.andExpect(model().attribute("deletionStatus", "Deleted"))
-		.andExpect(view().name("admin/question/viewQuestions"))
-		.andExpect(status().isOk());
-		
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
+				.andExpect(model().attribute("deletionStatus", "Deleted"))
+				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
+
 	}
 
 	@Test
-	void deleteForInvalidQuestionId() throws Exception{
-		
+	void deleteForInvalidQuestionId() throws Exception {
+
 		String id = "111";
 //		when(library.getNoQuizzesForQuestionId(-1)).thenReturn()
-		when(library.getQuestions()).thenReturn(questions);
+		when(library.getQuestions()).thenReturn(questionsMap);
 		when(questionService.getQuestions()).thenReturn(questions);
-		mockMvc.perform(get("/deleteTheQuestion")
-				.param("id", id))
-		.andExpect(model().attribute("questions", hasSize(2)))
-		.andExpect(model().attribute("deletionStatus", "Not Deleted"))
-		.andExpect(view().name("admin/question/viewQuestions"))
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
+				.andExpect(model().attribute("deletionStatus", "Not Deleted"))
+				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
 	}
-	
+
 	@Test
-	void deleteForQuestionIdPresentInQuiz() throws Exception{
-		
+	void deleteForQuestionIdPresentInQuiz() throws Exception {
+
 		String id = "-1";
 		when(library.getNoQuizzesForQuestionId(-1)).thenReturn(10);
 		when(questionService.getQuestions()).thenReturn(questions);
-		mockMvc.perform(get("/deleteTheQuestion")
-				.param("id", id))
-		.andExpect(model().attribute("questions", hasSize(2)))
-		.andExpect(model().attribute("deletionStatus", "Not Deleted"))
-		.andExpect(view().name("admin/question/viewQuestions"))
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
+				.andExpect(model().attribute("deletionStatus", "Not Deleted"))
+				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
 	}
 }

@@ -15,6 +15,5 @@ public class QuizAppApplication {
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
-
 	}
 }

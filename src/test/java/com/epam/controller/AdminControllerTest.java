@@ -36,7 +36,7 @@ class AdminControllerTest {
 		adminDto.setPass("pass");
 
 		when(adminService.checkValidity(any(AdminDto.class))).thenReturn(true);
-		mockMvc.perform(get("/signInAdmin").param("name", adminDto.getName()).param("pass", adminDto.getPass()))
+		mockMvc.perform(get("/signInTheAdmin").param("name", adminDto.getName()).param("pass", adminDto.getPass()))
 				.andExpect(view().name("redirect:/adminDashboard")).andExpect(status().is3xxRedirection());
 	}
 
@@ -48,7 +48,7 @@ class AdminControllerTest {
 		admin.setPass("pass");
 
 		when(adminService.checkValidity(any(AdminDto.class))).thenReturn(false);
-		mockMvc.perform(get("/signInAdmin").param("name", admin.getName()).param("pass", admin.getPass()))
+		mockMvc.perform(get("/signInTheAdmin").param("name", admin.getName()).param("pass", admin.getPass()))
 				.andExpect(view().name("redirect:/admin")).andExpect(status().is3xxRedirection());
 	}
 

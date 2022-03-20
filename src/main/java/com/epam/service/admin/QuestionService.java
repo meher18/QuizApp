@@ -40,18 +40,14 @@ public class QuestionService {
 				}));
 	}
 
-	public Question getQuestion(int questionId) {
-
-		return questionsLibrary.getQuestion(questionId);
-	}
-
-	public QuestionDto getQuestionDto(int questionId) {
+	public QuestionDto getQuestion(int questionId) {
 
 		ModelMapper mapper = new ModelMapper();
 		Question question = questionsLibrary.getQuestion(questionId);
 		QuestionDto questionDto = mapper.map(question, QuestionDto.class);
 		return questionDto;
 	}
+
 
 	public void validateQuestionId(int questionId) throws InValidQuestionId, InValidQuestionDeletion {
 

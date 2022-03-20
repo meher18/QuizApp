@@ -18,7 +18,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.epam.config.AppContext;
+import com.epam.AppContext;
 import com.epam.service.libraryservice.QuizLibraryService;
 
 @Component

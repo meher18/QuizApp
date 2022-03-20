@@ -18,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.epam.entity.Quiz;
+import com.epam.dto.QuizDto;
 import com.epam.service.admin.QuizService;
 import com.epam.service.user.UserQuizService;
 
@@ -28,42 +28,36 @@ public class UserQuizControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	QuizService quizService;
 
 	@MockBean
 	UserQuizService userQuizService;
-	
-	Map<Integer, Quiz> quizzes = new HashMap<>();
-	
-	Quiz q1 = new Quiz();
-	Quiz q2 = new Quiz();
-	
+
+	Map<Integer, QuizDto> quizzes = new HashMap<>();
+
+	QuizDto q1 = new QuizDto();
+	QuizDto q2 = new QuizDto();
+
 	@BeforeEach
-	void setup()
-	{
+	void setup() {
 		quizzes.put(1, q1);
 		quizzes.put(2, q2);
 	}
-	
+
 	@Test
-	void viewAllHostedQuizzesTest() throws Exception
-	{
+	void viewAllHostedQuizzesTest() throws Exception {
 		when(quizService.getAllQuizzes()).thenReturn(quizzes);
-		mockMvc.perform(get("/viewHostedQuizzes"))
-		.andExpect(view().name("user/viewHostedQuizzes"))
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/viewHostedQuizzes")).andExpect(view().name("user/viewHostedQuizzes"))
+				.andExpect(status().isOk());
 	}
+
 	@Test
-	void takeTheQuiz() throws Exception
-	{
+	void takeTheQuiz() throws Exception {
 		String id = "1";
 		when(quizService.getQuiz(1)).thenReturn(q1);
-		mockMvc.perform(get("/takeTheQuiz")
-				.param("quizId", id))
-		.andExpect(model().attribute("quiz", q1))
-		.andExpect(view().name("user/quiz"))
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/takeTheQuiz").param("quizId", id)).andExpect(model().attribute("quiz", q1))
+				.andExpect(view().name("user/quiz")).andExpect(status().isOk());
 	}
 }

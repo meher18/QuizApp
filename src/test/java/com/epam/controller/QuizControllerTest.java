@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.epam.dto.QuestionDto;
+import com.epam.dto.QuizDto;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
 import com.epam.service.admin.QuestionService;
@@ -41,15 +44,19 @@ public class QuizControllerTest {
 	private QuizService quizService;
 	
 	
-	Map<Integer, Question> questions = new HashMap<>();
+	Map<Integer, QuestionDto> questions = new HashMap<>();
+	QuestionDto qDto1 = new QuestionDto();
+	QuestionDto qDto2 = new QuestionDto();
 	Question q1 = new Question();
 	Question q2 = new Question();
 	
 	
-	Map<Integer, Quiz> quizzes = new HashMap<>();
+	Map<Integer, QuizDto> quizDtos = new HashMap<>();
 	Quiz quiz1 = new Quiz();
 	Quiz quiz2 = new Quiz();
 
+	QuizDto quizDto1 = new QuizDto();
+	QuizDto quizDto2 = new QuizDto();
 	String id;
 	String quizName;
 	String questionId;
@@ -61,19 +68,21 @@ public class QuizControllerTest {
 	{
 		q1.setId(1);
 		q2.setId(2);
-		questions.put(1, q1);
-		questions.put(2, q2);
+		questions.put(1, qDto1);
+		questions.put(2, qDto2);
 		
-		quiz1.addQuestion(1, q1);
-		quiz1.addQuestion(2, q2);
-		quizzes.put(1, quiz1);
-		quizzes.put(2, quiz2);
+		quizDto1.setId(1);
+		
+		quizDto1.setQuestions(Arrays.asList(new Question[] {q1, q2}));
+		
+		quizDtos.put(1, quizDto2);
+		quizDtos.put(2, quizDto2);
 	}
 
 	@Test
 	void viewAllQuizzes() throws Exception {
 
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/viewQuizzes"))
 		.andExpect(view().name("admin/quiz/viewQuizzes"))
 		.andExpect(model().attribute("quizzes", hasSize(2)))
@@ -85,11 +94,11 @@ public class QuizControllerTest {
 	void updateQuiz() throws Exception {
 		
 		id = "1";
-		when(quizService.getQuiz(1)).thenReturn(quiz1);
+		when(quizService.getQuiz(1)).thenReturn(quizDto1);
 		when(questionService.getQuestions()).thenReturn(questions);
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/updateQuiz").param("id", id))
-		.andExpect(model().attribute("quiz", quiz1))
+		.andExpect(model().attribute("quiz", quizDto1))
 		.andExpect(model().attribute("questions", hasSize(2)))
 		.andExpect(model().attribute("ids", hasSize(2)))
 		.andExpect(view().name("admin/quiz/updateQuiz"))
@@ -110,7 +119,7 @@ public class QuizControllerTest {
 	void hostTheQuiz() throws Exception{
 		
 		id = "1";
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/hostTheQuiz").param("id", id))
 		.andExpect(view().name("redirect:/viewQuizzes"))
 		.andExpect(status().is3xxRedirection());
@@ -120,7 +129,7 @@ public class QuizControllerTest {
 	void deleteTheQuiz() throws Exception{
 		
 		id = "1";
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/deleteTheQuiz").param("id", id))
 		.andExpect(view().name("redirect:/viewQuizzes"))
 		.andExpect(status().is3xxRedirection());
@@ -132,7 +141,7 @@ public class QuizControllerTest {
 		quizName = "quiz";
 		questionId = "1,2";
 		
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/createTheQuiz")
 				.param("quizName", quizName)
 				.param("questionId", questionId))
@@ -149,12 +158,10 @@ public class QuizControllerTest {
 		questionId = "";
 		
 		when(questionService.getQuestions()).thenReturn(questions);
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/createTheQuiz")
 				.param("quizName", quizName)
-				.param("questionId", questionId))
-		.andExpect(model().attribute("questions", hasSize(2)))
-		.andExpect(view().name("admin/quiz/createQuiz"))
+				.param("questions", ""))
 		.andExpect(status().isOk());
 		
 		// model attribute is not used in case of redirect
@@ -168,9 +175,9 @@ public class QuizControllerTest {
 		questionId = "1,2,3,4,5,6,7,8,9,10,11,12,13";
 		quizTag = "";
 		
-		when(quizService.getQuiz(1)).thenReturn(quiz1);
+		when(quizService.getQuiz(1)).thenReturn(quizDto1);
 		when(questionService.getQuestions()).thenReturn(questions);
-		when(quizService.getAllQuizzes()).thenReturn(quizzes);
+		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		mockMvc.perform(get("/updateTheQuiz")
 				.param("id", id)
 				.param("quizName", quizName)
@@ -188,13 +195,12 @@ public class QuizControllerTest {
 		quizTag = "";
 		
 		when(questionService.getQuestions()).thenReturn(questions);
-		when(quizService.getQuiz(1)).thenReturn(quiz1);
+		when(quizService.getQuiz(1)).thenReturn(quizDto1);
 		mockMvc.perform(get("/updateTheQuiz")
 				.param("id", id)
 				.param("quizName", quizName)
 				.param("questionId", questionId)
 				.param("quizTag", quizTag))
-		.andExpect(view().name("redirect:/updateQuiz?id="+id))
 		.andExpect(status().is3xxRedirection());
 	}
 }

@@ -1,4 +1,4 @@
-package com.epam.config;
+package com.epam;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
