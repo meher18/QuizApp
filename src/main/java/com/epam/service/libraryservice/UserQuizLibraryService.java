@@ -43,8 +43,5 @@ public class UserQuizLibraryService {
 		return true;
 	}
 
-	public boolean deleteQuiz(User user) {
-		// deletion of the userQuiz is not possible
-		return true;
-	}
+
 }

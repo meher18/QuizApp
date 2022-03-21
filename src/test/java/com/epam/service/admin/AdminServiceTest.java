@@ -1,26 +1,26 @@
 package com.epam.service.admin;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.epam.dto.AdminDto;
 import com.epam.entity.Admin;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class AdminServiceTest {
 
-	@Mock
-	AdminService adminService;
+	private AdminService adminService;
 
-	@Mock
-	ModelMapper mapper;
+	@BeforeEach
+	void init() {
+		adminService = new AdminService();
+		adminService.mapper = new ModelMapper();
+	}
 
 	@Test
 	void checkValidity() {
@@ -32,7 +32,6 @@ class AdminServiceTest {
 		adminDto.setName("Admin");
 		adminDto.setPass("123");
 
-		when(mapper.map(any(AdminDto.class), any())).thenReturn(admin);
 		assertTrue(adminService.checkValidity(adminDto));
 	}
 

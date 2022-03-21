@@ -1,8 +1,5 @@
 package com.epam.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +41,13 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/addQuestion")
-	public String addTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model, HttpServletResponse response) {
+	public String addTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model,
+			HttpServletResponse response) {
 
 		String redirectPage = "redirect:/viewQuestions";
-		if(!bindingResult.hasErrors())
-		{
+		if (!bindingResult.hasErrors()) {
 			questionService.createQuestion(questionDto);
-		}else {
+		} else {
 			redirectPage = "admin/question/createQuestion";
 		}
 		return redirectPage;
@@ -85,7 +82,6 @@ public class QuestionController {
 
 	@RequestMapping(value = "/updateTheQuestion")
 	public String updateTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model) {
-
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {

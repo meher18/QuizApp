@@ -89,11 +89,10 @@ public class QuizService {
 
 	public boolean delete(int quizId) {
 
-		boolean isQuizDeleted = false;
-		if (quizId > 0) {
-			isQuizDeleted = quizLibrary.deleteQuiz(quizId);
-		}
-		return isQuizDeleted;
+	
+		return  quizLibrary.deleteQuiz(quizId);
+
+	
 	}
 
 	public boolean hostQuiz(int quizId) {

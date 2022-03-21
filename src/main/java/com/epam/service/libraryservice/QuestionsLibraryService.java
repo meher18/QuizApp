@@ -6,13 +6,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.epam.data.repository.QuestionRepository;
 import com.epam.data.repository.QuizRepository;
 import com.epam.entity.Question;
 
-@Service
+@Component
 public class QuestionsLibraryService {
 
 	@Autowired
