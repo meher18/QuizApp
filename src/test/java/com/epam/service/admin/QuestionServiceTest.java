@@ -53,7 +53,7 @@ class QuestionServiceTest {
 
 		
 		questionOption.setId(0);
-		questionOption.setOptionTitle("asdfasdf");
+		questionOption.setTitle("asdfasdf");
 
 		q1.setId(1);
 		q1.setOption(questionOption);
@@ -122,8 +122,8 @@ class QuestionServiceTest {
 		List<String> options = new ArrayList<String>(Arrays.asList(new String[] {"adsf","adsfasdf"}));
 		qDto1.setQuestionOptions(options);
 		
-		when(libraryService.addQuestion(anyInt(), any())).thenReturn(true);
-		assertTrue(questionService.createQuestion(qDto1));
+		when(libraryService.addQuestion(any())).thenReturn(q1);
+		assertNotNull(questionService.createQuestion(qDto1));
 	}
 
 	@Test
@@ -138,8 +138,8 @@ class QuestionServiceTest {
 		qDto1.setQuestionOptions(options);
 		
 		when(libraryService.getQuestion(1)).thenReturn(q1);
-		when(libraryService.editQuestion(anyInt(), any())).thenReturn(true);
-		assertTrue(questionService.update(qDto1));
+		when(libraryService.editQuestion(any())).thenReturn(q1);
+		assertNotNull(questionService.update(qDto1));
 	}
 
 	@Test

@@ -20,6 +20,8 @@ public class QuestionController {
 	@Autowired
 	QuestionService questionService;
 
+	private static final String QUESTIONS = "questions";
+
 	@RequestMapping("/createQuestion")
 	public String createQuestion() {
 		return "admin/question/createQuestion";
@@ -28,7 +30,7 @@ public class QuestionController {
 	@RequestMapping("/viewQuestions")
 	public String viewQuestions(Model model) {
 
-		model.addAttribute("questions", questionService.getQuestions().values());
+		model.addAttribute(QUESTIONS, questionService.getQuestions().values());
 		return "admin/question/viewQuestions";
 	}
 
@@ -56,7 +58,6 @@ public class QuestionController {
 	@RequestMapping(value = "/deleteTheQuestion", params = "id")
 	public String deleteQuestion(@RequestParam(value = "id") String questionId, Model model) {
 
-		// check session
 		String deletionStatus = "Not Deleted";
 
 		int id = Integer.parseInt(questionId);
@@ -75,7 +76,7 @@ public class QuestionController {
 			deletionStatus = "Unable to delete, Question is part of some quiz";
 		}
 
-		model.addAttribute("questions", questionService.getQuestions().values());
+		model.addAttribute(QUESTIONS, questionService.getQuestions().values());
 		model.addAttribute("deletionStatus", deletionStatus);
 		return "admin/question/viewQuestions";
 	}
@@ -85,9 +86,8 @@ public class QuestionController {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {
-
 			questionService.update(questionDto);
-			model.addAttribute("questions", questionService.getQuestions().values());
+			model.addAttribute(QUESTIONS, questionService.getQuestions().values());
 			model.addAttribute("updationStatus", "UPDATED");
 		} else {
 			redirectPage = "redirect:/updateQuestion?id=" + questionDto.id;

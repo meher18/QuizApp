@@ -24,7 +24,7 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 
-	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true )
+	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	public String questionTitle;
@@ -32,7 +32,6 @@ public class Question {
 	public int answer;
 	public String topicTag;
 	public String difficultyTag;
-	
 
 	public int getId() {
 		return id;
@@ -42,7 +41,7 @@ public class Question {
 		this.id = id;
 	}
 
-	public List<QuestionOption> getOptions() {
+	public List<QuestionOption> getQuestionOptions() {
 		return questionOptions;
 	}
 
@@ -95,7 +94,7 @@ public class Question {
 		this.difficultyTag = difficultyTag;
 	}
 
-	public void setOptions(List<QuestionOption> options) {
+	public void setQuestionOptions(List<QuestionOption> options) {
 
 		for (QuestionOption option : options) {
 			option.setQuestion(this);

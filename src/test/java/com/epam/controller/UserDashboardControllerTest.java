@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserDashboardController.class)
-public class UserDashboardControllerTest {
+ class UserDashboardControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

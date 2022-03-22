@@ -31,24 +31,13 @@ public class QuestionsLibraryService {
 		return questionsList.stream().collect(Collectors.toMap(Question::getId, v -> v));
 	}
 
-	public boolean addQuestion(int index, Question question) {
-		boolean isQuestionValid = false;
-
-		Question questionSaved = questionRepository.save(question);
-		if (questionSaved != null) {
-			isQuestionValid = true;
-		}
-		return isQuestionValid;
+	public Question addQuestion(Question question) {
+		return questionRepository.save(question);
 	}
 
-	public boolean editQuestion(int index, Question newQuestion) {
-		boolean isQuestionValid = false;
+	public Question editQuestion(Question newQuestion) {
+		return questionRepository.save(newQuestion);
 
-		Question questionSaved = questionRepository.save(newQuestion);
-		if (questionSaved != null) {
-			isQuestionValid = true;
-		}
-		return isQuestionValid;
 	}
 
 	public boolean deleteQuestion(int index) {

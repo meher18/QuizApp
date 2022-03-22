@@ -14,7 +14,6 @@ public class AppContext {
             AppContext.setApplicationContext(applicationContext);
         }
     }
-
     private AppContext(){}
     
     private static ApplicationContext applicationContext;

@@ -15,6 +15,7 @@ public class AdminDashboardController {
 		String redirectPage = "redirect:/";
 		HttpSession httpSession = request.getSession();
 
+		//  checking for session
 		if (httpSession.getAttribute("adminUserName") != null) {
 			redirectPage = "admin/adminDashboard";
 		}

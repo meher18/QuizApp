@@ -24,18 +24,17 @@ public class QuizLibraryService {
 	public Map<Integer, Quiz> getQuizzes() {
 		List<Quiz> quizList = (List<Quiz>) quizRepository.findAll();
 
-		Map<Integer, Quiz> quizzes = quizList.stream().collect(Collectors.toMap(k -> k.getId(), v -> v));
-		return quizzes;
+		return quizList.stream().collect(Collectors.toMap(Quiz::getId, v -> v));
 	}
 
-	public boolean addQuiz(int index, Quiz quiz) {
-		quizRepository.save(quiz);
-		return true;
+	public Quiz addQuiz(int index, Quiz quiz) {
+		
+		return quizRepository.save(quiz);
 	}
 
-	public boolean editQuiz(int index, Quiz quiz) {
-		quizRepository.save(quiz);
-		return true;
+	public Quiz editQuiz(int index, Quiz quiz) {
+		
+		return quizRepository.save(quiz);
 	}
 
 	public boolean deleteQuiz(int index) {

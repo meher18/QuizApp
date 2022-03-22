@@ -20,17 +20,13 @@ public class UserQuizLibraryService {
 
 	public Map<User, UserQuiz> getUserQuizMap() {
 		List<UserQuiz> userQuizList = (List<UserQuiz>) userQuizRepository.findAll();
-		Map<User, UserQuiz> userQuizzes = userQuizList.stream().collect(Collectors.toMap(k -> k.getUser(), v -> v));
-
-		return userQuizzes;
+		return userQuizList.stream().collect(Collectors.toMap(UserQuiz::getUser, v -> v));
 	}
 
 	public Map<Integer, UserQuiz> getUserQuizzesWithId() {
 		List<UserQuiz> userQuizList = (List<UserQuiz>) userQuizRepository.findAll();
-		Map<Integer, UserQuiz> userQuizzes = userQuizList.stream()
-				.collect(Collectors.toMap(k -> k.getQuizId(), v -> v));
-
-		return userQuizzes;
+		return userQuizList.stream()
+				.collect(Collectors.toMap(UserQuiz::getQuizId, v -> v));
 	}
 
 	public boolean addQuiz(User user, UserQuiz quiz) {

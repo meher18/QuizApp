@@ -20,7 +20,7 @@ import com.epam.service.user.UserSignUpService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
-public class UserControllerTest {
+ class UserControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

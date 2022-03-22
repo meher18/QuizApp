@@ -32,21 +32,21 @@ public class QuestionService {
 
 	public Map<Integer, QuestionDto> getQuestions() {
 
-		return questionsLibrary.getQuestions().values().stream()
-				.collect(Collectors.toMap(Question::getId, value -> {
-					QuestionDto qDto = mapper.map(value, QuestionDto.class);
-					qDto.setQuestionOptions(value.getOptions().stream().map(option -> option.getOptionTitle()).collect(Collectors.toList()));
-					return qDto;
-				}));
+		return questionsLibrary.getQuestions().values().stream().collect(Collectors.toMap(Question::getId, value -> {
+			QuestionDto qDto = mapper.map(value, QuestionDto.class);
+			qDto.setQuestionOptions(
+					value.getQuestionOptions().stream().map(QuestionOption::getTitle).collect(Collectors.toList()));
+			return qDto;
+		}));
 	}
 
 	public QuestionDto getQuestion(int questionId) {
 
 		Question question = questionsLibrary.getQuestion(questionId);
 		QuestionDto questionDto = mapper.map(question, QuestionDto.class);
+		questionDto.setQuestionOptions(question.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
 		return questionDto;
 	}
-
 
 	public void validateQuestionId(int questionId) throws InValidQuestionId, InValidQuestionDeletion {
 
@@ -59,29 +59,25 @@ public class QuestionService {
 		}
 	}
 
-	public boolean createQuestion(QuestionDto newQuestionDto) {
-		
+	public QuestionDto createQuestion(QuestionDto newQuestionDto) {
+
 		Question newQuestion = mapper.map(newQuestionDto, Question.class);
-		newQuestion.setOptions(newQuestionDto.getQuestionOptions().stream().map(o->{
+
+		newQuestion.setQuestionOptions(newQuestionDto.getQuestionOptions().stream().map(o -> {
 			QuestionOption option = new QuestionOption();
-			option.setOptionTitle(o);
+			option.setTitle(o);
 			return option;
 		}).collect(Collectors.toList()));
-// question Creator
-		boolean isQuestionCreated = false;
 
-		if (newQuestion != null) {
-			// this id is used when we are implementing collections as db
-			int questionId = 0;
-			boolean isAdded = questionsLibrary.addQuestion(questionId, newQuestion);
-			if (isAdded) {
-				isQuestionCreated = true;
-			}
-		}
-		return isQuestionCreated;
+		Question addedQuestion = questionsLibrary.addQuestion(newQuestion);
+		QuestionDto addedQuestionDto = mapper.map(addedQuestion, QuestionDto.class);
+		addedQuestionDto
+				.setQuestionOptions(addedQuestion.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
+
+		return addedQuestionDto;
 	}
 
-	public boolean update(QuestionDto questionDto) {
+	public QuestionDto update(QuestionDto questionDto) {
 
 		int id = questionDto.id;
 		Question question = questionsLibrary.getQuestion(id);
@@ -93,7 +89,7 @@ public class QuestionService {
 
 		for (String optionTitle : optionsList) {
 			QuestionOption option = new QuestionOption();
-			option.setOptionTitle(optionTitle);
+			option.setTitle(optionTitle);
 			question.setOption(option);
 
 		}
@@ -101,12 +97,12 @@ public class QuestionService {
 		question.setDifficultyTag(questionDto.difficultyTag);
 		question.setAnswer(questionDto.answer);
 		question.setMark(questionDto.mark);
-		boolean isQuestionUpdated = false;
 
-		if (question != null) {
-			isQuestionUpdated = questionsLibrary.editQuestion(id, question);
-		}
-		return isQuestionUpdated;
+		Question updatedQuestion = questionsLibrary.editQuestion(question);
+		QuestionDto updatedQuestionDto = mapper.map(updatedQuestion, QuestionDto.class);
+		updatedQuestionDto.setQuestionOptions(
+				updatedQuestion.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
+		return updatedQuestionDto;
 	}
 
 	public boolean delete(int questionId) {

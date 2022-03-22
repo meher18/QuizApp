@@ -24,7 +24,7 @@ import com.epam.service.user.UserQuizService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserQuizContoller.class)
-public class UserQuizControllerTest {
+ class UserQuizControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

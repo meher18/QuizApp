@@ -59,7 +59,7 @@ class QuizServiceTest {
 		quizDto2.setId(2);
 		
 		questionOption.setId(0);
-		questionOption.setOptionTitle("asdfasdf");
+		questionOption.setTitle("asdfasdf");
 
 		ques1.setId(1);
 		ques1.setOption(questionOption);
@@ -105,8 +105,8 @@ class QuizServiceTest {
 	void testCreateQuiz() {
 		
 		when(questionLibraryService.getQuestions()).thenReturn(questions);
-		when(quizLibraryService.addQuiz(anyInt(), any())).thenReturn(true);
-		assertTrue(quizService.createQuiz(quizDto1, new String[] {"1"}));
+		when(quizLibraryService.addQuiz(anyInt(), any())).thenReturn(q1);
+		assertNotNull(quizService.createQuiz(quizDto1, new String[] {"1"}));
 	}
 
 	@Test
@@ -138,7 +138,7 @@ class QuizServiceTest {
 	void testUpdate() {
 		when(quizLibraryService.getQuiz(1)).thenReturn(q1);
 		when(quizLibraryService.getQuizzes()).thenReturn(quizzes);
-		when(quizLibraryService.editQuiz(anyInt(), any())).thenReturn(true);
-		assertTrue(quizService.update(quizDto1, new String[] {"1"}));
+		when(quizLibraryService.editQuiz(anyInt(), any())).thenReturn(q1);
+		assertNotNull(quizService.update(quizDto1, new String[] {"1"}));
 	}
 }

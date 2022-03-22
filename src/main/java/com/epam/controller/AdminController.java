@@ -31,7 +31,6 @@ public class AdminController {
 			redirectPage = "redirect:/adminDashboard";
 		}
 		attributes.addFlashAttribute("adminLoginStatus", adminLoginStatus);
-
 		return redirectPage;
 	}
 

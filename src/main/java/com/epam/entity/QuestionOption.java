@@ -10,6 +10,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
@@ -21,6 +23,7 @@ public class QuestionOption {
 
     public String title;
 
+    @JsonIgnore
     @ManyToOne
     public Question question;
 
@@ -40,11 +43,11 @@ public class QuestionOption {
         this.question = question;
     }
 
-    public void setOptionTitle(String optionObj) {
+    public void setTitle(String optionObj) {
         this.title = optionObj;
     }
 
-    public String getOptionTitle() {
+    public String getTitle() {
         return title;
     }
 

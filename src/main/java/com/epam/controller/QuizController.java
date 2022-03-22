@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.dto.QuizDto;
-import com.epam.exceptions.QuizException;
 import com.epam.service.admin.QuestionService;
 import com.epam.service.admin.QuizService;
 
@@ -24,20 +24,26 @@ public class QuizController {
 	@Autowired
 	QuestionService questionService;
 
+	private static final String QUIZZES = "quizzes";
+
 	@RequestMapping("/viewQuizzes")
 	public String viewQuizzes(Model model) {
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 		return "admin/quiz/viewQuizzes";
 	}
 
 	@RequestMapping(value = "/updateQuiz", params = { "id" })
 	public String updateQuiz(@RequestParam(value = "id") String id, Model model) {
+
 		int quizId = Integer.parseInt(id);
 		QuizDto quizDto = quizService.getQuiz(quizId);
+
 		model.addAttribute("quiz", quizDto);
 		model.addAttribute("questions", questionService.getQuestions().values());
+
 		List<String> idList = quizDto.getQuestions().stream().map(q -> q.id + "").collect(Collectors.toList());
 		model.addAttribute("ids", idList);
+
 		return "admin/quiz/updateQuiz";
 	}
 
@@ -48,22 +54,23 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/hostTheQuiz", params = { "id" })
-	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) throws QuizException {
+	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) {
 
 		int quizId = Integer.parseInt(id);
 		quizService.hostQuiz(quizId);
 
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 		return "redirect:/viewQuizzes";
 	}
 
 	@RequestMapping(value = "/deleteTheQuiz", params = { "id" })
-	public String deleteTheQuiz(@RequestParam(value = "id") String id, Model model) {
+	public String deleteTheQuiz(@RequestParam(value = "id") String id, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		int quizId = Integer.parseInt(id);
 		quizService.delete(quizId);
 
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+		redirectAttributes.addFlashAttribute("quizDeletionStatus", "Quiz Deleted");
 		return "redirect:/viewQuizzes";
 	}
 
@@ -73,11 +80,11 @@ public class QuizController {
 		String redirectPage = "admin/quiz/createQuiz";
 
 		if (!bindingResult.hasErrors()) {
-			
+
 			quizService.createQuiz(quizDto, questions);
 
 			model.addAttribute("quizUpdationStatus", "UPDATED");
-			model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+			model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 
 			redirectPage = "redirect:/viewQuizzes";
 		}
@@ -91,7 +98,7 @@ public class QuizController {
 		quizService.update(quizDto, questions);
 
 		model.addAttribute("quizUpdationStatus", "UPDATED");
-		model.addAttribute("quizzes", quizService.getAllQuizzes().values());
+		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 
 		return "redirect:/viewQuizzes";
 	}

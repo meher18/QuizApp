@@ -17,6 +17,7 @@ public class HomeController {
 
 	@RequestMapping("/userSignIn")
 	public String showUserSignIn(HttpServletRequest request) {
+
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "userSignIn";
 

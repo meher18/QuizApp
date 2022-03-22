@@ -45,7 +45,6 @@ class QuestionsLibraryServiceTest {
 	Question q1 = new Question();
 	Question q2 = new Question();
 
-	
 	Map<Integer, Quiz> quizzes = new HashMap<>();
 	Quiz quiz1 = new Quiz();
 	Quiz quiz2 = new Quiz();
@@ -54,7 +53,7 @@ class QuestionsLibraryServiceTest {
 	@BeforeEach
 	void init() {
 		questionOption.setId(0);
-		questionOption.setOptionTitle("asdfasdf");
+		questionOption.setTitle("asdfasdf");
 
 		q1.setId(1);
 		q1.setOption(questionOption);
@@ -64,7 +63,7 @@ class QuestionsLibraryServiceTest {
 
 		quiz1.addQuestion(1, q1);
 		quiz2.addQuestion(1, q2);
-		
+
 		questions.put(1, q1);
 		questions.put(2, q2);
 
@@ -92,13 +91,13 @@ class QuestionsLibraryServiceTest {
 	@Test
 	void testAddQuestion() {
 		when(questionRepository.save(any())).thenReturn(q1);
-		assertTrue(libraryService.addQuestion(0, q1));
+		assertNotNull(libraryService.addQuestion(q1));
 	}
 
 	@Test
 	void testEditQuestion() {
 		when(questionRepository.save(any())).thenReturn(q1);
-		assertTrue(libraryService.editQuestion(0, q1));
+		assertNotNull(libraryService.editQuestion(q1));
 	}
 
 	@Test

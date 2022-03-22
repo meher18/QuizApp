@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.entity.User;
 import com.epam.service.user.UserSignInService;
@@ -28,6 +29,7 @@ public class UserController {
 			@RequestParam(value = "userPassword") String userPassword, HttpServletRequest request, Model model) {
 
 		String redirect = "redirect:/userSignIn";
+
 		User user = new User();
 		user.setUserName(userName);
 		user.setUserPassword(userPassword);
@@ -48,7 +50,8 @@ public class UserController {
 	@RequestMapping(value = "/signUpTheUser", params = { "userName", "userEmail", "userPassword" })
 	public String userSignUp(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "userEmail") String userEmail,
-			@RequestParam(value = "userPassword") String userPassword, HttpServletRequest request, Model model) {
+			@RequestParam(value = "userPassword") String userPassword, HttpServletRequest request, Model model,
+			RedirectAttributes attributes) {
 
 		String redirect = "redirect:/userSignUp";
 		User newUser = new User();
@@ -59,7 +62,7 @@ public class UserController {
 		boolean isAlreadyMember = signUpService.checkIfAlreadyMember(newUser);
 
 		if (isAlreadyMember) {
-			model.addAttribute("userSignUpStatus", "Already a member");
+			attributes.addFlashAttribute("userSignUpStatus", "Already a member");
 		} else {
 
 			signUpService.addNewUser(newUser);

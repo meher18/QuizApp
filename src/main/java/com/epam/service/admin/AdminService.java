@@ -16,7 +16,6 @@ public class AdminService {
 	@Autowired
 	ModelMapper mapper;
 
-	
 	public boolean checkValidity(AdminDto adminDto) {
 
 		Admin currentAdmin = mapper.map(adminDto, Admin.class);

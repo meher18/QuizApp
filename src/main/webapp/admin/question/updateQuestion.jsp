@@ -38,19 +38,19 @@
 		<div class = "row">
 		<div class = "col">
 				<div class="form-group">
-					<p> original number of options : ${question.getOptions().size()} <p>
+					<p> original number of options : ${question.getQuestionOptions().size()} <p>
 					Use this buttons to add/remove options
 					<div id="addNewOption" class ="btn btn-primary">+</div>
 					<div id="removeOption" class = "btn btn-danger">-</div>
 				</div>
 				<div class="form-group card">
-					<div id="optionsContainer" class = "card-body">
+					<div id="optionsContainer" class = "card-body" style="height: 200px; overflow-y: scroll;">
 						<c:set var="optionCount" value="1">
 						</c:set>
-						<c:forEach items="${question.getOptions()}" var="option">
+						<c:forEach items="${question.getQuestionOptions()}" var="option">
 							<div>
 								Option ${optionCount}
-								<input oninput="showOptions()" name = "questionOptions" class = "form-control" value="${option.getOptionTitle()}" required>
+								<input oninput="showOptions()" name = "questionOptions" class = "form-control" value="${option}" required>
 								<c:set var="optionCount" value="${optionCount+1}">
 								</c:set>
 							</div>
@@ -113,14 +113,13 @@
 
 $(document).ready(function(){
 
-	$("#answer").attr("max", ${question.getOptions().size()});
+	$("#answer").attr("max", ${question.getQuestionOptions().size()});
 })
 
 $("#addNewOption").on("click", function(){
 
 		numberOfOptions = $("#optionsContainer").children("div").length;
 		
-		console.log(numberOfOptions);
 		if(numberOfOptions >= 6)
 		{
 			alert("Not more than 6 options are allowed");
@@ -135,7 +134,7 @@ $("#addNewOption").on("click", function(){
 				placeholder : 'option ' + (numberOfOptions + 1),
 				name : 'questionOptions',
 				required : 'true'
-				//value: "${question.getOptions().get(i).optionTitle}"
+				
 			})
 		
 			optionInput.on("input", showOptions())
@@ -175,7 +174,7 @@ $("#removeOption").on("click", function(){
 	{
 		alert("Cannot remove, minimum 2 options are required");
 	}else{
-		$("#optionsContainer").children().last().remove();
+		$("#optionsContainer").children("div").last().remove();
 		
 		$("#answer").val("");
 		optionsCount--;

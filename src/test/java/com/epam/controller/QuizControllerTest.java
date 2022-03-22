@@ -30,7 +30,7 @@ import com.epam.service.admin.QuizService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(QuizController.class)
-public class QuizControllerTest {
+ class QuizControllerTest {
 
 	
 	@Autowired

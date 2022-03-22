@@ -48,12 +48,15 @@ public class QuizService {
 		return quizDto;
 	}
 
-	public boolean createQuiz(QuizDto quizDto, String[] questions) {
+	public QuizDto createQuiz(QuizDto quizDto, String[] questions) {
 		Quiz quiz = new Quiz();
 		quiz.setQuizName(quizDto.quizName);
 		Stream.of(questions).forEach(id -> selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id)));
-		saveQuiz(quiz);
-		return true;
+
+		Quiz savedQuiz = saveQuiz(quiz);
+		QuizDto savedQuizDto = mapper.map(savedQuiz, QuizDto.class);
+		savedQuizDto.setQuestions(savedQuiz.getQuestions().values().stream().collect(Collectors.toList()));
+		return savedQuizDto;
 	}
 
 	public void selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
@@ -66,16 +69,10 @@ public class QuizService {
 		}
 	}
 
-	public boolean saveQuiz(Quiz quiz) {
+	public Quiz saveQuiz(Quiz quiz) {
 
-		boolean isQuizSaved = false;
-		int quizId = 0;
-		// isAdded : to check if the quiz is added correctly
-		boolean isAdded = quizLibrary.addQuiz(quizId, quiz);
-		if (isAdded) {
-			isQuizSaved = true;
-		}
-		return isQuizSaved;
+		return quizLibrary.addQuiz(0, quiz);
+		
 	}
 
 	public void validateCode(int quizId) throws InValidQuizId {
@@ -89,10 +86,8 @@ public class QuizService {
 
 	public boolean delete(int quizId) {
 
-	
-		return  quizLibrary.deleteQuiz(quizId);
+		return quizLibrary.deleteQuiz(quizId);
 
-	
 	}
 
 	public boolean hostQuiz(int quizId) {
@@ -104,7 +99,7 @@ public class QuizService {
 		return isHosted;
 	}
 
-	public boolean update(QuizDto quizDto, String[] questionIds) {
+	public QuizDto update(QuizDto quizDto, String[] questionIds) {
 
 		int quizId = quizDto.id;
 		Quiz quiz = quizLibrary.getQuiz(quizId);
@@ -117,11 +112,11 @@ public class QuizService {
 		});
 
 		quiz.setQuizTag(quizDto.quizTag);
-		boolean isQuizModified = false;
-		if (quizLibrary.getQuizzes().size() > 0) {
-			isQuizModified = quizLibrary.editQuiz(quizId, quiz);
-		}
-		return isQuizModified;
+	
+		Quiz updatedQuiz = quizLibrary.editQuiz(quizId, quiz);
+		QuizDto updatedQuizDto = mapper.map(updatedQuiz, QuizDto.class);
+		updatedQuizDto.setQuestions(updatedQuiz.getQuestions().values().stream().collect(Collectors.toList()));
+		return updatedQuizDto;
 	}
 
 }
