@@ -1,12 +1,12 @@
 package com.epam.exceptions;
 
-public class InValidQuestion extends Exception{
+public class QuestionNotFoundException extends RuntimeException{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	InValidQuestion(String str)
+	public QuestionNotFoundException(String str)
     {
         super(str);
     }

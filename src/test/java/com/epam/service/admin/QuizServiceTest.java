@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -101,7 +100,6 @@ class QuizServiceTest {
 	@Test
 	void testCreateQuiz() {
 
-		when(questionLibraryService.getQuestions()).thenReturn(questions);
 		when(quizLibraryService.saveOrEdit(any())).thenReturn(q1);
 		assertNotNull(quizService.createQuiz(quizDto1));
 	}
@@ -114,8 +112,8 @@ class QuizServiceTest {
 
 	@Test
 	void testHostQuiz() {
-		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
-		when(quizLibraryService.changeQuizStatus(anyInt(), anyString())).thenReturn(true);
+		when(quizLibraryService.getQuiz(anyInt())).thenReturn(q1);
+		when(quizLibraryService.saveOrEdit(any())).thenReturn(q1);
 		assertNotNull(quizService.hostQuiz(1));
 	}
 

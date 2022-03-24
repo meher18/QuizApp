@@ -75,8 +75,8 @@ public class QuizDto {
 
 	@Override
 	public String toString() {
-		return "QuizDto [id=" + id + ", quizName=" + quizName + ", quizCode=" + quizCode + ", questionIds="
-				+ questions + ", totalMarks=" + totalMarks + ", quizTag=" + quizTag + "]";
+		return "QuizDto [id=" + id + ", quizName=" + quizName + ", quizCode=" + quizCode + ", questionIds=" + questions
+				+ ", totalMarks=" + totalMarks + ", quizTag=" + quizTag + "]";
 	}
 
 }

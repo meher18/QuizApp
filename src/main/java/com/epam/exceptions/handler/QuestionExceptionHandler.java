@@ -8,20 +8,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import com.epam.exceptions.QuizzesNotFoundException;
+import com.epam.exceptions.QuestionNotFoundException;
 
 @RestControllerAdvice
-public class RestExceptionHandler {
+public class QuestionExceptionHandler {
 
-//	@ResponseBody
-	@ExceptionHandler(QuizzesNotFoundException.class)
-//	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<ExceptionResponse> handleException(QuizzesNotFoundException exception, WebRequest request) {
+	@ExceptionHandler(QuestionNotFoundException.class)
+	public ResponseEntity<ExceptionResponse> handleException(QuestionNotFoundException exception, WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse();
 		exceptionResponse.setTimeStamp(new Date().toString());
-		exceptionResponse.setStatus(HttpStatus.NO_CONTENT.name());
+		exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.name());
 		exceptionResponse.setErrors(exception.getMessage());
 		exceptionResponse.setPath(request.getDescription(false));
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 }

@@ -1,7 +1,6 @@
 package com.epam.service.admin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,7 +25,6 @@ import com.epam.dto.QuestionDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
 import com.epam.exceptions.InValidQuestionDeletion;
-import com.epam.exceptions.InValidQuestionId;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 import com.epam.util.Constants;
 
@@ -83,16 +81,6 @@ class QuestionServiceTest {
 	}
 
 	@Test
-	void testValidateQuestionId() {
-		when(libraryService.getQuestions()).thenReturn(questions);
-		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(0);
-		InValidQuestionId thrown = assertThrows(InValidQuestionId.class, () -> questionService.validateQuestionId(-1),
-				Constants.INVALID_QUESTION_ID);
-
-		assertEquals(Constants.INVALID_QUESTION_ID, thrown.getMessage());
-	}
-
-	@Test
 	void testValidateQuestionIdForInValidDeletion() {
 		when(libraryService.getQuestions()).thenReturn(questions);
 		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(10);
@@ -138,12 +126,6 @@ class QuestionServiceTest {
 	void testDelete() {
 		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);
 		assertTrue(questionService.delete(1));
-	}
-
-	@Test
-	void testDeleteForInvalidQuestion() {
-		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);
-		assertFalse(questionService.delete(-111));
 	}
 
 }

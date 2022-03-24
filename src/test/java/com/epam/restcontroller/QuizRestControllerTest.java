@@ -54,7 +54,6 @@ class QuizRestControllerTest {
 
 	@Test
 	void updateQuestion() {
-		String[] questions = new String[] { "1", "2" };
 		ResponseEntity<QuizDto> responseEntity = restController.updateQuiz(qDto1);
 		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	}

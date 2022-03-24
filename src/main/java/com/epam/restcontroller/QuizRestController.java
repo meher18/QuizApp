@@ -2,6 +2,8 @@ package com.epam.restcontroller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,25 +29,25 @@ public class QuizRestController {
 		return new ResponseEntity<>(quizService.getAllQuizzes().values().stream().toList(), HttpStatus.OK);
 	}
 
-	@GetMapping("/quizzes/{quiz_id}")
-	public ResponseEntity<QuizDto> oneQuiz(@PathVariable(value = "quiz_id") int id) {
+	@GetMapping("/quizzes/{quizId}")
+	public ResponseEntity<QuizDto> oneQuiz(@PathVariable(value = "quizId") int id) {
 
 		return new ResponseEntity<>(quizService.getQuiz(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/quizzes")
-	public ResponseEntity<QuizDto> newQuiz(@RequestBody QuizDto quizDto) {
+	public ResponseEntity<QuizDto> newQuiz(@Valid @RequestBody QuizDto quizDto) {
 		return new ResponseEntity<>(quizService.createQuiz(quizDto), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/quizzes")
-	public ResponseEntity<QuizDto> updateQuiz(@RequestBody QuizDto quizDto) {
+	public ResponseEntity<QuizDto> updateQuiz(@Valid @RequestBody QuizDto quizDto) {
 		return new ResponseEntity<>(quizService.update(quizDto), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/quizzes/{quiz_id}")
-	public ResponseEntity<String> deleteQuiz(@PathVariable(value = "quiz_id") int id) {
+	@DeleteMapping("/quizzes/{quizId}")
+	public ResponseEntity<String> deleteQuiz(@PathVariable(value = "quizId") int id) {
 		quizService.delete(id);
-		return new ResponseEntity<>("Question Deleted", HttpStatus.OK);
+		return new ResponseEntity<>("Quiz Deleted", HttpStatus.OK);
 	}
 }

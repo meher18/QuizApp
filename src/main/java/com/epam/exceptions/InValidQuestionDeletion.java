@@ -1,6 +1,6 @@
 package com.epam.exceptions;
 
-public class InValidQuestionDeletion extends Exception{
+public class InValidQuestionDeletion extends RuntimeException{
     /**
 	 * 
 	 */

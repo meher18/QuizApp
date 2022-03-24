@@ -37,13 +37,6 @@ public class QuestionService {
 		return mapper.map(questionsLibrary.getQuestion(questionId), QuestionDto.class);
 	}
 
-	public void validateQuestionId(int questionId) throws InValidQuestionDeletion {
-
-		if (questionsLibrary.getNoQuizzesForQuestionId(questionId) > 0) {
-			throw new InValidQuestionDeletion(Constants.INVALID_QUESTION_DELETION);
-		}
-	}
-
 	public QuestionDto save(Question newQuestion) {
 		Question addedQuestion = questionsLibrary.saveOrEdit(newQuestion);
 		return mapper.map(addedQuestion, QuestionDto.class);
@@ -77,7 +70,16 @@ public class QuestionService {
 		return save(question);
 	}
 
+	public void validateQuestionId(int questionId) {
+
+		if (questionsLibrary.getNoQuizzesForQuestionId(questionId) > 0) {
+			throw new InValidQuestionDeletion(Constants.INVALID_QUESTION_DELETION);
+		}
+	}
+
 	public boolean delete(int questionId) {
+
+		validateQuestionId(questionId);
 
 		return questionsLibrary.deleteQuestion(questionId);
 	}

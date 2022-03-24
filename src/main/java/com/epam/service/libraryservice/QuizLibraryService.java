@@ -2,7 +2,6 @@ package com.epam.service.libraryservice;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.epam.data.repository.QuizRepository;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
+import com.epam.exceptions.QuizNotFound;
 
 @Service
 public class QuizLibraryService {
@@ -28,15 +28,17 @@ public class QuizLibraryService {
 		return quizList.stream().collect(Collectors.toMap(Quiz::getId, v -> v));
 	}
 
-	public Quiz getQuiz(int quizId) throws NoSuchElementException {
-		Optional<Quiz> quiz = quizRepository.findById(quizId);
-		return quiz.get();
+	public Quiz getQuiz(int quizId) {
+
+		return quizRepository.findById(quizId)
+				.orElseThrow(() -> new QuizNotFound("Quiz with id " + quizId + " not found"));
 	}
+
 	public Quiz saveOrEdit(Quiz quiz) {
-		
+
 		return quizRepository.save(quiz);
 	}
-	
+
 	public boolean deleteQuiz(int index) {
 		quizRepository.deleteById(index);
 		return true;
@@ -48,7 +50,7 @@ public class QuizLibraryService {
 		quizRepository.save(quiz.get());
 		return true;
 	}
-		
+
 	// get questions for certain quiz
 	public Map<Integer, Question> getQuestionsForQuiz(Quiz quiz) {
 		Optional<Quiz> quizFromRepo = quizRepository.findById(quiz.getId());

@@ -2,7 +2,6 @@ package com.epam.service.libraryservice;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.data.repository.QuestionRepository;
 import com.epam.entity.Question;
+import com.epam.exceptions.QuestionNotFoundException;
 
 @Component
 public class QuestionsLibraryService {
@@ -17,9 +17,10 @@ public class QuestionsLibraryService {
 	@Autowired
 	QuestionRepository questionRepository;
 
-	public Question getQuestion(int questionId) throws NoSuchElementException {
+	public Question getQuestion(int questionId) {
 
-		return questionRepository.findById(questionId).get();
+		return questionRepository.findById(questionId)
+				.orElseThrow(() -> new QuestionNotFoundException("Question with id " + questionId + " not found"));
 	}
 
 	public Map<Integer, Question> getQuestions() {
@@ -32,7 +33,10 @@ public class QuestionsLibraryService {
 	}
 
 	public boolean deleteQuestion(int index) {
+	
 		questionRepository.deleteById(index);
+	
+		
 		return true;
 	}
 
