@@ -63,15 +63,14 @@ class UserQuizLibraryServiceTest {
 
 	@Test
 	void testAddQuiz() {
-		assertTrue(libraryService.addQuiz(new User(), userQuiz1));
+		assertTrue(libraryService.addQuiz(userQuiz1));
 		verify(userQuizRepository).save(any());
 	}
 
 	@Test
 	void testEditQuiz() {
-		assertTrue(libraryService.editQuiz(new User(), userQuiz1));
+		assertTrue(libraryService.editQuiz(userQuiz1));
 		verify(userQuizRepository).save(any());
 	}
-
 
 }

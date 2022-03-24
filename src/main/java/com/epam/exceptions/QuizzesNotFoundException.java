@@ -2,18 +2,18 @@ package com.epam.exceptions;
 
 import org.springframework.ui.Model;
 
-public class QuizException  extends Exception{
+public class QuizzesNotFoundException  extends Exception{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public QuizException(){
+	public QuizzesNotFoundException(){
 		
 	}
 	
-	public QuizException(Model model, String errorMessage, String successMessage) {
+	public QuizzesNotFoundException(Model model, String errorMessage, String successMessage) {
 		super();
 		this.model = model;
 		this.errorMessage = errorMessage;

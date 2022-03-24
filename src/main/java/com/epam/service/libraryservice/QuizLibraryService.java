@@ -2,6 +2,7 @@ package com.epam.service.libraryservice;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,12 +28,16 @@ public class QuizLibraryService {
 		return quizList.stream().collect(Collectors.toMap(Quiz::getId, v -> v));
 	}
 
-	public Quiz addQuiz(int index, Quiz quiz) {
+	public Quiz getQuiz(int quizId) throws NoSuchElementException {
+		Optional<Quiz> quiz = quizRepository.findById(quizId);
+		return quiz.get();
+	}
+	public Quiz addQuiz(Quiz quiz) {
 		
 		return quizRepository.save(quiz);
 	}
 
-	public Quiz editQuiz(int index, Quiz quiz) {
+	public Quiz editQuiz( Quiz quiz) {
 		
 		return quizRepository.save(quiz);
 	}
@@ -48,14 +53,9 @@ public class QuizLibraryService {
 		quizRepository.save(quiz.get());
 		return true;
 	}
-
-	public Quiz getQuiz(int quizId) {
-		Optional<Quiz> quiz = quizRepository.findById(quizId);
-		return quiz.get();
-	}
-
+		
+	// get questions for certain quiz
 	public Map<Integer, Question> getQuestionsForQuiz(Quiz quiz) {
-
 		Optional<Quiz> quizFromRepo = quizRepository.findById(quiz.getId());
 		return quizFromRepo.get().getQuestions();
 	}

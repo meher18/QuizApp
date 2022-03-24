@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.epam.util.Constants;
+
 @Controller
 public class HomeController {
 
@@ -21,7 +23,7 @@ public class HomeController {
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "userSignIn";
 
-		if (httpSession.getAttribute("userName") != null) {
+		if (httpSession.getAttribute(Constants.SESSION_USER_NAME) != null) {
 			redirectPage = "redirect:/userModule";
 		}
 		return redirectPage;
@@ -33,7 +35,7 @@ public class HomeController {
 		HttpSession httpSession = request.getSession();
 		String redirectPage = "userSignUp";
 
-		if (httpSession.getAttribute("userName") != null) {
+		if (httpSession.getAttribute(Constants.SESSION_USER_NAME) != null) {
 			redirectPage = "redirect:/userModule";
 		}
 		return redirectPage;

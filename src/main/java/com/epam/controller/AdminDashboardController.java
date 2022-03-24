@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.epam.util.Constants;
+
 @Controller
 public class AdminDashboardController {
 
@@ -16,7 +18,7 @@ public class AdminDashboardController {
 		HttpSession httpSession = request.getSession();
 
 		//  checking for session
-		if (httpSession.getAttribute("adminUserName") != null) {
+		if (httpSession.getAttribute(Constants.SESSION_ADMIN_USER_NAME) != null) {
 			redirectPage = "admin/adminDashboard";
 		}
 		return redirectPage;

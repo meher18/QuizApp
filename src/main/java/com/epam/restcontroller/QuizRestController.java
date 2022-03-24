@@ -1,4 +1,4 @@
-package com.epam.controller.rest;
+package com.epam.restcontroller;
 
 import java.util.List;
 
@@ -35,17 +35,18 @@ public class QuizRestController {
 	}
 
 	@PostMapping("/quizzes")
-	public ResponseEntity<QuizDto> newQuiz(@RequestBody QuizDto quizDto, @RequestParam(value = "questions") String[] questions) {
-		return new ResponseEntity<>(quizService.createQuiz(quizDto, questions), HttpStatus.OK);
+	public ResponseEntity<QuizDto> newQuiz(@RequestBody QuizDto quizDto,
+			@RequestParam(value = "questions") String[] questions) {
+		return new ResponseEntity<>(quizService.createQuiz(quizDto, questions), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/quizzes")
 	public ResponseEntity<QuizDto> updateQuiz(@RequestBody QuizDto quizDto, @RequestParam String[] questions) {
-		return new ResponseEntity<>(quizService.update(quizDto, questions), HttpStatus.OK);
+		return new ResponseEntity<>(quizService.update(quizDto, questions), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/quizzes/{quiz_id}")
-	public ResponseEntity<String> deleteQuestion(@PathVariable(value = "quiz_id") int id) {
+	public ResponseEntity<String> deleteQuiz(@PathVariable(value = "quiz_id") int id) {
 		quizService.delete(id);
 		return new ResponseEntity<>("Question Deleted", HttpStatus.OK);
 	}

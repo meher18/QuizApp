@@ -18,74 +18,70 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.epam.AppContext;
-import com.epam.service.libraryservice.QuizLibraryService;
-
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 public class UserQuiz {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private User user;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private User user;
 
-    @OneToOne
-    private Quiz quiz;
+	@OneToOne
+	private Quiz quiz;
 
-    @OneToMany(mappedBy = "userQuiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Autowired
-    @Qualifier("questionAnswers")
-    List<QuestionAnswer> answers;
+	@OneToMany(mappedBy = "userQuiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Autowired
+	@Qualifier("questionAnswers")
+	List<QuestionAnswer> answers;
 
-    private int result;
+	private int result;
 
+	public void setQuizById(int idOfQuiz) {
+//		this.quiz = AppContext.getApplicationContext().getBean(QuizLibraryService.class).getQuizzes().get(idOfQuiz);
+	}
 
-    public void setQuizById(int idOfQuiz) {
-        this.quiz = AppContext.getApplicationContext().getBean(QuizLibraryService.class).getQuizzes().get(idOfQuiz);
-    }
+	public int getQuizId() {
+		return id;
+	}
 
-    public int getQuizId() {
-        return id;
-    }
+	public void setQuizId(int quizId) {
+		this.id = quizId;
+	}
 
-    public void setQuizId(int quizId) {
-        this.id = quizId;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public Quiz getQuiz() {
+		return quiz;
+	}
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
+	}
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+	public List<QuestionAnswer> getAnswers() {
+		return answers;
+	}
 
-    public List<QuestionAnswer> getAnswers() {
-        return answers;
-    }
+	public void setAnswers(List<QuestionAnswer> answers) {
+		answers.forEach(questionAnswer -> questionAnswer.setUserQuiz(this));
+		this.answers = answers;
+	}
 
-    public void setAnswers(List<QuestionAnswer> answers) {
-        answers.forEach(questionAnswer -> questionAnswer.setUserQuiz(this));
-        this.answers = answers;
-    }
+	public int getResult() {
+		return result;
+	}
 
-    public int getResult() {
-        return result;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
+	public void setResult(int result) {
+		this.result = result;
+	}
 }

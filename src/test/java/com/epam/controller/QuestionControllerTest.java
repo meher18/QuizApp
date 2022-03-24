@@ -157,9 +157,8 @@ class QuestionControllerTest {
 		String id = "1";
 		when(questionService.getQuestions()).thenReturn(questions);
 		when(questionService.delete(1)).thenReturn(true);
-		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
-				.andExpect(model().attribute("deletionStatus", "Deleted"))
-				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
+				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
 
 	}
 
@@ -170,9 +169,8 @@ class QuestionControllerTest {
 //		when(library.getNoQuizzesForQuestionId(-1)).thenReturn()
 		when(library.getQuestions()).thenReturn(questionsMap);
 		when(questionService.getQuestions()).thenReturn(questions);
-		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
-				.andExpect(model().attribute("deletionStatus", "Not Deleted"))
-				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
+				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
 	}
 
 	@Test
@@ -181,8 +179,7 @@ class QuestionControllerTest {
 		String id = "-1";
 		when(library.getNoQuizzesForQuestionId(-1)).thenReturn(10);
 		when(questionService.getQuestions()).thenReturn(questions);
-		mockMvc.perform(get("/deleteTheQuestion").param("id", id)).andExpect(model().attribute("questions", hasSize(2)))
-				.andExpect(model().attribute("deletionStatus", "Not Deleted"))
-				.andExpect(view().name("admin/question/viewQuestions")).andExpect(status().isOk());
+		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
+				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
 	}
 }

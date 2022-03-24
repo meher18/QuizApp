@@ -20,7 +20,7 @@ public class UserLibraryService {
         return true;
     }
 
-    public boolean editUser(int userId, User user) {
+    public boolean editUser(User user) {
     	userRepository.save(user);
         return true;
     }

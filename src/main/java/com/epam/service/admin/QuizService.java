@@ -71,7 +71,7 @@ public class QuizService {
 
 	public Quiz saveQuiz(Quiz quiz) {
 
-		return quizLibrary.addQuiz(0, quiz);
+		return quizLibrary.addQuiz(quiz);
 		
 	}
 
@@ -113,7 +113,7 @@ public class QuizService {
 
 		quiz.setQuizTag(quizDto.quizTag);
 	
-		Quiz updatedQuiz = quizLibrary.editQuiz(quizId, quiz);
+		Quiz updatedQuiz = quizLibrary.editQuiz(quiz);
 		QuizDto updatedQuizDto = mapper.map(updatedQuiz, QuizDto.class);
 		updatedQuizDto.setQuestions(updatedQuiz.getQuestions().values().stream().collect(Collectors.toList()));
 		return updatedQuizDto;

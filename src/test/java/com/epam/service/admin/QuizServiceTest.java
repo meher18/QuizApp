@@ -105,7 +105,7 @@ class QuizServiceTest {
 	void testCreateQuiz() {
 		
 		when(questionLibraryService.getQuestions()).thenReturn(questions);
-		when(quizLibraryService.addQuiz(anyInt(), any())).thenReturn(q1);
+		when(quizLibraryService.addQuiz(any())).thenReturn(q1);
 		assertNotNull(quizService.createQuiz(quizDto1, new String[] {"1"}));
 	}
 
@@ -137,8 +137,7 @@ class QuizServiceTest {
 	@Test
 	void testUpdate() {
 		when(quizLibraryService.getQuiz(1)).thenReturn(q1);
-		when(quizLibraryService.getQuizzes()).thenReturn(quizzes);
-		when(quizLibraryService.editQuiz(anyInt(), any())).thenReturn(q1);
+		when(quizLibraryService.editQuiz(any())).thenReturn(q1);
 		assertNotNull(quizService.update(quizDto1, new String[] {"1"}));
 	}
 }

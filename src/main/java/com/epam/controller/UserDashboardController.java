@@ -28,7 +28,7 @@ public class UserDashboardController {
 		HttpSession httpSession = request.getSession();
 
 		if (httpSession.getAttribute("userName") != null) {
-			System.out.println("adfasfd");
+//			System.out.println("adfasfd");
 			redirectPage = "user/viewParticipation";
 		}
 		return redirectPage;

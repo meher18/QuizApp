@@ -2,7 +2,7 @@ package com.epam.service.libraryservice;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class QuestionsLibraryService {
 	@Autowired
 	QuizRepository quizRepository;
 
-	public Question getQuestion(int questionId) {
+	public Question getQuestion(int questionId) throws NoSuchElementException {
 
 		return questionRepository.findById(questionId).get();
 	}
@@ -46,15 +46,16 @@ public class QuestionsLibraryService {
 	}
 
 	public int getNoQuizzesForQuestionId(int questionId) {
-		AtomicInteger count = new AtomicInteger();
+//		AtomicInteger count = new AtomicInteger();
+//
+//		count.set(0);
+//		quizRepository.findAll().forEach(quiz -> {
+//			if (quiz.getQuestions().containsKey(questionId)) {
+//				count.getAndIncrement();
+//			}
+//
+//		});
 
-		count.set(0);
-		quizRepository.findAll().forEach(quiz -> {
-			if (quiz.getQuestions().containsKey(questionId)) {
-				count.getAndIncrement();
-			}
-
-		});
-		return count.get();
+		return questionRepository.getNoOfQuizzesForQuestion(questionId);
 	}
 }

@@ -1,4 +1,4 @@
-package com.epam.controller.rest;
+package com.epam.restcontroller;
 
 import java.util.List;
 
@@ -27,24 +27,24 @@ public class QuestionRestController {
 		return new ResponseEntity<>(questionService.getQuestions().values().stream().toList(), HttpStatus.OK);
 	}
 
-	@GetMapping("/questions/{question_id}")
-	public ResponseEntity<QuestionDto> oneQuestion(@PathVariable(value = "question_id") int id) {
+	@GetMapping("/questions/{id}")
+	public ResponseEntity<QuestionDto> oneQuestion(@PathVariable(value = "id") int id) {
 
 		return new ResponseEntity<>(questionService.getQuestion(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/questions")
 	public ResponseEntity<QuestionDto> newQuestion(@RequestBody QuestionDto questionDto) {
-		return new ResponseEntity<>(questionService.createQuestion(questionDto), HttpStatus.OK);
+		return new ResponseEntity<>(questionService.createQuestion(questionDto), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/questions")
 	public ResponseEntity<QuestionDto> updateQuestion(@RequestBody QuestionDto questionDto) {
-		return new ResponseEntity<>(questionService.update(questionDto), HttpStatus.OK);
+		return new ResponseEntity<>(questionService.update(questionDto), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/questions/{question_id}")
-	public ResponseEntity<String> deleteQuestion(@PathVariable(value = "question_id") int id) {
+	@DeleteMapping("/questions/{id}")
+	public ResponseEntity<String> deleteQuestion(@PathVariable(value = "id") int id) {
 
 		questionService.delete(id);
 		return new ResponseEntity<>("Question Deleted", HttpStatus.OK);

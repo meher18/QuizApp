@@ -1,11 +1,15 @@
 package com.epam.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class AdminDto {
 
 	private int id;
 
+	@NotEmpty(message = "Name cannot be empty")
 	private String name;
 
+	@NotEmpty(message = "Password cannot be empty")
 	private String pass;
 
 	public int getId() {

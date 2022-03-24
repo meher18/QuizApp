@@ -29,12 +29,12 @@ public class UserQuizLibraryService {
 				.collect(Collectors.toMap(UserQuiz::getQuizId, v -> v));
 	}
 
-	public boolean addQuiz(User user, UserQuiz quiz) {
+	public boolean addQuiz(UserQuiz quiz) {
 		userQuizRepository.save(quiz);
 		return true;
 	}
 
-	public boolean editQuiz(User user, UserQuiz quiz) {
+	public boolean editQuiz(UserQuiz quiz) {
 		userQuizRepository.save(quiz);
 		return true;
 	}

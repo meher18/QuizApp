@@ -58,7 +58,6 @@ public class QuizController {
 
 		int quizId = Integer.parseInt(id);
 		quizService.hostQuiz(quizId);
-
 		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 		return "redirect:/viewQuizzes";
 	}
@@ -75,7 +74,7 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/createTheQuiz")
-	public String createTheQuiz(QuizDto quizDto, BindingResult bindingResult, String[] questions, Model model) {
+	public String createTheQuiz(QuizDto quizDto, BindingResult bindingResult, String[] questions) {
 
 		String redirectPage = "admin/quiz/createQuiz";
 
@@ -83,22 +82,16 @@ public class QuizController {
 
 			quizService.createQuiz(quizDto, questions);
 
-			model.addAttribute("quizUpdationStatus", "UPDATED");
-			model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
-
 			redirectPage = "redirect:/viewQuizzes";
 		}
 
 		return redirectPage;
 	}
 
-	@RequestMapping(value = "/updateTheQuiz", params = { "id", "quizName", "questionId", "quizTag" })
-	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult, Model model) {
+	@RequestMapping(value = "/updateTheQuiz")
+	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult) {
 
 		quizService.update(quizDto, questions);
-
-		model.addAttribute("quizUpdationStatus", "UPDATED");
-		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
 
 		return "redirect:/viewQuizzes";
 	}

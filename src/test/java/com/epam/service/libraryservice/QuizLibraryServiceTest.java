@@ -59,13 +59,13 @@ class QuizLibraryServiceTest {
 	@Test
 	void testAddQuiz() {
 		when(quizRepository.save(any())).thenReturn(quiz1);
-		assertNotNull(libraryService.addQuiz(0, quiz1));
+		assertNotNull(libraryService.addQuiz(quiz1));
 	}
 
 	@Test
 	void testEditQuiz() {
 		when(quizRepository.save(any())).thenReturn(quiz1);
-		assertNotNull(libraryService.editQuiz(0, quiz1));
+		assertNotNull(libraryService.editQuiz(quiz1));
 	}
 
 	@Test

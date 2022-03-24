@@ -17,6 +17,11 @@ public class Constants {
     public static final String INVALID_QUESTION_DELETION = "This question is part of some quiz," +
             " please delete or modify the quiz before deleting question";
     public static final String INVALID_QUIZ_ID = "InValid quiz id, please enter a valid one";
+    public static final String INVALID_CREDENTIALS = "Invalid Credentials, please check again";
+    public static final String LOGIN_SUCCESS = "Login Success, WELCOME !";
+    public static final String LOGIN_FAILED = "Login Failed, please check again!";
 
-
+    public static final String SESSION_ADMIN_USER_NAME = "adminUserName";
+    public static final String SESSION_USER_NAME = "userName";
+    public static final String SESSION_USER_EMAIL = "userEmail";
 }

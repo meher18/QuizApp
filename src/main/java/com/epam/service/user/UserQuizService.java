@@ -74,6 +74,6 @@ public class UserQuizService {
 	public void saveQuiz() {
 		// while saving the quiz Set the quiz id
 		userQuiz.setUser(user);
-		userQuizLibrary.addQuiz(user, userQuiz);
+		userQuizLibrary.addQuiz(userQuiz);
 	}
 }

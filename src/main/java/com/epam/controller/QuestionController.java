@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.dto.QuestionDto;
 import com.epam.exceptions.InValidQuestionDeletion;
@@ -56,7 +57,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/deleteTheQuestion", params = "id")
-	public String deleteQuestion(@RequestParam(value = "id") String questionId, Model model) {
+	public String deleteQuestion(@RequestParam(value = "id") String questionId, RedirectAttributes redirectAttributes) {
 
 		String deletionStatus = "Not Deleted";
 
@@ -76,20 +77,23 @@ public class QuestionController {
 			deletionStatus = "Unable to delete, Question is part of some quiz";
 		}
 
-		model.addAttribute(QUESTIONS, questionService.getQuestions().values());
-		model.addAttribute("deletionStatus", deletionStatus);
-		return "admin/question/viewQuestions";
+//		redirectAttributes.addFlashAttribute(QUESTIONS, questionService.getQuestions().values());
+		redirectAttributes.addFlashAttribute("deletionStatus", deletionStatus);
+		return "redirect:/viewQuestions";
 	}
 
 	@RequestMapping(value = "/updateTheQuestion")
-	public String updateTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model) {
+	public String updateTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {
+			
 			questionService.update(questionDto);
-			model.addAttribute(QUESTIONS, questionService.getQuestions().values());
-			model.addAttribute("updationStatus", "UPDATED");
+
+			redirectAttributes.addFlashAttribute("updationStatus", "UPDATED");
 		} else {
+			redirectAttributes.addFlashAttribute("updationStatus", "UNABLE TO UPDATE");
 			redirectPage = "redirect:/updateQuestion?id=" + questionDto.id;
 		}
 

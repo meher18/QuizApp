@@ -43,7 +43,7 @@ class UserLibraryServiceTest {
 	@Test
 	void testEditUser() {
 		when(userRepository.save(any())).thenReturn(user);
-		assertTrue(libraryService.editUser(1, user));
+		assertTrue(libraryService.editUser(user));
 	
 	}
 

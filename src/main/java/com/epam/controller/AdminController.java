@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.dto.AdminDto;
 import com.epam.service.admin.AdminService;
+import com.epam.util.Constants;
 
 @Controller
 public class AdminController {
@@ -17,20 +18,22 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 
+	public static final String ADMIN_LOGIN_STATUS = "adminLoginStatus";
+
 	@GetMapping("/signInTheAdmin")
 	public String signInAdmin(AdminDto adminDto, HttpServletRequest request, RedirectAttributes attributes) {
 
-		String adminLoginStatus = "INVALID CREDENTIALS";
+		String adminLoginStatus = Constants.INVALID_CREDENTIALS;
 		String redirectPage = "redirect:/admin";
 
 		if (adminService.checkValidity(adminDto)) {
 
-			adminLoginStatus = "LOGIN SUCCESSFUL";
 			HttpSession session = request.getSession();
-			session.setAttribute("adminUserName", adminDto.getName());
+			session.setAttribute(Constants.SESSION_ADMIN_USER_NAME, adminDto.getName());
+			adminLoginStatus = Constants.LOGIN_SUCCESS;
 			redirectPage = "redirect:/adminDashboard";
 		}
-		attributes.addFlashAttribute("adminLoginStatus", adminLoginStatus);
+		attributes.addFlashAttribute(ADMIN_LOGIN_STATUS, adminLoginStatus);
 		return redirectPage;
 	}
 
@@ -38,8 +41,8 @@ public class AdminController {
 	public String logoutAdmin(AdminDto adminDto, HttpServletRequest request) {
 
 		HttpSession httpSession = request.getSession();
-		httpSession.removeAttribute("adminUserName");
-
+		httpSession.removeAttribute(Constants.SESSION_ADMIN_USER_NAME);
+		
 		return "redirect:/";
 
 	}

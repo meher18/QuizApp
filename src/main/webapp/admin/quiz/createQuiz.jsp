@@ -15,15 +15,15 @@
 
 arrOfIds = [];
 const  a = (e) => {
-	console.log(e);
-	if(e.checked == true)
-	{
-		
-			arrOfIds.push(e.value);
-	}else{
-		arrOfIds = arrOfIds.filter(function(a){
-			return a != e.value;
-	})
+		console.log(e);
+		if(e.checked == true)
+		{
+			
+				arrOfIds.push(e.value);
+		}else{
+			arrOfIds = arrOfIds.filter(function(a){
+				return a != e.value;
+		})
 		
 	}
 	$("#questionId").val(arrOfIds.join(","));
