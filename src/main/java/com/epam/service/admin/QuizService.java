@@ -2,16 +2,15 @@ package com.epam.service.admin;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.epam.dto.QuestionDto;
 import com.epam.dto.QuizDto;
 import com.epam.entity.Question;
 import com.epam.entity.Quiz;
-import com.epam.exceptions.InValidQuizId;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 import com.epam.service.libraryservice.QuizLibraryService;
 import com.epam.util.Constants;
@@ -37,8 +36,9 @@ public class QuizService {
 		}));
 	}
 
-	public Map<Integer, Question> getQuestionForQuiz(Quiz quiz) {
-		return quizLibrary.getQuestionsForQuiz(quiz);
+	public Map<Integer, QuestionDto> getQuestionsForQuiz(Quiz quiz) {
+		return quizLibrary.getQuestionsForQuiz(quiz).values().stream()
+				.collect(Collectors.toMap(Question::getId, value -> mapper.map(value, QuestionDto.class)));
 	}
 
 	public QuizDto getQuiz(int quizId) {
@@ -48,40 +48,31 @@ public class QuizService {
 		return quizDto;
 	}
 
-	public QuizDto createQuiz(QuizDto quizDto, String[] questions) {
-		Quiz quiz = new Quiz();
-		quiz.setQuizName(quizDto.quizName);
-		Stream.of(questions).forEach(id -> selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id)));
+	// making list of question to map of question
+	public void selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
+		quiz.addQuestion(questionId, questionsLibrary.getQuestions().get(questionId));
+	}
+	
+	public QuizDto saveQuiz(Quiz quiz) {
 
-		Quiz savedQuiz = saveQuiz(quiz);
+		Quiz savedQuiz = quizLibrary.saveOrEdit(quiz);
 		QuizDto savedQuizDto = mapper.map(savedQuiz, QuizDto.class);
 		savedQuizDto.setQuestions(savedQuiz.getQuestions().values().stream().collect(Collectors.toList()));
 		return savedQuizDto;
+
 	}
 
-	public void selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
-
-		Question question = questionsLibrary.getQuestions().get(questionId);
-
-		if (question != null) {
-			quiz.addQuestion(questionId, question);
-
-		}
+	public QuizDto createQuiz(QuizDto quizDto) {
+		Quiz quiz = mapper.map(quizDto, Quiz.class);
+		quizDto.getQuestions().stream().forEach(question -> selectQuestionAndAddToQuiz(quiz, question.getId()));
+		return saveQuiz(quiz);
 	}
 
-	public Quiz saveQuiz(Quiz quiz) {
-
-		return quizLibrary.addQuiz(quiz);
-		
-	}
-
-	public void validateCode(int quizId) throws InValidQuizId {
-
-		if (quizLibrary.getQuiz(quizId) == null || quizId <= 0) {
-
-			throw new InValidQuizId(Constants.INVALID_QUIZ_ID);
-
-		}
+	public QuizDto hostQuiz (int quizId)
+	{
+		Quiz quizToBeHosted = quizLibrary.getQuiz(quizId);
+		quizToBeHosted.setQuizTag(Constants.QUIZ_HOSTED);
+		return saveQuiz(quizToBeHosted);
 	}
 
 	public boolean delete(int quizId) {
@@ -90,16 +81,7 @@ public class QuizService {
 
 	}
 
-	public boolean hostQuiz(int quizId) {
-
-		boolean isHosted = false;
-		if (quizId > 0 && quizLibrary.getQuizzes().size() > 0) {
-			isHosted = quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);
-		}
-		return isHosted;
-	}
-
-	public QuizDto update(QuizDto quizDto, String[] questionIds) {
+	public QuizDto update(QuizDto quizDto) {
 
 		int quizId = quizDto.id;
 		Quiz quiz = quizLibrary.getQuiz(quizId);
@@ -107,16 +89,11 @@ public class QuizService {
 
 		quiz.getQuestions().clear();
 		quiz.setTotalMarks(0);
-		Stream.of(questionIds).forEach(id -> {
-			selectQuestionAndAddToQuiz(quiz, Integer.parseInt(id));
+		quizDto.getQuestions().stream().forEach(question -> {
+			selectQuestionAndAddToQuiz(quiz, question.getId());
 		});
-
 		quiz.setQuizTag(quizDto.quizTag);
-	
-		Quiz updatedQuiz = quizLibrary.editQuiz(quiz);
-		QuizDto updatedQuizDto = mapper.map(updatedQuiz, QuizDto.class);
-		updatedQuizDto.setQuestions(updatedQuiz.getQuestions().values().stream().collect(Collectors.toList()));
-		return updatedQuizDto;
+		return saveQuiz(quiz);
 	}
 
 }

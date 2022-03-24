@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.data.repository.QuestionRepository;
-import com.epam.data.repository.QuizRepository;
 import com.epam.entity.Question;
 
 @Component
@@ -17,9 +16,6 @@ public class QuestionsLibraryService {
 
 	@Autowired
 	QuestionRepository questionRepository;
-
-	@Autowired
-	QuizRepository quizRepository;
 
 	public Question getQuestion(int questionId) throws NoSuchElementException {
 
@@ -31,13 +27,8 @@ public class QuestionsLibraryService {
 		return questionsList.stream().collect(Collectors.toMap(Question::getId, v -> v));
 	}
 
-	public Question addQuestion(Question question) {
+	public Question saveOrEdit(Question question) {
 		return questionRepository.save(question);
-	}
-
-	public Question editQuestion(Question newQuestion) {
-		return questionRepository.save(newQuestion);
-
 	}
 
 	public boolean deleteQuestion(int index) {
@@ -46,15 +37,6 @@ public class QuestionsLibraryService {
 	}
 
 	public int getNoQuizzesForQuestionId(int questionId) {
-//		AtomicInteger count = new AtomicInteger();
-//
-//		count.set(0);
-//		quizRepository.findAll().forEach(quiz -> {
-//			if (quiz.getQuestions().containsKey(questionId)) {
-//				count.getAndIncrement();
-//			}
-//
-//		});
 
 		return questionRepository.getNoOfQuizzesForQuestion(questionId);
 	}

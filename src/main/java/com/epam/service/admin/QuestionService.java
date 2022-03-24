@@ -14,7 +14,6 @@ import com.epam.dto.QuestionDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
 import com.epam.exceptions.InValidQuestionDeletion;
-import com.epam.exceptions.InValidQuestionId;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 import com.epam.util.Constants;
 
@@ -23,90 +22,63 @@ import com.epam.util.Constants;
 public class QuestionService {
 
 	@Autowired
-	QuestionsLibraryService questionsLibrary;
-
-	@Autowired
 	ModelMapper mapper;
 
-	Map<Integer, Question> questions;
+	@Autowired
+	QuestionsLibraryService questionsLibrary;
 
 	public Map<Integer, QuestionDto> getQuestions() {
 
-		return questionsLibrary.getQuestions().values().stream().collect(Collectors.toMap(Question::getId, value -> {
-			QuestionDto qDto = mapper.map(value, QuestionDto.class);
-			qDto.setQuestionOptions(
-					value.getQuestionOptions().stream().map(QuestionOption::getTitle).collect(Collectors.toList()));
-			return qDto;
-		}));
+		return questionsLibrary.getQuestions().values().stream()
+				.collect(Collectors.toMap(Question::getId, value -> mapper.map(value, QuestionDto.class)));
 	}
 
 	public QuestionDto getQuestion(int questionId) {
-
-		Question question = questionsLibrary.getQuestion(questionId);
-		QuestionDto questionDto = mapper.map(question, QuestionDto.class);
-		questionDto.setQuestionOptions(question.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
-		return questionDto;
+		return mapper.map(questionsLibrary.getQuestion(questionId), QuestionDto.class);
 	}
 
-	public void validateQuestionId(int questionId) throws InValidQuestionId, InValidQuestionDeletion {
+	public void validateQuestionId(int questionId) throws InValidQuestionDeletion {
 
-		if (!getQuestions().containsKey(questionId)) {
-
-			throw new InValidQuestionId(Constants.INVALID_QUESTION_ID);
-		}
 		if (questionsLibrary.getNoQuizzesForQuestionId(questionId) > 0) {
 			throw new InValidQuestionDeletion(Constants.INVALID_QUESTION_DELETION);
 		}
 	}
 
+	public QuestionDto save(Question newQuestion) {
+		Question addedQuestion = questionsLibrary.saveOrEdit(newQuestion);
+		return mapper.map(addedQuestion, QuestionDto.class);
+	}
+
 	public QuestionDto createQuestion(QuestionDto newQuestionDto) {
 
 		Question newQuestion = mapper.map(newQuestionDto, Question.class);
+		return save(newQuestion);
 
-		newQuestion.setQuestionOptions(newQuestionDto.getQuestionOptions().stream().map(o -> {
-			QuestionOption option = new QuestionOption();
-			option.setTitle(o);
-			return option;
-		}).collect(Collectors.toList()));
-
-		Question addedQuestion = questionsLibrary.addQuestion(newQuestion);
-		QuestionDto addedQuestionDto = mapper.map(addedQuestion, QuestionDto.class);
-		addedQuestionDto
-				.setQuestionOptions(addedQuestion.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
-
-		return addedQuestionDto;
 	}
 
 	public QuestionDto update(QuestionDto questionDto) {
 
-		int id = questionDto.id;
+		int id = questionDto.getId();
 		Question question = questionsLibrary.getQuestion(id);
-		question.setQuestionTitle(questionDto.questionTitle);
+		question.setQuestionTitle(questionDto.getQuestionTitle());
 
-		List<String> optionsList = questionDto.questionOptions;
+		List<QuestionOption> optionsList = questionDto.getQuestionOptions();
 
 		question.questionOptions.clear();
 
-		for (String optionTitle : optionsList) {
-			QuestionOption option = new QuestionOption();
-			option.setTitle(optionTitle);
+		for (QuestionOption option : optionsList) {
 			question.setOption(option);
-
 		}
-		question.setTopicTag(questionDto.topicTag);
-		question.setDifficultyTag(questionDto.difficultyTag);
-		question.setAnswer(questionDto.answer);
-		question.setMark(questionDto.mark);
+		question.setTopicTag(questionDto.getTopicTag());
+		question.setDifficultyTag(questionDto.getDifficultyTag());
+		question.setAnswer(questionDto.getAnswer());
+		question.setMark(questionDto.getMark());
 
-		Question updatedQuestion = questionsLibrary.editQuestion(question);
-		QuestionDto updatedQuestionDto = mapper.map(updatedQuestion, QuestionDto.class);
-		updatedQuestionDto.setQuestionOptions(
-				updatedQuestion.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
-		return updatedQuestionDto;
+		return save(question);
 	}
 
 	public boolean delete(int questionId) {
 
-		return questionId > 0 && questionsLibrary.deleteQuestion(questionId);
+		return questionsLibrary.deleteQuestion(questionId);
 	}
 }

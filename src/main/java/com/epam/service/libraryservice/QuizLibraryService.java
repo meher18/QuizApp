@@ -32,16 +32,11 @@ public class QuizLibraryService {
 		Optional<Quiz> quiz = quizRepository.findById(quizId);
 		return quiz.get();
 	}
-	public Quiz addQuiz(Quiz quiz) {
+	public Quiz saveOrEdit(Quiz quiz) {
 		
 		return quizRepository.save(quiz);
 	}
-
-	public Quiz editQuiz( Quiz quiz) {
-		
-		return quizRepository.save(quiz);
-	}
-
+	
 	public boolean deleteQuiz(int index) {
 		quizRepository.deleteById(index);
 		return true;

@@ -69,7 +69,7 @@ class QuestionsLibraryServiceTest {
 
 		libraryService = new QuestionsLibraryService();
 		libraryService.questionRepository = questionRepository;
-		libraryService.quizRepository = quizRepository;
+		
 	}
 
 	@Test
@@ -91,13 +91,13 @@ class QuestionsLibraryServiceTest {
 	@Test
 	void testAddQuestion() {
 		when(questionRepository.save(any())).thenReturn(q1);
-		assertNotNull(libraryService.addQuestion(q1));
+		assertNotNull(libraryService.saveOrEdit(q1));
 	}
 
 	@Test
 	void testEditQuestion() {
 		when(questionRepository.save(any())).thenReturn(q1);
-		assertNotNull(libraryService.editQuestion(q1));
+		assertNotNull(libraryService.saveOrEdit(q1));
 	}
 
 	@Test

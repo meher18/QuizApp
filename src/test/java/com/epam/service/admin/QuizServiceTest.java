@@ -2,7 +2,6 @@ package com.epam.service.admin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -23,10 +22,8 @@ import com.epam.dto.QuizDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
 import com.epam.entity.Quiz;
-import com.epam.exceptions.InValidQuizId;
 import com.epam.service.libraryservice.QuestionsLibraryService;
 import com.epam.service.libraryservice.QuizLibraryService;
-import com.epam.util.Constants;
 
 @ExtendWith(MockitoExtension.class)
 class QuizServiceTest {
@@ -57,7 +54,7 @@ class QuizServiceTest {
 
 		quizDto1.setId(1);
 		quizDto2.setId(2);
-		
+
 		questionOption.setId(0);
 		questionOption.setTitle("asdfasdf");
 
@@ -92,7 +89,7 @@ class QuizServiceTest {
 	@Test
 	void testGetQuestionForQuiz() {
 		when(quizLibraryService.getQuestionsForQuiz(q1)).thenReturn(questions);
-		assertEquals(2, quizService.getQuestionForQuiz(q1).size());
+		assertEquals(2, quizService.getQuestionsForQuiz(q1).size());
 	}
 
 	@Test
@@ -103,22 +100,10 @@ class QuizServiceTest {
 
 	@Test
 	void testCreateQuiz() {
-		
-		when(questionLibraryService.getQuestions()).thenReturn(questions);
-		when(quizLibraryService.addQuiz(any())).thenReturn(q1);
-		assertNotNull(quizService.createQuiz(quizDto1, new String[] {"1"}));
-	}
 
-	@Test
-	void testValidateCode() {
-		when(quizLibraryService.getQuiz(anyInt())).thenReturn(q1);
-		InValidQuizId thrown = assertThrows(
-				InValidQuizId.class,
-				() -> quizService.validateCode(-11),
-				Constants.INVALID_QUIZ_ID
-				);
-		
-		assertEquals(Constants.INVALID_QUIZ_ID, thrown.getMessage());
+		when(questionLibraryService.getQuestions()).thenReturn(questions);
+		when(quizLibraryService.saveOrEdit(any())).thenReturn(q1);
+		assertNotNull(quizService.createQuiz(quizDto1));
 	}
 
 	@Test
@@ -131,13 +116,13 @@ class QuizServiceTest {
 	void testHostQuiz() {
 		when(quizService.getAllQuizzes()).thenReturn(quizDtos);
 		when(quizLibraryService.changeQuizStatus(anyInt(), anyString())).thenReturn(true);
-		assertTrue(quizService.hostQuiz(1));
+		assertNotNull(quizService.hostQuiz(1));
 	}
 
 	@Test
 	void testUpdate() {
 		when(quizLibraryService.getQuiz(1)).thenReturn(q1);
-		when(quizLibraryService.editQuiz(any())).thenReturn(q1);
-		assertNotNull(quizService.update(quizDto1, new String[] {"1"}));
+		when(quizLibraryService.saveOrEdit(any())).thenReturn(q1);
+		assertNotNull(quizService.update(quizDto1));
 	}
 }

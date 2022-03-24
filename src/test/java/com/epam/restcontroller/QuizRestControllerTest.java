@@ -41,8 +41,7 @@ class QuizRestControllerTest {
 
 	@Test
 	void testGetOneQuestion() {
-		String[] questions = new String[] { "1", "2" };
-		ResponseEntity<QuizDto> responseEntity = restController.newQuiz(qDto1, questions);
+		ResponseEntity<QuizDto> responseEntity = restController.newQuiz(qDto1);
 		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	}
 
@@ -56,7 +55,7 @@ class QuizRestControllerTest {
 	@Test
 	void updateQuestion() {
 		String[] questions = new String[] { "1", "2" };
-		ResponseEntity<QuizDto> responseEntity = restController.updateQuiz(qDto1, questions);
+		ResponseEntity<QuizDto> responseEntity = restController.updateQuiz(qDto1);
 		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	}
 

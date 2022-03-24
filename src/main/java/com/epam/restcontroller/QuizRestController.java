@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.dto.QuizDto;
@@ -35,14 +34,13 @@ public class QuizRestController {
 	}
 
 	@PostMapping("/quizzes")
-	public ResponseEntity<QuizDto> newQuiz(@RequestBody QuizDto quizDto,
-			@RequestParam(value = "questions") String[] questions) {
-		return new ResponseEntity<>(quizService.createQuiz(quizDto, questions), HttpStatus.CREATED);
+	public ResponseEntity<QuizDto> newQuiz(@RequestBody QuizDto quizDto) {
+		return new ResponseEntity<>(quizService.createQuiz(quizDto), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/quizzes")
-	public ResponseEntity<QuizDto> updateQuiz(@RequestBody QuizDto quizDto, @RequestParam String[] questions) {
-		return new ResponseEntity<>(quizService.update(quizDto, questions), HttpStatus.CREATED);
+	public ResponseEntity<QuizDto> updateQuiz(@RequestBody QuizDto quizDto) {
+		return new ResponseEntity<>(quizService.update(quizDto), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/quizzes/{quiz_id}")

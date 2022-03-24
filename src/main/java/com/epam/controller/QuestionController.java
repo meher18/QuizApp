@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.dto.QuestionDto;
 import com.epam.exceptions.InValidQuestionDeletion;
-import com.epam.exceptions.InValidQuestionId;
 import com.epam.service.admin.QuestionService;
 
 @Controller
@@ -69,9 +68,6 @@ public class QuestionController {
 			if (questionService.delete(id)) {
 				deletionStatus = "Deleted";
 			}
-		} catch (InValidQuestionId e) {
-			deletionStatus = "Unable to delete, Invalid Question Id";
-
 		} catch (InValidQuestionDeletion e) {
 
 			deletionStatus = "Unable to delete, Question is part of some quiz";
@@ -88,7 +84,7 @@ public class QuestionController {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {
-			
+
 			questionService.update(questionDto);
 
 			redirectAttributes.addFlashAttribute("updationStatus", "UPDATED");

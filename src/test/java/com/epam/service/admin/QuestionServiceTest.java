@@ -47,11 +47,10 @@ class QuestionServiceTest {
 	QuestionDto qDto2 = new QuestionDto();
 
 	QuestionOption questionOption = new QuestionOption();
-	
+
 	@BeforeEach
 	void init() {
 
-		
 		questionOption.setId(0);
 		questionOption.setTitle("asdfasdf");
 
@@ -83,30 +82,23 @@ class QuestionServiceTest {
 		assertNotNull(questionService.getQuestion(1));
 	}
 
-
-
 	@Test
 	void testValidateQuestionId() {
 		when(libraryService.getQuestions()).thenReturn(questions);
 		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(0);
-		InValidQuestionId thrown = assertThrows(
-				InValidQuestionId.class,
-                () -> questionService.validateQuestionId(-1),
-                Constants.INVALID_QUESTION_ID
-        );
+		InValidQuestionId thrown = assertThrows(InValidQuestionId.class, () -> questionService.validateQuestionId(-1),
+				Constants.INVALID_QUESTION_ID);
 
-        assertEquals(Constants.INVALID_QUESTION_ID, thrown.getMessage());
+		assertEquals(Constants.INVALID_QUESTION_ID, thrown.getMessage());
 	}
+
 	@Test
 	void testValidateQuestionIdForInValidDeletion() {
 		when(libraryService.getQuestions()).thenReturn(questions);
 		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(10);
-		InValidQuestionDeletion thrown = assertThrows(
-				InValidQuestionDeletion.class,
-				() -> questionService.validateQuestionId(1),
-				Constants.INVALID_QUESTION_DELETION
-				);
-		
+		InValidQuestionDeletion thrown = assertThrows(InValidQuestionDeletion.class,
+				() -> questionService.validateQuestionId(1), Constants.INVALID_QUESTION_DELETION);
+
 		assertEquals(Constants.INVALID_QUESTION_DELETION, thrown.getMessage());
 	}
 
@@ -119,10 +111,10 @@ class QuestionServiceTest {
 		qDto1.setId(1);
 		qDto1.setQuestionTitle("adsfasdf");
 		qDto1.setAnswer(3);
-		List<String> options = new ArrayList<String>(Arrays.asList(new String[] {"adsf","adsfasdf"}));
+		List<QuestionOption> options = new ArrayList<>(Arrays.asList(new QuestionOption[] { new QuestionOption() }));
 		qDto1.setQuestionOptions(options);
-		
-		when(libraryService.addQuestion(any())).thenReturn(q1);
+
+		when(libraryService.saveOrEdit(any())).thenReturn(q1);
 		assertNotNull(questionService.createQuestion(qDto1));
 	}
 
@@ -134,11 +126,11 @@ class QuestionServiceTest {
 		qDto1.setId(1);
 		qDto1.setQuestionTitle("adsfasdf");
 		qDto1.setAnswer(3);
-		List<String> options = new ArrayList<String>(Arrays.asList(new String[] {"adsf","adsfasdf"}));
+		List<QuestionOption> options = new ArrayList<>(Arrays.asList(new QuestionOption[] { new QuestionOption() }));
 		qDto1.setQuestionOptions(options);
-		
+
 		when(libraryService.getQuestion(1)).thenReturn(q1);
-		when(libraryService.editQuestion(any())).thenReturn(q1);
+		when(libraryService.saveOrEdit(any())).thenReturn(q1);
 		assertNotNull(questionService.update(qDto1));
 	}
 
@@ -147,6 +139,7 @@ class QuestionServiceTest {
 		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);
 		assertTrue(questionService.delete(1));
 	}
+
 	@Test
 	void testDeleteForInvalidQuestion() {
 		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);

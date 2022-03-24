@@ -80,7 +80,7 @@ public class QuizController {
 
 		if (!bindingResult.hasErrors()) {
 
-			quizService.createQuiz(quizDto, questions);
+//			quizService.createQuiz(quizDto, questions);
 
 			redirectPage = "redirect:/viewQuizzes";
 		}
@@ -91,7 +91,7 @@ public class QuizController {
 	@RequestMapping(value = "/updateTheQuiz")
 	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult) {
 
-		quizService.update(quizDto, questions);
+//		quizService.update(quizDto, questions);
 
 		return "redirect:/viewQuizzes";
 	}

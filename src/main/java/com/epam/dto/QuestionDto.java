@@ -8,26 +8,28 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.epam.entity.QuestionOption;
+
 public class QuestionDto {
 
 	public int id;
-	
+
 	@Size(min = 1, message = "Please provide some options")
-	public List<String> questionOptions = new ArrayList<>();
+	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	@NotEmpty(message = "Question title cannot be empty")
 	public String questionTitle;
-	
+
 	@Min(value = 1, message = "Minimum mark is 1")
 	@Max(value = 30, message = "Maximum mark is 30")
 	public int mark = 0;
-	
+
 	@Min(value = 1, message = "answer should not be less than 1")
 	public int answer;
-	
+
 	@NotEmpty(message = "Topic should not be empty")
 	public String topicTag;
-	
+
 	@NotEmpty(message = "Difficulty should not be empty")
 	public String difficultyTag;
 
@@ -39,11 +41,11 @@ public class QuestionDto {
 		this.id = id;
 	}
 
-	public List<String> getQuestionOptions() {
+	public List<QuestionOption> getQuestionOptions() {
 		return questionOptions;
 	}
 
-	public void setQuestionOptions(List<String> questionOptions) {
+	public void setQuestionOptions(List<QuestionOption> questionOptions) {
 		this.questionOptions = questionOptions;
 	}
 
