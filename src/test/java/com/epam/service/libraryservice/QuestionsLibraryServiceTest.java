@@ -69,7 +69,7 @@ class QuestionsLibraryServiceTest {
 
 		libraryService = new QuestionsLibraryService();
 		libraryService.questionRepository = questionRepository;
-		
+
 	}
 
 	@Test
@@ -109,7 +109,7 @@ class QuestionsLibraryServiceTest {
 	@Test
 	void testGetNoQuizzesForQuestionId() {
 		when(questionRepository.findAll()).thenReturn(new ArrayList<>(questions.values()));
-		when(quizRepository.findAll()).thenReturn(new ArrayList<>(quizzes.values()));
+		when(quizRepository.findByQuestionsId(anyInt())).thenReturn(new ArrayList<>(quizzes.values()));
 		assertEquals(0, libraryService.getNoQuizzesForQuestionId(1));
 	}
 }

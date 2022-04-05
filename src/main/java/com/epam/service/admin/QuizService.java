@@ -50,7 +50,7 @@ public class QuizService {
 
 	// making list of question to map of question
 	public void selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
-		quiz.addQuestion(questionId, questionsLibrary.getQuestions().get(questionId));
+		quiz.addQuestion(questionId, questionsLibrary.getQuestion(questionId));
 	}
 	
 	public QuizDto saveQuiz(Quiz quiz) {

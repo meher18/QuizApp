@@ -123,4 +123,5 @@ class QuizServiceTest {
 		when(quizLibraryService.saveOrEdit(any())).thenReturn(q1);
 		assertNotNull(quizService.update(quizDto1));
 	}
+	
 }

@@ -8,6 +8,11 @@ import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Component
 @Entity
 public class Admin {
@@ -20,28 +25,4 @@ public class Admin {
 
     @Column(name = "password")
     private String pass;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
 }

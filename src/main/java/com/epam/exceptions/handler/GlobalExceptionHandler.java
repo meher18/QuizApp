@@ -27,13 +27,25 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
-	public ResponseEntity<ExceptionResponse> handleMethodArgumentException(EmptyResultDataAccessException exception,
+	public ResponseEntity<ExceptionResponse> emptyResultDataException(EmptyResultDataAccessException exception,
 			WebRequest request) {
 
 		ExceptionResponse exceptionResponse = new ExceptionResponse();
 		exceptionResponse.setTimeStamp(new Date().toString());
 		exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.name());
 		exceptionResponse.setErrors("Data is not present in database");
+		exceptionResponse.setPath(request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ExceptionResponse> globalExceptionException(Exception exception,
+			WebRequest request) {
+		
+		ExceptionResponse exceptionResponse = new ExceptionResponse();
+		exceptionResponse.setTimeStamp(new Date().toString());
+		exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.name());
+		exceptionResponse.setErrors(exception.getMessage());
 		exceptionResponse.setPath(request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}

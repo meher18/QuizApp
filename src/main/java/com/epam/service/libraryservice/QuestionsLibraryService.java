@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.data.repository.QuestionRepository;
+import com.epam.data.repository.QuizRepository;
 import com.epam.entity.Question;
 import com.epam.exceptions.QuestionNotFoundException;
 
@@ -17,6 +18,9 @@ public class QuestionsLibraryService {
 	@Autowired
 	QuestionRepository questionRepository;
 
+	@Autowired
+	QuizRepository quizRepository;
+	
 	public Question getQuestion(int questionId) {
 
 		return questionRepository.findById(questionId)
@@ -42,6 +46,6 @@ public class QuestionsLibraryService {
 
 	public int getNoQuizzesForQuestionId(int questionId) {
 
-		return questionRepository.getNoOfQuizzesForQuestion(questionId);
+		return quizRepository.findByQuestionsId(questionId).size();
 	}
 }

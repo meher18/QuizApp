@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -32,7 +33,7 @@ public class QuestionService {
 		return questionsLibrary.getQuestions().values().stream()
 				.collect(Collectors.toMap(Question::getId, value -> mapper.map(value, QuestionDto.class)));
 	}
-
+	
 	public QuestionDto getQuestion(int questionId) {
 		return mapper.map(questionsLibrary.getQuestion(questionId), QuestionDto.class);
 	}
@@ -42,7 +43,7 @@ public class QuestionService {
 		return mapper.map(addedQuestion, QuestionDto.class);
 	}
 
-	public QuestionDto createQuestion(QuestionDto newQuestionDto) {
+	public QuestionDto create(QuestionDto newQuestionDto) {
 
 		Question newQuestion = mapper.map(newQuestionDto, Question.class);
 		return save(newQuestion);
@@ -55,7 +56,7 @@ public class QuestionService {
 		Question question = questionsLibrary.getQuestion(id);
 		question.setQuestionTitle(questionDto.getQuestionTitle());
 
-		List<QuestionOption> optionsList = questionDto.getQuestionOptions();
+		List<QuestionOption> optionsList = mapper.map(questionDto.getQuestionOptions(), new TypeToken<List<QuestionOption>>() {}.getType());
 
 		question.questionOptions.clear();
 

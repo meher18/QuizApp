@@ -48,7 +48,7 @@ public class QuestionController {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {
-			questionService.createQuestion(questionDto);
+			questionService.create(questionDto);
 		} else {
 			redirectPage = "admin/question/createQuestion";
 		}

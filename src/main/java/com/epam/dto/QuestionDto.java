@@ -3,19 +3,15 @@ package com.epam.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import com.epam.entity.QuestionOption;
-
 public class QuestionDto {
 
 	public int id;
-
-	@Size(min = 1, message = "Please provide some options")
-	public List<QuestionOption> questionOptions = new ArrayList<>();
 
 	@NotEmpty(message = "Question title cannot be empty")
 	public String questionTitle;
@@ -33,6 +29,9 @@ public class QuestionDto {
 	@NotEmpty(message = "Difficulty should not be empty")
 	public String difficultyTag;
 
+	@Size(min = 1, message = "Please provide some options")
+	public List<@Valid QuestionOptionDto> questionOptions = new ArrayList<>();
+
 	public int getId() {
 		return id;
 	}
@@ -41,11 +40,11 @@ public class QuestionDto {
 		this.id = id;
 	}
 
-	public List<QuestionOption> getQuestionOptions() {
+	public List<QuestionOptionDto> getQuestionOptions() {
 		return questionOptions;
 	}
 
-	public void setQuestionOptions(List<QuestionOption> questionOptions) {
+	public void setQuestionOptions(List<QuestionOptionDto> questionOptions) {
 		this.questionOptions = questionOptions;
 	}
 
@@ -88,5 +87,4 @@ public class QuestionDto {
 	public void setDifficultyTag(String difficultyTag) {
 		this.difficultyTag = difficultyTag;
 	}
-
 }

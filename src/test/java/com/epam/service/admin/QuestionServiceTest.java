@@ -22,6 +22,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.epam.dto.QuestionDto;
+import com.epam.dto.QuestionOptionDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
 import com.epam.exceptions.InValidQuestionDeletion;
@@ -99,11 +100,11 @@ class QuestionServiceTest {
 		qDto1.setId(1);
 		qDto1.setQuestionTitle("adsfasdf");
 		qDto1.setAnswer(3);
-		List<QuestionOption> options = new ArrayList<>(Arrays.asList(new QuestionOption[] { new QuestionOption() }));
+		List<QuestionOptionDto> options = new ArrayList<>(Arrays.asList(new QuestionOptionDto[] { new QuestionOptionDto() }));
 		qDto1.setQuestionOptions(options);
 
 		when(libraryService.saveOrEdit(any())).thenReturn(q1);
-		assertNotNull(questionService.createQuestion(qDto1));
+		assertNotNull(questionService.create(qDto1));
 	}
 
 	@Test
@@ -114,7 +115,7 @@ class QuestionServiceTest {
 		qDto1.setId(1);
 		qDto1.setQuestionTitle("adsfasdf");
 		qDto1.setAnswer(3);
-		List<QuestionOption> options = new ArrayList<>(Arrays.asList(new QuestionOption[] { new QuestionOption() }));
+		List<QuestionOptionDto> options = new ArrayList<>(Arrays.asList(new QuestionOptionDto[] { new QuestionOptionDto() }));
 		qDto1.setQuestionOptions(options);
 
 		when(libraryService.getQuestion(1)).thenReturn(q1);
@@ -128,4 +129,5 @@ class QuestionServiceTest {
 		assertTrue(questionService.delete(1));
 	}
 
+	
 }

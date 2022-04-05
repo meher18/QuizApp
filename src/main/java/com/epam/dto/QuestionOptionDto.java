@@ -1,30 +1,18 @@
-package com.epam.entity;
+package com.epam.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import com.epam.entity.Question;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-@Entity
-public class QuestionOption {
+public class QuestionOptionDto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 
+	@NotEmpty(message = "title cannot be empty")
 	public String title;
 
 	@JsonIgnore
-	@ManyToOne
 	public Question question;
 
 	public int getId() {

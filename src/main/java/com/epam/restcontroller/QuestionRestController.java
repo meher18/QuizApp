@@ -37,7 +37,7 @@ public class QuestionRestController {
 
 	@PostMapping("/questions")
 	public ResponseEntity<QuestionDto> newQuestion(@Valid @RequestBody QuestionDto questionDto) {
-		return new ResponseEntity<>(questionService.createQuestion(questionDto), HttpStatus.CREATED);
+		return new ResponseEntity<>(questionService.create(questionDto), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/questions")

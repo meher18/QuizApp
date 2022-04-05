@@ -14,7 +14,19 @@ import com.epam.exceptions.QuestionNotFoundException;
 public class QuestionExceptionHandler {
 
 	@ExceptionHandler(QuestionNotFoundException.class)
-	public ResponseEntity<ExceptionResponse> handleException(QuestionNotFoundException exception, WebRequest request) {
+	public ResponseEntity<ExceptionResponse> handleQuestionNotFoundException(QuestionNotFoundException exception,
+			WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse();
+		exceptionResponse.setTimeStamp(new Date().toString());
+		exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.name());
+		exceptionResponse.setErrors(exception.getMessage());
+		exceptionResponse.setPath(request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException exception,
+			WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse();
 		exceptionResponse.setTimeStamp(new Date().toString());
 		exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.name());
