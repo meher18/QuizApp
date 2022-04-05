@@ -46,15 +46,6 @@ public class QuestionsLibraryService {
 	}
 
 	public int getNoQuizzesForQuestionId(int questionId) {
-//		AtomicInteger count = new AtomicInteger();
-//
-//		count.set(0);
-//		quizRepository.findAll().forEach(quiz -> {
-//			if (quiz.getQuestions().containsKey(questionId)) {
-//				count.getAndIncrement();
-//			}
-//
-//		});
 
 		return questionRepository.getNoOfQuizzesForQuestion(questionId);
 	}
