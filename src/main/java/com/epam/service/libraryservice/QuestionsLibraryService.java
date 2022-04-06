@@ -50,6 +50,6 @@ public class QuestionsLibraryService {
 
 	public int getNoQuizzesForQuestionId(int questionId) {
 
-		return questionRepository.getNoOfQuizzesForQuestion(questionId);
+		return quizRepository.findByQuestionsId(questionId).size();
 	}
 }
