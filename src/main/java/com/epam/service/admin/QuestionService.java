@@ -77,13 +77,12 @@ public class QuestionService {
 		return addedQuestionDto;
 	}
 
-	public QuestionDto update(QuestionDto questionDto) {
+	public QuestionDto update(QuestionDto questionDto, int id) {
 
-		int id = questionDto.id;
 		Question question = questionsLibrary.getQuestion(id);
-		question.setQuestionTitle(questionDto.questionTitle);
+		question.setQuestionTitle(questionDto.getQuestionTitle());
 
-		List<String> optionsList = questionDto.questionOptions;
+		List<String> optionsList = questionDto.getQuestionOptions();
 
 		question.questionOptions.clear();
 
@@ -93,20 +92,20 @@ public class QuestionService {
 			question.setOption(option);
 
 		}
-		question.setTopicTag(questionDto.topicTag);
-		question.setDifficultyTag(questionDto.difficultyTag);
-		question.setAnswer(questionDto.answer);
-		question.setMark(questionDto.mark);
+		question.setTopicTag(questionDto.getTopicTag());
+		question.setDifficultyTag(questionDto.getDifficultyTag());
+		question.setAnswer(questionDto.getAnswer());
+		question.setMark(questionDto.getMark());
 
 		Question updatedQuestion = questionsLibrary.editQuestion(question);
+
 		QuestionDto updatedQuestionDto = mapper.map(updatedQuestion, QuestionDto.class);
 		updatedQuestionDto.setQuestionOptions(
 				updatedQuestion.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
 		return updatedQuestionDto;
 	}
 
-	public boolean delete(int questionId) {
-
-		return questionId > 0 && questionsLibrary.deleteQuestion(questionId);
+	public void delete(int questionId) {
+		questionsLibrary.deleteQuestion(questionId);
 	}
 }

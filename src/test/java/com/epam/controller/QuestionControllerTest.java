@@ -156,9 +156,9 @@ class QuestionControllerTest {
 	void deletionForValidQuestionId() throws Exception {
 		String id = "1";
 		when(questionService.getQuestions()).thenReturn(questions);
-		when(questionService.delete(1)).thenReturn(true);
 		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
 				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
+		verify(questionService, times(1)).delete(1);
 
 	}
 

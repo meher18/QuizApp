@@ -65,10 +65,9 @@ public class QuestionController {
 
 		try {
 			questionService.validateQuestionId(id);
-
-			if (questionService.delete(id)) {
-				deletionStatus = "Deleted";
-			}
+			questionService.delete(id);
+			deletionStatus = "Deleted";
+			
 		} catch (InValidQuestionId e) {
 			deletionStatus = "Unable to delete, Invalid Question Id";
 
@@ -88,8 +87,8 @@ public class QuestionController {
 
 		String redirectPage = "redirect:/viewQuestions";
 		if (!bindingResult.hasErrors()) {
-			
-			questionService.update(questionDto);
+
+			questionService.update(questionDto, questionDto.getId());
 
 			redirectAttributes.addFlashAttribute("updationStatus", "UPDATED");
 		} else {

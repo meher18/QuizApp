@@ -38,15 +38,15 @@ public class QuestionRestController {
 		return new ResponseEntity<>(questionService.createQuestion(questionDto), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/questions")
-	public ResponseEntity<QuestionDto> updateQuestion(@RequestBody QuestionDto questionDto) {
-		return new ResponseEntity<>(questionService.update(questionDto), HttpStatus.CREATED);
+	@PutMapping("/questions/{id}")
+	public ResponseEntity<QuestionDto> updateQuestion(@RequestBody QuestionDto questionDto, @PathVariable int id) {
+		return new ResponseEntity<>(questionService.update(questionDto, id), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/questions/{id}")
 	public ResponseEntity<String> deleteQuestion(@PathVariable(value = "id") int id) {
 
 		questionService.delete(id);
-		return new ResponseEntity<>("Question Deleted", HttpStatus.OK);
+		return new ResponseEntity<>("Question Deleted", HttpStatus.NO_CONTENT);
 	}
 }

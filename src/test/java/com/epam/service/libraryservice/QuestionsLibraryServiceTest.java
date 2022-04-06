@@ -102,7 +102,7 @@ class QuestionsLibraryServiceTest {
 
 	@Test
 	void testDeleteQuestion() {
-		assertTrue(libraryService.deleteQuestion(0));
+		libraryService.deleteQuestion(0);
 		verify(questionRepository, times(1)).deleteById(anyInt());
 	}
 

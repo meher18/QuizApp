@@ -1,6 +1,6 @@
 package com.epam.exceptions;
 
-public class InValidQuestionId extends Exception{
+public class InValidQuestionId extends RuntimeException{
     /**
 	 * 
 	 */

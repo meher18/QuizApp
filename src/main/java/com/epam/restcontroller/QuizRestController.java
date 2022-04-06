@@ -48,6 +48,6 @@ public class QuizRestController {
 	@DeleteMapping("/quizzes/{quiz_id}")
 	public ResponseEntity<String> deleteQuiz(@PathVariable(value = "quiz_id") int id) {
 		quizService.delete(id);
-		return new ResponseEntity<>("Question Deleted", HttpStatus.OK);
+		return new ResponseEntity<>("Question Deleted", HttpStatus.NO_CONTENT);
 	}
 }

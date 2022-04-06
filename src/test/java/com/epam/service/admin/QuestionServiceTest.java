@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -139,18 +141,18 @@ class QuestionServiceTest {
 		
 		when(libraryService.getQuestion(1)).thenReturn(q1);
 		when(libraryService.editQuestion(any())).thenReturn(q1);
-		assertNotNull(questionService.update(qDto1));
+		assertNotNull(questionService.update(qDto1, 1));
 	}
 
 	@Test
 	void testDelete() {
-		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);
-		assertTrue(questionService.delete(1));
+		questionService.delete(1);
+		verify(libraryService, times(1)).deleteQuestion(anyInt());
 	}
 	@Test
 	void testDeleteForInvalidQuestion() {
-		when(libraryService.deleteQuestion(anyInt())).thenReturn(true);
-		assertFalse(questionService.delete(-111));
+		questionService.delete(-111);
+		verify(libraryService, times(1)).deleteQuestion(anyInt());
 	}
 
 }
