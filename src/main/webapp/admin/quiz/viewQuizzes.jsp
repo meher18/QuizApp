@@ -43,7 +43,7 @@
 			</nav>
 		</div>
 	</nav>
-	${quizDeletionStatus} ${quizUpdationStatus}
+	${quizStatus}
 	<div
 		class="container"
 		style="margin-top: 35px">

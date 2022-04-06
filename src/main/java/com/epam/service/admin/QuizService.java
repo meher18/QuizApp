@@ -61,49 +61,31 @@ public class QuizService {
 
 	public void selectQuestionAndAddToQuiz(Quiz quiz, int questionId) {
 
-		Question question = questionsLibrary.getQuestions().get(questionId);
+		Question question = questionsLibrary.getQuestion(questionId);
+		quiz.addQuestion(questionId, question);
 
-		if (question != null) {
-			quiz.addQuestion(questionId, question);
-
-		}
 	}
 
 	public Quiz saveQuiz(Quiz quiz) {
-
 		return quizLibrary.addQuiz(quiz);
-		
+
 	}
 
-	public void validateCode(int quizId) throws InValidQuizId {
+	public void delete(int quizId) {
 
-		if (quizLibrary.getQuiz(quizId) == null || quizId <= 0) {
-
-			throw new InValidQuizId(Constants.INVALID_QUIZ_ID);
-
-		}
-	}
-
-	public boolean delete(int quizId) {
-
-		return quizLibrary.deleteQuiz(quizId);
+		quizLibrary.deleteQuiz(quizId);
 
 	}
 
 	public boolean hostQuiz(int quizId) {
-
-		boolean isHosted = false;
-		if (quizId > 0 && quizLibrary.getQuizzes().size() > 0) {
-			isHosted = quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);
-		}
-		return isHosted;
+		return quizLibrary.changeQuizStatus(quizId, Constants.QUIZ_HOSTED);
 	}
 
 	public QuizDto update(QuizDto quizDto, String[] questionIds) {
 
-		int quizId = quizDto.id;
-		Quiz quiz = quizLibrary.getQuiz(quizId);
-		quiz.setQuizName(quizDto.quizName);
+		
+		Quiz quiz = quizLibrary.getQuiz(quizDto.getId());
+		quiz.setQuizName(quizDto.getQuizName());
 
 		quiz.getQuestions().clear();
 		quiz.setTotalMarks(0);
@@ -112,7 +94,7 @@ public class QuizService {
 		});
 
 		quiz.setQuizTag(quizDto.quizTag);
-	
+
 		Quiz updatedQuiz = quizLibrary.editQuiz(quiz);
 		QuizDto updatedQuizDto = mapper.map(updatedQuiz, QuizDto.class);
 		updatedQuizDto.setQuestions(updatedQuiz.getQuestions().values().stream().collect(Collectors.toList()));

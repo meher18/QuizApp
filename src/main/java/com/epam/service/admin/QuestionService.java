@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 import com.epam.dto.QuestionDto;
 import com.epam.entity.Question;
 import com.epam.entity.QuestionOption;
-import com.epam.exceptions.InValidQuestionDeletion;
-import com.epam.exceptions.InValidQuestionId;
 import com.epam.service.libraryservice.QuestionsLibraryService;
-import com.epam.util.Constants;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -46,17 +43,6 @@ public class QuestionService {
 		QuestionDto questionDto = mapper.map(question, QuestionDto.class);
 		questionDto.setQuestionOptions(question.getQuestionOptions().stream().map(QuestionOption::getTitle).toList());
 		return questionDto;
-	}
-
-	public void validateQuestionId(int questionId) throws InValidQuestionId, InValidQuestionDeletion {
-
-		if (!getQuestions().containsKey(questionId)) {
-
-			throw new InValidQuestionId(Constants.INVALID_QUESTION_ID);
-		}
-		if (questionsLibrary.getNoQuizzesForQuestionId(questionId) > 0) {
-			throw new InValidQuestionDeletion(Constants.INVALID_QUESTION_DELETION);
-		}
 	}
 
 	public QuestionDto createQuestion(QuestionDto newQuestionDto) {

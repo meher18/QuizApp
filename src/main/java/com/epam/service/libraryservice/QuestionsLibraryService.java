@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.epam.data.repository.QuestionRepository;
 import com.epam.data.repository.QuizRepository;
 import com.epam.entity.Question;
+import com.epam.exceptions.InValidQuestionDeletion;
 import com.epam.exceptions.InValidQuestionId;
 import com.epam.util.Constants;
 
@@ -39,17 +40,18 @@ public class QuestionsLibraryService {
 
 	public Question editQuestion(Question newQuestion) {
 		return questionRepository.save(newQuestion);
-
 	}
 
 	public void deleteQuestion(int id) {
-		getQuestion(id);
-		questionRepository.deleteById(id);
+		
+		getQuestion(id); // to check if the question is valid (present in the database)
+
+		if (!quizRepository.findByQuestionsId(id).isEmpty()) {
+			throw new InValidQuestionDeletion(Constants.INVALID_QUESTION_DELETION);
+		} else {
+			questionRepository.deleteById(id);
+		}
 
 	}
 
-	public int getNoQuizzesForQuestionId(int questionId) {
-
-		return quizRepository.findByQuestionsId(questionId).size();
-	}
 }

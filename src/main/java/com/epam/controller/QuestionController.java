@@ -36,13 +36,26 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/updateQuestion", params = "id")
-	public String updateQuestion(@RequestParam(value = "id") String id, Model model) {
+	public String updateQuestion(@RequestParam(value = "id") String id, Model model,
+			RedirectAttributes redirectAttributes) {
+		
 		int questionId = Integer.parseInt(id);
-		model.addAttribute("question", questionService.getQuestion(questionId));
-		return "admin/question/updateQuestion";
+		String redirectPage = "redirect:/viewQuestions";
+		String questionUpdationStatus = "";
+		
+		try {
+			QuestionDto questionDto = questionService.getQuestion(questionId);
+			model.addAttribute("question", questionDto);
+			redirectPage = "admin/question/updateQuestion";
+		} catch (InValidQuestionId e) {
+			questionUpdationStatus = "Invalid Question Id";
+		}
+		redirectAttributes.addFlashAttribute("questionStatus", questionUpdationStatus);
+		return redirectPage;
 
 	}
 
+	// for creating the question
 	@RequestMapping(value = "/addQuestion")
 	public String addTheQuestion(QuestionDto questionDto, BindingResult bindingResult, Model model,
 			HttpServletResponse response) {
@@ -64,20 +77,18 @@ public class QuestionController {
 		int id = Integer.parseInt(questionId);
 
 		try {
-			questionService.validateQuestionId(id);
+
 			questionService.delete(id);
 			deletionStatus = "Deleted";
-			
-		} catch (InValidQuestionId e) {
-			deletionStatus = "Unable to delete, Invalid Question Id";
 
+		} catch (InValidQuestionId e) {
+			deletionStatus = "Invalid Question Id";
 		} catch (InValidQuestionDeletion e) {
 
 			deletionStatus = "Unable to delete, Question is part of some quiz";
 		}
 
-//		redirectAttributes.addFlashAttribute(QUESTIONS, questionService.getQuestions().values());
-		redirectAttributes.addFlashAttribute("deletionStatus", deletionStatus);
+		redirectAttributes.addFlashAttribute("questionStatus", deletionStatus);
 		return "redirect:/viewQuestions";
 	}
 
@@ -86,16 +97,18 @@ public class QuestionController {
 			RedirectAttributes redirectAttributes) {
 
 		String redirectPage = "redirect:/viewQuestions";
+		String questionUpdationStatus = "Question Updated";
 		if (!bindingResult.hasErrors()) {
 
-			questionService.update(questionDto, questionDto.getId());
-
-			redirectAttributes.addFlashAttribute("updationStatus", "UPDATED");
+			try {
+				questionService.update(questionDto, questionDto.getId());
+			} catch (InValidQuestionId e) {
+				questionUpdationStatus = "Invalid Question Id";
+			}
 		} else {
-			redirectAttributes.addFlashAttribute("updationStatus", "UNABLE TO UPDATE");
-			redirectPage = "redirect:/updateQuestion?id=" + questionDto.id;
+			redirectPage = "redirect:/updateQuestion?id=" + questionDto.getId();
 		}
-
+		redirectAttributes.addFlashAttribute("questionStatus", questionUpdationStatus);
 		return redirectPage;
 
 	}

@@ -36,11 +36,11 @@
   			</nav>
 		</div>
 	</nav>
-	
+	${questionStatus}
 	<div class="container-fluid" style="margin-top:35px">
 	<h2 class="text-center">Below are the questions</h2>
 		<table id="table" class="table table-striped table-bordered table-responsive" >
-			${deletionStatus}
+			
 			<thead class = "thead-dark">
 				<tr>
 					<th>Question Id</th>

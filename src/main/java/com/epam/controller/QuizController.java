@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epam.dto.QuizDto;
+import com.epam.exceptions.InValidQuizId;
 import com.epam.service.admin.QuestionService;
 import com.epam.service.admin.QuizService;
 
@@ -33,18 +34,29 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/updateQuiz", params = { "id" })
-	public String updateQuiz(@RequestParam(value = "id") String id, Model model) {
+	public String updateQuiz(@RequestParam(value = "id") String id, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		int quizId = Integer.parseInt(id);
-		QuizDto quizDto = quizService.getQuiz(quizId);
 
-		model.addAttribute("quiz", quizDto);
-		model.addAttribute("questions", questionService.getQuestions().values());
+		String redirectPage = "redirect:/viewQuizzes";
+		String quizUpdationStatus = "";
 
-		List<String> idList = quizDto.getQuestions().stream().map(q -> q.id + "").collect(Collectors.toList());
-		model.addAttribute("ids", idList);
+		try {
+			QuizDto quizDto = quizService.getQuiz(quizId);
 
-		return "admin/quiz/updateQuiz";
+			model.addAttribute("quiz", quizDto);
+			model.addAttribute("questions", questionService.getQuestions().values());
+
+			List<String> idList = quizDto.getQuestions().stream().map(q -> q.id + "").collect(Collectors.toList());
+			model.addAttribute("ids", idList);
+			redirectPage = "admin/quiz/updateQuiz";
+
+		} catch (InValidQuizId e) {
+			quizUpdationStatus = "Invalid Quiz Id";
+		}
+		redirectAttributes.addFlashAttribute("quizStatus", quizUpdationStatus);
+		return redirectPage;
 	}
 
 	@RequestMapping("/createQuiz")
@@ -54,11 +66,17 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/hostTheQuiz", params = { "id" })
-	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model) {
+	public String hostTheQuiz(@RequestParam(value = "id") String id, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		int quizId = Integer.parseInt(id);
-		quizService.hostQuiz(quizId);
-		model.addAttribute(QUIZZES, quizService.getAllQuizzes().values());
+		String quizUpdationStatus = "Quiz Hosted";
+		try {
+			quizService.hostQuiz(quizId);
+		} catch (InValidQuizId e) {
+			quizUpdationStatus = "Invalid Quiz Id";
+		}
+		redirectAttributes.addFlashAttribute("quizStatus", quizUpdationStatus);
 		return "redirect:/viewQuizzes";
 	}
 
@@ -67,9 +85,15 @@ public class QuizController {
 			RedirectAttributes redirectAttributes) {
 
 		int quizId = Integer.parseInt(id);
-		quizService.delete(quizId);
 
-		redirectAttributes.addFlashAttribute("quizDeletionStatus", "Quiz Deleted");
+		String quizDeletionStatus = "Quiz Deleted";
+		try {
+			quizService.delete(quizId);
+		} catch (InValidQuizId e) {
+			quizDeletionStatus = "Invalid Quiz Id";
+		}
+
+		redirectAttributes.addFlashAttribute("quizStatus", quizDeletionStatus);
 		return "redirect:/viewQuizzes";
 	}
 
@@ -89,10 +113,16 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/updateTheQuiz")
-	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult) {
+	public String updateTheQuiz(QuizDto quizDto, String[] questions, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 
-		quizService.update(quizDto, questions);
-
+		String quizUpdationStatus = "Quiz Hosted";
+		try {
+			quizService.update(quizDto, questions);
+		} catch (InValidQuizId e) {
+			quizUpdationStatus = "Invalid Quiz Id";
+		}
+		redirectAttributes.addFlashAttribute("quizStatus", quizUpdationStatus);
 		return "redirect:/viewQuizzes";
 	}
 }

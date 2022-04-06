@@ -86,31 +86,31 @@ class QuestionServiceTest {
 	}
 
 
-
-	@Test
-	void testValidateQuestionId() {
-		when(libraryService.getQuestions()).thenReturn(questions);
-		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(0);
-		InValidQuestionId thrown = assertThrows(
-				InValidQuestionId.class,
-                () -> questionService.validateQuestionId(-1),
-                Constants.INVALID_QUESTION_ID
-        );
-
-        assertEquals(Constants.INVALID_QUESTION_ID, thrown.getMessage());
-	}
-	@Test
-	void testValidateQuestionIdForInValidDeletion() {
-		when(libraryService.getQuestions()).thenReturn(questions);
-		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(10);
-		InValidQuestionDeletion thrown = assertThrows(
-				InValidQuestionDeletion.class,
-				() -> questionService.validateQuestionId(1),
-				Constants.INVALID_QUESTION_DELETION
-				);
-		
-		assertEquals(Constants.INVALID_QUESTION_DELETION, thrown.getMessage());
-	}
+//
+//	@Test
+//	void testValidateQuestionId() {
+//		when(libraryService.getQuestions()).thenReturn(questions);
+//		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(0);
+//		InValidQuestionId thrown = assertThrows(
+//				InValidQuestionId.class,
+//                () -> questionService.validateQuestionId(-1),
+//                Constants.INVALID_QUESTION_ID
+//        );
+//
+//        assertEquals(Constants.INVALID_QUESTION_ID, thrown.getMessage());
+//	}
+//	@Test
+//	void testValidateQuestionIdForInValidDeletion() {
+//		when(libraryService.getQuestions()).thenReturn(questions);
+//		when(libraryService.getNoQuizzesForQuestionId(1)).thenReturn(10);
+//		InValidQuestionDeletion thrown = assertThrows(
+//				InValidQuestionDeletion.class,
+//				() -> questionService.validateQuestionId(1),
+//				Constants.INVALID_QUESTION_DELETION
+//				);
+//		
+//		assertEquals(Constants.INVALID_QUESTION_DELETION, thrown.getMessage());
+//	}
 
 	@Test
 	void testCreateQuestion() {

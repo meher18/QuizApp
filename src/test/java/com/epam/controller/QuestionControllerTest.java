@@ -173,13 +173,13 @@ class QuestionControllerTest {
 				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
 	}
 
-	@Test
-	void deleteForQuestionIdPresentInQuiz() throws Exception {
-
-		String id = "-1";
-		when(library.getNoQuizzesForQuestionId(-1)).thenReturn(10);
-		when(questionService.getQuestions()).thenReturn(questions);
-		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
-				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
-	}
+//	@Test
+//	void deleteForQuestionIdPresentInQuiz() throws Exception {
+//
+//		String id = "-1";
+//		when(library.getNoQuizzesForQuestionId(-1)).thenReturn(10);
+//		when(questionService.getQuestions()).thenReturn(questions);
+//		mockMvc.perform(get("/deleteTheQuestion").param("id", id))
+//				.andExpect(view().name("redirect:/viewQuestions")).andExpect(status().is3xxRedirection());
+//	}
 }

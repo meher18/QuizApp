@@ -2,7 +2,6 @@ package com.epam.service.libraryservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
@@ -110,6 +109,7 @@ class QuestionsLibraryServiceTest {
 	void testGetNoQuizzesForQuestionId() {
 		when(questionRepository.findAll()).thenReturn(new ArrayList<>(questions.values()));
 		when(quizRepository.findAll()).thenReturn(new ArrayList<>(quizzes.values()));
-		assertEquals(0, libraryService.getNoQuizzesForQuestionId(1));
+		when(quizRepository.findByQuestionsId(anyInt())).thenReturn(new ArrayList<>());
+		assertEquals(0, quizRepository.findByQuestionsId(1));
 	}
 }
