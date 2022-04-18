@@ -58,6 +58,8 @@ public class UserController {
 		newUser.setUserName(userName);
 		newUser.setEmail(userEmail);
 		newUser.setUserPassword(userPassword);
+		newUser.setActive(true);
+		newUser.setRoles("ROLE_USER");
 
 		boolean isAlreadyMember = signUpService.checkIfAlreadyMember(newUser);
 
