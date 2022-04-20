@@ -40,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class);
 
-		http.authorizeRequests().antMatchers("/questions*").hasAnyRole("USER", "ADMIN").anyRequest().authenticated().and().httpBasic();
+		http.authorizeRequests().antMatchers("/questions").hasAnyRole("USER", "ADMIN").anyRequest().authenticated().and().httpBasic();
+		http.authorizeRequests().antMatchers("/questions/**").hasAnyRole("USER", "ADMIN").anyRequest().authenticated().and().httpBasic();
+		http.authorizeRequests().antMatchers("/quizzes*").hasAnyRole("USER", "ADMIN").anyRequest().authenticated().and().httpBasic();
 	}
 
 	@Bean
